@@ -1,0 +1,17 @@
+<!-- JC'S JOURNALS · LIBRARY PAGE · Carrd Embed loader
+     Paste this whole block into a Carrd "Embed" element (Type: Code).
+     It loads the page from the CDN and takes over the whole page. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jcortizro/jcsjournals-site@main/library/library.css">
+<script>
+(function(){
+  var base="https://cdn.jsdelivr.net/gh/jcortizro/jcsjournals-site@main/library/";
+  fetch(base+"library.html").then(function(r){return r.text()}).then(function(h){
+    var d=document.createElement("div");d.id="jcj-page";d.innerHTML=h;
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="LINK")c.style.display="none";
+    });
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.src=base+"library.js";document.body.appendChild(s);
+  });
+})();
+</script>
