@@ -5,8 +5,15 @@
       <a class="h-home" href="#top">Home</a>
     </nav>
     <nav class="hnav" aria-label="Sections">
-      <a href="https://claude.ai/code/artifact/b5a0488e-be12-4910-9427-aa4f80211022">Library</a>
-      <a class="h-free" href="#free">Free</a>
+      <div class="nav-item">
+        <button class="nav-btn" id="freeBtn" aria-expanded="false" aria-controls="freeDD">Free <span class="chev">▼</span></button>
+        <div class="dropdown" id="freeDD">
+          <a href="#free" data-close-dd>Transition Diet 101 <span class="dn">· start your practice</span></a>
+          <a href="https://claude.ai/code/artifact/b5a0488e-be12-4910-9427-aa4f80211022">The Library</a>
+          <a href="#free" data-close-dd>The Recipe Book</a>
+          <a href="#free" data-close-dd>The Book + Mind Maps</a>
+        </div>
+      </div>
       <a class="h-paid" href="#paid">Paid</a>
     </nav>
   </div>
