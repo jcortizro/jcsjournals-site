@@ -1,0 +1,405 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Free Education · The Mucusless Diet Healing System</title>
+<style>
+/*__ASSETS__*/
+:root{
+  --display:'Montserrat',sans-serif;--body:'Source Sans 3','Source Sans Pro',system-ui,sans-serif;
+  --ink:#fff;--dim:rgba(255,255,255,.93);--dim2:rgba(255,255,255,.85);--faint:rgba(255,255,255,.78);
+  --panel:rgba(15,19,12,.7);--panel-solid:rgba(15,19,12,.96);--hair:rgba(255,255,255,.16);--hair-strong:rgba(255,255,255,.34);
+  --free:#E4BE3F;--on-free:#171204;--free-line:rgba(228,190,63,.45);--free-glow:rgba(228,190,63,.3);--free-soft:rgba(228,190,63,.09);
+  --paid:#7ECB82;--on-paid:#0E2012;--paid-line:rgba(126,203,130,.45);--paid-soft:rgba(126,203,130,.09);
+  --miss:#E97676;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:#0a0f0a!important;color:var(--ink);font-family:var(--body);font-weight:300;font-size:17.5px;line-height:1.62;letter-spacing:.2px;-webkit-font-smoothing:antialiased}
+.bg-photo{position:fixed;inset:0;z-index:0;background:url(data:image/jpeg;base64,__BGIMG__) center/cover no-repeat #0a0f0a}
+.bg-scrim{position:fixed;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,9,6,.74),rgba(5,9,6,.88));pointer-events:none}
+main.wrap{position:relative;z-index:2}
+button{font:inherit;background:none;border:none;color:inherit;cursor:pointer}
+a{color:var(--free);text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2.5px solid var(--free);outline-offset:3px;border-radius:3px}
+html,body{overflow-x:clip}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+
+/* header */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(9,13,9,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--hair)}
+.hdr-in{max-width:1140px;margin:0 auto;padding:8px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.hnav{display:flex;gap:2px}
+.hnav a{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:13px 14px;border-radius:6px;transition:color .12s,background .12s}
+.hnav a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.hnav a.h-paid{box-shadow:inset 0 -2.5px 0 var(--paid)}
+.hnav a.h-home{color:var(--faint);margin-left:-14px}
+.nav-item{position:relative}
+.nav-btn{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);padding:13px 14px;min-height:44px;display:inline-flex;align-items:center;gap:7px;border-radius:6px;border:1px solid transparent;box-shadow:inset 0 -2.5px 0 var(--free);transition:color .12s,background .12s}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-btn[aria-expanded="true"]{color:#fff;background:rgba(255,255,255,.08);border-color:var(--hair)}
+.nav-btn .chev{font-size:.6em;transition:rotate .15s}
+.nav-btn[aria-expanded="true"] .chev{rotate:180deg}
+.dropdown{position:absolute;top:calc(100% + 8px);right:0;min-width:300px;background:var(--panel-solid);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--hair-strong);border-radius:9px;box-shadow:0 24px 60px -20px rgba(0,0,0,.85);padding:8px;display:none;text-align:left}
+.dropdown.open{display:block}
+.dropdown a{display:block;padding:11px 13px;border-radius:5px;text-decoration:none;color:#fff;font-family:var(--body);font-weight:400;font-size:.92rem;letter-spacing:.2px;text-transform:none}
+.dropdown a:hover{background:rgba(255,255,255,.09)}
+.dropdown a .dn{color:var(--faint);font-size:.82rem}
+@media(max-width:600px){.dropdown{min-width:min(85vw,300px)}}
+
+/* hero */
+.hero{padding:clamp(56px,9vw,96px) 0 8px;text-align:center}
+.eyebrow{font-family:var(--display);font-weight:700;font-size:.76rem;letter-spacing:3.2px;text-transform:uppercase;color:var(--free);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(2.4rem,5.6vw,3.9rem);line-height:1.02;letter-spacing:.4px;text-transform:uppercase;margin:0 0 18px;text-wrap:balance}
+.hero .lede{font-size:1.1rem;color:var(--dim);max-width:38em;margin:0 auto 26px}
+.u{font-weight:700;color:#fff}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;font-size:.84rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--on-free);text-decoration:none;border-radius:8px;padding:17px 28px;background:linear-gradient(45deg,#C7A126,#EDD06A);box-shadow:0 16px 34px -16px rgba(0,0,0,.7);transition:filter .12s,transform .12s}
+.btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn:active{transform:translateY(0);filter:brightness(.96)}
+.btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--hair-strong)}
+.btn.green{background:linear-gradient(45deg,#1C5528,#57A362);color:#fff}
+.soon{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:1.4px;background:rgba(0,0,0,.28);border-radius:4px;padding:3px 7px}
+.btn.ghost .soon{background:var(--free);color:var(--on-free)}
+.vidrow{display:inline-flex;align-items:center;gap:13px;text-align:left;background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--hair);border-radius:99px;padding:10px 22px 10px 12px;text-decoration:none;color:#fff;transition:border-color .12s,filter .12s}
+.vidrow:hover{border-color:var(--free-line);filter:brightness(1.1)}
+.vidrow .vp{width:42px;height:42px;border-radius:50%;background:linear-gradient(45deg,#16324F,#2E6099);border:1.5px solid rgba(255,255,255,.7);display:grid;place-items:center;flex:0 0 42px}
+.vidrow .vp::after{content:"";border-left:12px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.vidrow .vt{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:1px;text-transform:uppercase}
+.vidrow .vn{display:block;font-family:var(--body);font-weight:400;font-size:.8rem;color:var(--faint);text-transform:none;letter-spacing:.2px}
+
+/* sections */
+section{padding:clamp(52px,7.5vw,84px) 0 10px}
+.sect-head{text-align:center;margin-bottom:26px}
+.kicker{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:2.8px;text-transform:uppercase;margin:0 0 10px}
+.k-free{color:var(--free)}.k-paid{color:var(--paid)}
+h2{font-family:var(--display);font-weight:900;font-size:clamp(1.55rem,3.4vw,2.15rem);letter-spacing:.5px;text-transform:uppercase;line-height:1.08;margin:0 0 10px;text-wrap:balance}
+.sect-lede{color:var(--dim2);max-width:44em;margin:0 auto;font-size:1rem}
+
+/* THE FORK (signature) */
+.keystone{display:block;max-width:520px;margin:0 auto;text-align:center;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--free-line);border-radius:12px;padding:20px 24px;text-decoration:none;color:#fff;box-shadow:0 0 0 1px var(--free),0 0 16px var(--free-glow);transition:filter .12s}
+.keystone:hover{filter:brightness(1.1)}
+.keystone .kl{display:block;font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--free);margin-bottom:5px}
+.keystone .kn{display:block;font-family:var(--display);font-weight:900;font-size:1.35rem;letter-spacing:.8px;text-transform:uppercase}
+.keystone .kd{display:block;font-size:.9rem;color:var(--dim2);margin-top:5px}
+.forklines{position:relative;height:44px;max-width:820px;margin:0 auto}
+.forklines::before{content:"";position:absolute;left:50%;top:0;width:2px;height:16px;background:var(--hair-strong);transform:translateX(-50%)}
+.forklines::after{content:"";position:absolute;left:25%;right:25%;top:16px;height:2px;background:var(--hair-strong)}
+.forklines .fl,.forklines .fr{position:absolute;top:16px;width:2px;height:28px}
+.forklines .fl{left:25%;background:linear-gradient(180deg,var(--hair-strong),var(--free-line))}
+.forklines .fr{right:25%;background:linear-gradient(180deg,var(--hair-strong),var(--paid-line))}
+.lanes{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:980px;margin:0 auto}
+.lane{background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:9px}
+.lane.freeL{border-top:3px solid var(--free)}
+.lane.paidL{border-top:3px solid var(--paid)}
+.lane-h{margin:0 0 4px}
+.lane-h .lt{display:block;font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:1.3px;text-transform:uppercase}
+.freeL .lt{color:var(--free)}.paidL .lt{color:var(--paid)}
+.lane-h .ls{display:block;font-size:.86rem;color:var(--dim2)}
+.step{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.05);border:1px solid var(--hair);border-radius:9px;padding:11px 14px;text-decoration:none;color:#fff;transition:border-color .12s,background .12s}
+.step:hover{background:rgba(255,255,255,.09)}
+.freeL .step:hover{border-color:var(--free-line)}
+.paidL .step:hover{border-color:var(--paid-line)}
+.step .k{flex:0 0 46px;text-align:center;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.5px;border:1px solid var(--hair-strong);border-radius:7px;padding:7px 4px}
+.freeL .step .k{color:var(--free);border-color:var(--free-line)}
+.paidL .step .k{color:var(--paid);border-color:var(--paid-line)}
+.step .nm{display:block;font-family:var(--display);font-weight:700;font-size:.86rem;letter-spacing:1px;text-transform:uppercase}
+.step .why{display:block;font-size:.85rem;color:var(--dim2)}
+.step .rec{font-family:var(--display);font-weight:900;font-size:.56rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--on-paid);background:var(--paid);border-radius:4px;padding:2px 7px;margin-left:auto}
+.lane-note{margin:4px 0 0;font-size:.82rem;border-radius:8px;padding:10px 13px}
+.freeL .lane-note{color:var(--miss);background:rgba(233,118,118,.09);border:1px solid rgba(233,118,118,.35)}
+.paidL .lane-note{color:var(--paid);background:var(--paid-soft);border:1px solid rgba(126,203,130,.3)}
+
+/* free grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.fcard{background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.fcard.star{border-color:var(--free-line);box-shadow:0 0 0 1px var(--free),0 0 12px var(--free-glow)}
+.stepl{font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:1.9px;text-transform:uppercase;color:var(--faint)}
+.fcard h3,.pcard h3{font-family:var(--display);font-weight:900;font-size:1.18rem;letter-spacing:.5px;text-transform:uppercase;line-height:1.15;margin:0}
+.goal{font-size:.94rem;color:var(--dim);margin:0}
+.outcome{font-size:.87rem;color:var(--dim2);margin:0;padding-left:11px;border-left:2px solid var(--hair-strong)}
+.outcome b{color:#fff;font-weight:600}
+.bridge{font-size:.82rem;color:var(--free);background:var(--free-soft);border:1px solid var(--free-line);border-radius:7px;padding:8px 11px;margin:0}
+.bridge b{color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.74rem;color:var(--dim2);background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:99px;padding:3px 10px}
+.cardbtn{margin-top:auto;text-align:center;display:block;padding:14px 18px}
+.freebtn{background:linear-gradient(45deg,#C7A126,#EDD06A);color:var(--on-free)}
+.soonbtn{opacity:.6;cursor:default;pointer-events:none}
+
+/* paid grid */
+.qband{max-width:760px;margin:0 auto 26px;text-align:center;background:linear-gradient(45deg,rgba(255,255,255,.12),rgba(255,255,255,0));border:1px solid var(--hair);border-radius:12px;padding:18px 24px}
+.qband .q{font-family:var(--display);font-weight:900;font-size:clamp(1rem,2.4vw,1.3rem);letter-spacing:.5px;text-transform:uppercase;margin:0 0 5px}
+.qband p{margin:0;color:var(--dim2);font-size:.93rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+.pcard{background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-top:3px solid var(--paid);border-radius:12px;padding:20px 18px;display:flex;flex-direction:column;gap:9px;position:relative}
+.pcard.rec{border-color:var(--paid-line);box-shadow:0 0 0 1px var(--paid),0 0 12px rgba(126,203,130,.28)}
+.ribbon{position:absolute;top:-11px;right:12px;background:var(--paid);color:var(--on-paid);font-family:var(--display);font-weight:900;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;padding:4px 9px;border-radius:5px}
+.price{font-family:var(--display);font-weight:700;font-size:.9rem;letter-spacing:1.2px;color:var(--paid)}
+.price .per{font-size:.66rem;letter-spacing:1.1px;text-transform:uppercase;color:var(--faint);font-weight:600}
+.gauge{display:flex;align-items:center;gap:6px}
+.gauge i{width:9px;height:9px;border-radius:50%;border:1px solid var(--hair-strong)}
+.gauge i.on{background:var(--paid);border-color:var(--paid)}
+.gauge .gl{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:1.3px;text-transform:uppercase;color:var(--faint);margin-left:2px}
+.inc{list-style:disc;padding-left:19px;margin:0;font-size:.85rem;color:var(--dim2)}
+.inc li{margin:.28em 0}
+.inc li::marker{color:var(--paid)}
+.more-btn{font-family:var(--display);font-weight:700;font-size:.64rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--paid);text-align:left;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+.inc.hidden-extra{display:none}
+.inc.hidden-extra.open{display:block}
+.forwho{font-size:.83rem;color:var(--dim2);border-top:1px dashed var(--hair);padding-top:9px;margin:0}
+.forwho b{color:#fff;font-weight:600}
+.pcard .cardbtn{font-size:.74rem;padding:13px 10px}
+.checkout{display:block;width:auto;margin:6px auto 0;font-size:.68rem;padding:9px 20px;background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--hair-strong)}
+.posnote{max-width:760px;margin:22px auto 0;font-size:.8rem;color:var(--faint);text-align:center}
+
+/* trust strip */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:980px;margin:0 auto}
+.t{background:var(--panel);border:1px solid var(--hair);border-radius:10px;padding:16px 14px;text-align:center}
+.t .tn{display:block;font-family:var(--display);font-weight:900;font-size:1.3rem;letter-spacing:.5px;color:#fff}
+.t .tl{display:block;font-size:.8rem;color:var(--dim2);margin-top:3px}
+
+/* footer */
+footer{margin-top:60px;border-top:1px solid var(--hair);padding:28px 0 84px;color:var(--faint);font-size:.85rem}
+footer .wrap{display:flex;flex-direction:column;gap:12px}
+.foot-nav{display:flex;flex-wrap:wrap;gap:6px 26px}
+.foot-nav a{color:var(--dim2);text-decoration:none;padding:8px 0;transition:color .12s}
+.foot-nav a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.foot-meta{margin:0;font-size:.78rem;max-width:70em}
+
+/* mobile pill + mock note */
+.mnav{display:none}
+.mock-note{position:fixed;bottom:16px;right:16px;z-index:70;max-width:270px;background:var(--panel-solid);backdrop-filter:blur(14px);border:1px solid var(--free);border-radius:8px;padding:11px 14px;font-size:.75rem;color:var(--dim);box-shadow:0 16px 40px -18px rgba(0,0,0,.7)}
+.mock-note b{color:var(--free);font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:.68rem;display:block;margin-bottom:3px}
+.mock-note button{color:var(--faint);text-decoration:underline;font-size:.72rem;margin-top:6px;padding:0}
+@media(max-width:920px){
+  .grid4{grid-template-columns:1fr 1fr}
+}
+@media(max-width:860px){
+  .mnav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:var(--panel-solid);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--hair-strong);border-radius:99px;padding:5px;z-index:60;box-shadow:0 18px 44px -16px rgba(0,0,0,.75)}
+  .mnav a{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:99px}
+  .mnav a.mf{color:var(--free)}
+  .mnav a.mp{color:var(--paid)}
+  .mock-note{bottom:78px}
+  .lanes{grid-template-columns:1fr}
+  .forklines{display:none}
+  .grid2{grid-template-columns:1fr}
+  .trust{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .grid4{grid-template-columns:1fr}
+}
+</style>
+
+<div class="bg-photo" aria-hidden="true"></div>
+<div class="bg-scrim" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="hdr-in">
+    <!-- logo slot: branding TBD -->
+    <nav class="hnav" aria-label="Main">
+      <a class="h-home" href="#top">Home</a>
+    </nav>
+    <nav class="hnav" aria-label="Sections">
+      <div class="nav-item">
+        <button class="nav-btn" id="freeBtn" aria-expanded="false" aria-controls="freeDD">Free <span class="chev">▼</span></button>
+        <div class="dropdown" id="freeDD">
+          <a href="#free" data-close-dd>Transition Diet 101</a>
+          <a href="__LIBURL__">The Library</a>
+          <a href="#free" data-close-dd>The Recipe Book</a>
+          <a href="#free" data-close-dd>The Book + Mind Maps</a>
+        </div>
+      </div>
+      <a class="h-paid" href="#paid">Paid</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- HERO: state the value, give the action -->
+  <div class="hero">
+    <p class="eyebrow">Free education</p>
+    <h1>Learn the whole<br>system. Free.</h1>
+    <p class="lede">The Mucusless Diet Healing System views <span class="u">food as a tool</span> to help the body eliminate waste, judged by one question: does this food <span class="u">cleanse</span>, or does it <span class="u">obstruct</span>? Everything you need to learn it is here, and it costs nothing.</p>
+    <div class="cta-row">
+      <a class="btn" href="#free">Start Transition Diet 101 <span class="soon">free · soon</span></a>
+      <a class="btn ghost" href="#map">See your roadmap</a>
+    </div>
+  </div>
+
+  <!-- THE FORK -->
+  <section id="map">
+    <div class="sect-head">
+      <p class="kicker k-free">The roadmap</p>
+      <h2>Two roads. One question.</h2>
+      <p class="sect-lede">How much guidance do you want on your journey? Both roads start in the same place. Every step below links to its details.</p>
+    </div>
+    <a class="keystone" href="#free">
+      <span class="kl">Start your practice · free</span>
+      <span class="kn">Transition Diet 101</span>
+      <span class="kd">The Transition Diet is the step-by-step way into this practice: you change how you eat gradually, never all at once. This free course teaches it. Everything else builds on it.</span>
+    </a>
+    <div class="forklines" aria-hidden="true"><span class="fl"></span><span class="fr"></span></div>
+    <div class="lanes">
+      <div class="lane freeL">
+        <p class="lane-h"><span class="lt">The Free Road</span><span class="ls">You hear us: the whole education, at your own pace.</span></p>
+        <a class="step" href="#free"><span class="k">2</span><span><span class="nm">The Library</span><span class="why">A basic overview: the why, and the logic behind it</span></span></a>
+        <a class="step" href="#free"><span class="k">3</span><span><span class="nm">The Recipe Book</span><span class="why">Recipes from the course, with their use cases</span></span></a>
+        <a class="step" href="#free"><span class="k">4</span><span><span class="nm">The Book + Mind Maps</span><span class="why">The full source. The deep end, saved for last</span></span></a>
+        <p class="lane-note">Skip a step and you miss part of the whole: each one prepares you for the next.</p>
+      </div>
+      <div class="lane paidL">
+        <p class="lane-h"><span class="lt">The Guided Road</span><span class="ls">We hear you: your body, your questions, your practice.</span></p>
+        <a class="step" href="#paid"><span class="k">$</span><span><span class="nm">Membership</span><span class="why">Your home base: steady support, long term</span></span></a>
+        <a class="step" href="#paid"><span class="k">$$</span><span><span class="nm">30-Day Bootcamp</span><span class="why">Daily feedback on your actual practice</span></span><span class="rec">Recommended</span></a>
+        <a class="step" href="#paid"><span class="k">$$$</span><span><span class="nm">Transition Diet eCourse</span><span class="why">Master the theory behind the practice</span></span></a>
+        <a class="step" href="#paid"><span class="k">$$$$</span><span><span class="nm">Mastery Program</span><span class="why">Everything, with coaching beside you</span></span></a>
+        <p class="lane-note">Each tier covers a different part of a complete practice: the people, the habit, the theory, the personal guidance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FREE GRID -->
+  <section id="free">
+    <div class="sect-head">
+      <p class="kicker k-free">Free resources</p>
+      <h2>Learn the whole thing for free</h2>
+      <p class="sect-lede">This is how <span class="u">you hear us</span>. Start with Transition Diet 101 and get the lived experience immediately; it makes everything after it make much more sense.</p>
+    </div>
+    <div class="grid2">
+      <div class="fcard star">
+        <span class="stepl">1 · Start your practice</span>
+        <h3>Transition Diet 101</h3>
+        <p class="goal">The Transition Diet is the method of this system: a gradual, step-by-step change in how you eat, so you never move faster than your body can handle. This free course teaches it: what to eat, how to eat it, and how to pace yourself.</p>
+        <ul class="inc"><li>Video lessons: what to eat, and why</li><li>The step-by-step eating method, applied</li><li>Downloadable infographic guides</li></ul>
+        <p class="outcome"><b>You leave with:</b> an understanding of how to start the practice for your body and your lifestyle.</p>
+        <a class="btn freebtn cardbtn" href="#td101-pending">Start here <span class="soon">free · soon</span></a>
+      </div>
+      <div class="fcard">
+        <span class="stepl">2 · The foundation</span>
+        <h3>The Library</h3>
+        <p class="goal">A basic overview of the whole system: why it is the way it is, and the logic behind it. No signup, no email.</p>
+        <div class="chips"><span class="chip">What is the MDHS?</span><span class="chip">What to eat</span><span class="chip">How to eat</span><span class="chip">Enemas</span><span class="chip">Addiction</span><span class="chip">Full FAQ</span></div>
+        <a class="btn ghost cardbtn" href="__LIBURL__">Browse the Library</a>
+      </div>
+      <div class="fcard">
+        <span class="stepl">3 · Practical</span>
+        <h3>The Recipe Book <span class="soon">Coming soon</span></h3>
+        <p class="goal">Recipes from the Transition Diet 101 course, with the context that matters: how each is meant to be eaten, when, and what it is good for.</p>
+        <p class="outcome"><b>You leave with:</b> meals you can make tonight, matched to wherever you are.</p>
+        <p class="bridge">To use them as intended: <b>Transition Diet 101</b>.</p>
+        <span class="btn ghost cardbtn soonbtn">Coming soon</span>
+      </div>
+      <div class="fcard">
+        <span class="stepl">4 · The deep end</span>
+        <h3>The Book + Mind Maps <span class="soon">Coming soon</span></h3>
+        <p class="goal">The entire Mucusless Diet Healing System text, paired with mind maps and a short orientation video for every map. The hardest material, saved for last.</p>
+        <p class="outcome"><b>You leave with:</b> the source material, framed so it actually makes sense.</p>
+        <p class="bridge">Want in-depth walkthroughs? That is the <b>Transition Diet eCourse</b>.</p>
+        <span class="btn ghost cardbtn soonbtn">Coming soon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAID GRID -->
+  <section id="paid">
+    <div class="sect-head">
+      <p class="kicker k-paid">Paid services</p>
+      <h2>When you want guidance, not just information</h2>
+    </div>
+    <div class="qband">
+      <p class="q">How much guidance do you want on your journey?</p>
+      <p>The free resources let you hear us. The paid services let <span class="u">us hear you</span>. None of these is better or worse; each is a different level of support, complete on its own. Find yourself, not a feature list.</p>
+    </div>
+    <div class="grid4">
+      <div class="pcard">
+        <span class="stepl">Tier 1 · Your home base</span>
+        <h3>Membership</h3>
+        <p class="price">$ <span class="per">monthly</span></p>
+        <p class="gauge" aria-label="Guidance level 1 of 4"><i class="on"></i><i></i><i></i><i></i><span class="gl">Steady support</span></p>
+        <p class="goal">Long-term education, coaching, and resources, without intensive commitment.</p>
+        <ul class="inc"><li>Live Q&amp;A coaching calls</li><li>30-day roadmap &amp; onboarding</li><li>MDHS audiobook + digital book</li></ul>
+        <button class="more-btn" data-more="m1">+ 6 more inside</button>
+        <ul class="inc hidden-extra" id="m1"><li>Accountability &amp; goal-setting calls</li><li>Recipe library</li><li>Educational resource library</li><li>7-Day Easy Mucus Removal System</li><li>Coaching call archive</li><li>FAQ knowledge base</li></ul>
+        <p class="forwho"><b>For:</b> people who want trusted guidance as questions come up.</p>
+        <a class="btn green cardbtn" href="#call-membership">Schedule a free call</a>
+        <a class="btn checkout" href="#checkout-membership">Check out</a>
+      </div>
+      <div class="pcard rec">
+        <span class="ribbon">Recommended</span>
+        <span class="stepl">Tier 2 · Daily support</span>
+        <h3>30-Day Bootcamp</h3>
+        <p class="price">$$</p>
+        <p class="gauge" aria-label="Guidance level 2 of 4"><i class="on"></i><i class="on"></i><i></i><i></i><span class="gl">Daily feedback</span></p>
+        <p class="goal">A personalized Transition Diet, built with you and guided one step at a time.</p>
+        <ul class="inc"><li>Fully customized Transition Diet</li><li>Daily food journal review</li><li>Daily coach check-ins</li></ul>
+        <button class="more-btn" data-more="m2">+ 4 more inside</button>
+        <ul class="inc hidden-extra" id="m2"><li>Private strategy &amp; onboarding session</li><li>Weekly live group coaching calls</li><li>Focused weekly curriculum</li><li>Private community access</li></ul>
+        <p class="forwho"><b>For:</b> people who want a plan instead of guessing.</p>
+        <a class="btn green cardbtn" href="#call-bootcamp">Schedule a free call</a>
+      </div>
+      <div class="pcard">
+        <span class="stepl">Tier 3 · Depth</span>
+        <h3>Transition Diet eCourse</h3>
+        <p class="price">$$$</p>
+        <p class="gauge" aria-label="Guidance level 3 of 4"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><span class="gl">Self-paced mastery</span></p>
+        <p class="goal">Understand the system and master the principles: the what, and the why behind it.</p>
+        <ul class="inc"><li>Comprehensive video curriculum</li><li>Mind map presentations</li><li>Step-by-step learning roadmap</li></ul>
+        <button class="more-btn" data-more="m3">+ 4 more inside</button>
+        <ul class="inc hidden-extra" id="m3"><li>Office hours &amp; community meetups</li><li>Interactive quizzes</li><li>Recipe collection</li><li>Digital library</li></ul>
+        <p class="forwho"><b>For:</b> independent learners who want the theory.</p>
+        <a class="btn green cardbtn" href="#call-ecourse">Schedule a free call</a>
+      </div>
+      <div class="pcard">
+        <span class="stepl">Tier 4 · Premier</span>
+        <h3>Mastery Program</h3>
+        <p class="price">$$$$</p>
+        <p class="gauge" aria-label="Guidance level 4 of 4"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><span class="gl">Coaching partnership</span></p>
+        <p class="goal">The most comprehensive experience: a personalized roadmap with close coaching at every stage.</p>
+        <ul class="inc"><li>The 30-Day Bootcamp</li><li>The complete eCourse</li><li>Weekly private coaching</li></ul>
+        <button class="more-btn" data-more="m4">+ 6 more inside</button>
+        <ul class="inc hidden-extra" id="m4"><li>Daily weekday coaching &amp; accountability</li><li>Personalized Transition Diet strategy</li><li>Individualized fasting guidance</li><li>Customized herbal guidance</li><li>Personalized learning roadmap</li><li>Advanced problem solving &amp; support</li></ul>
+        <p class="forwho"><b>For:</b> people committed to mastering it, not just trying it.</p>
+        <a class="btn green cardbtn" href="#call-mastery">Schedule a free call</a>
+      </div>
+    </div>
+    <p class="posnote">Every program starts with a free call. Come with two answers: which program interests you, and what you are struggling with the most. The live page will state clearly how long paid access lasts.</p>
+  </section>
+
+  <footer>
+    <div class="wrap" style="padding:0">
+      <nav class="foot-nav" aria-label="Legal and contact">
+        <a href="#terms">Terms of Use</a>
+        <a href="#medical">Medical Disclaimer</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <p class="foot-meta">© 2026 · Branding TBD · Redesign proposal: structure per the MFL Website Design Spec, copy from JC's locked lines plus placeholder drafts he owns.</p>
+    </div>
+  </footer>
+
+</main>
+
+<nav class="mnav" aria-label="Quick sections">
+  <a class="mf" href="#free">Free</a>
+  <a class="mp" href="#paid">Paid</a>
+</nav>
+
+<div class="mock-note"><b>Redesign proposal</b>Claude's take after the design critique: one job per screen, the fork as the centerpiece, real CTAs, no carousels. All copy placeholder: JC owns every word. <button id="hideNote">hide</button></div>
+
+<script>
+var freeBtn=document.getElementById('freeBtn'),freeDD=document.getElementById('freeDD');
+freeBtn.addEventListener('click',function(ev){ev.stopPropagation();var o=freeDD.classList.contains('open');freeDD.classList.toggle('open',!o);freeBtn.setAttribute('aria-expanded',String(!o));});
+freeDD.addEventListener('click',function(ev){ev.stopPropagation();});
+document.querySelectorAll('[data-close-dd]').forEach(function(a){a.addEventListener('click',function(){freeDD.classList.remove('open');freeBtn.setAttribute('aria-expanded','false');});});
+document.addEventListener('click',function(){freeDD.classList.remove('open');freeBtn.setAttribute('aria-expanded','false');});
+document.querySelectorAll('.more-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    var x=document.getElementById(b.dataset.more);
+    var open=x.classList.toggle('open');
+    b.textContent=open?'show less':b.dataset.label;
+  });
+  b.dataset.label=b.textContent;
+});
+document.getElementById('hideNote').addEventListener('click',function(){document.querySelector('.mock-note').remove();});
+</script>

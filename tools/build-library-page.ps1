@@ -4,13 +4,13 @@
 # content (hero copy, topic bars, dialog) is extracted from mdhs-v4-final.html (the copy
 # source of truth); component CSS/JS come from the split library files with shell classes
 # filtered out. Output: site-masters\mdhs-library-page.html (what split-library.ps1 serves).
-$scratch = "C:\Users\taino\AppData\Local\Temp\claude\C--Users-taino\1e9e4050-da15-4bfa-94f0-20d98cf22513\scratchpad"
 $masters = "D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters"
 $repo = "C:\Users\taino\jcsjournals-site"
-$landingUrl = "https://td101landing.carrd.co/"
+. "$repo\tools\urls.ps1"
+$landingUrl = $LandingUrl
 $enc = New-Object System.Text.UTF8Encoding($false)
 
-$part = [System.IO.File]::ReadAllText("$scratch\mfl-redesign.part.html")
+$part = [System.IO.File]::ReadAllText("$repo\src\home.part.html")
 $content = [System.IO.File]::ReadAllText("$masters\mdhs-v4-final.html")
 # components come from the COPY MASTER's own style/script blocks (stable source; the
 # repo library/* files are generated FROM this script's output and must not feed it)
@@ -98,10 +98,8 @@ $page = $page.Replace("Claude's take after the design critique: one job per scre
 $page = $page.Replace('<title>Free Education · The Mucusless Diet Healing System</title>', '<title>The Library · The Mucusless Diet Healing System</title>')
 
 # ---- assets ----
-$mont = [System.IO.File]::ReadAllText("$scratch\montserrat.css")
-$ss3Src = [System.IO.File]::ReadAllLines("$repo\library\library.css") | Where-Object { $_ -match '^@font-face' -and $_ -match 'Source Sans 3' }
-$assets = $mont + "`n" + ($ss3Src -join "`n")
-$bg64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes("$scratch\foliage-1072179.jpg"))
+$assets = [System.IO.File]::ReadAllText("$repo\src\montserrat.css") + "`n" + [System.IO.File]::ReadAllText("$repo\src\source-sans-3.css")
+$bg64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes("$repo\src\foliage.jpg"))
 $page = $page.Replace('/*__ASSETS__*/', $assets).Replace('__BGIMG__', $bg64)
 if ($page.Contains('__LIBURL__') -or $page.Contains('__BGIMG__')) { throw "unresolved tokens remain" }
 
