@@ -251,3 +251,19 @@ dl dt:not(:first-child){border-top:1px solid var(--hair);padding-top:16px;margin
 a.btn[href="#td101"]{text-decoration:none;font-weight:700}
 .chal-note{display:block;font-size:.88rem;color:var(--dim);margin-top:6px}
 .navlink{text-decoration:none}
+/* ---- v7 (2026-07-18) ---- */
+.acc-body ul{list-style:disc;padding-left:24px}
+.acc-body li::marker{color:var(--gold)}
+.explainer ul{list-style:disc;padding-left:24px}
+.explainer li::marker{color:var(--gold)}
+.fbook{font-weight:700;color:#fff;border-bottom:2px solid var(--gold);padding-bottom:1px}
+.warnbox{display:flex;gap:13px;align-items:flex-start;background:rgba(230,196,90,.09);border:1px solid var(--gold);border-radius:10px;padding:15px 17px;margin:16px 0}
+.warnbox .wsym{position:relative;flex:0 0 24px;height:22px;margin-top:2px}
+.warnbox .wsym::before{content:"";position:absolute;left:0;top:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:21px solid var(--gold)}
+.warnbox .wsym::after{content:"!";position:absolute;left:0;top:4px;width:24px;text-align:center;font-weight:900;font-size:.82rem;color:#10160f}
+.warnbox p{margin:0;color:var(--dim);font-size:.95rem}
+.warnbox b{color:var(--gold)}
+.faqrow{margin-top:20px;padding-top:14px;border-top:1px solid var(--hair)}
+.fq-lbl{display:block;font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;font-size:.68rem;color:var(--gold);margin-bottom:4px}
+.fq-why{display:block;font-size:.85rem;color:var(--faint);margin-bottom:9px}
+.fq-chips{display:flex;flex-wrap:wrap;gap:7px}
