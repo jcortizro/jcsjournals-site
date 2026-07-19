@@ -1,33 +1,37 @@
 # jcsjournals-site
 
-Hosted code for the jcsjournals.com rebuild (Carrd + GitHub + jsDelivr CDN).
+Code for JC's live website. Two Carrd pages, each holding one small Embed(Code)
+snippet that loads the real page from **raw.githubusercontent.com** (not jsDelivr —
+its cache served stale files). Push here and the live pages update in ~5 minutes.
+JC never re-pastes the snippets.
 
-Carrd stays the host/domain/shell. Each Carrd page holds ONE small **Embed (Code)**
-element; the heavy page code (CSS/HTML/JS) lives here and is served free via jsDelivr.
-
-## Pages
-
-| Page | Files | Carrd snippet |
+| Page | Live | Snippet |
 |---|---|---|
-| Library ("The Diet") | `library/library.css` · `library/library.html` · `library/library.js` | `carrd-embed-library.html` |
-| Home (Free/Paid services, mockup) | `home/home.css` · `home/home.html` · `home/home.js` | `carrd-embed-home.html` |
+| Landing (Free/Paid) | https://td101landing.carrd.co/ | `carrd-embed-home.html` |
+| Library | https://td101library.carrd.co/ | `carrd-embed-library.html` |
 
-Source of truth for content: the site-masters in
-`D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters\`.
-Edit the master, re-split, push here.
+## Build
 
-## Updating a live page
+    tools\build-all.ps1      # then: git add -A; git commit; git push
 
-1. Edit the files, commit, push to `main`.
-2. jsDelivr caches `@main` for ~12 h. Force-refresh with:
-   `https://purge.jsdelivr.net/gh/jcortizro/jcsjournals-site@main/library/library.css`
-   (repeat per file). The Carrd embed never needs re-pasting.
+## Edit these (sources)
+
+- `src\home.part.html` — the landing page AND the shared shell (background,
+  header, dropdown, buttons). The library page is generated from this file, so
+  shell edits hit both pages.
+- `site-masters\mdhs-v4-final.html` (on D:) — the library's copy master: JC's
+  locked article text + library component CSS/JS.
+- `tools\urls.ps1` — the two page URLs. **Changing a domain = edit here, build, push.**
+- `src\` — foliage.jpg + the embedded font CSS.
+
+## Never hand-edit (generated)
+
+`home\*`, `library\*`, `site-masters\mfl-home-redesign-v1.html`,
+`site-masters\mdhs-library-page.html`.
 
 ## Notes
 
-- Fonts (Raleway / Source Sans Pro) are embedded in `library.css` as data URIs —
-  no Google Fonts dependency, identical rendering everywhere.
-- `library.html` is body markup only (no `<html>/<head>`); the loader injects it and
-  hides the Carrd page's own content for a full-page takeover.
-- The "My Content & Socials" button currently points at the home-page mockup artifact;
-  repoint to the real home page at production rollout, along with the `#td101` links.
+- Background must stay as `.bg-photo` / `.bg-scrim` fixed divs. Carrd overrides
+  `body::before/after`, which made the dark background fade out after ~2s.
+- `tools\build-combined.ps1` is parked (one-page merge experiment, rejected).
+- Full context: `JC Website\files\20-HANDOFF-2026-07-19-LIVE-SITE.md`.
