@@ -246,8 +246,8 @@ dl dt:not(:first-child){border-top:1px solid var(--hair);padding-top:16px;margin
 .spectrum .bar::before,.spectrum .bar::after{content:none}
 .cell-list{margin:0;padding-left:16px}.cell-list li{margin:.3em 0;color:var(--dim)}
 .tmin{color:var(--tier-red);font-weight:700}.topt{color:var(--tier-green);font-weight:700}.tideal{color:#7EB8E8;font-weight:700}
-.acc-body a[href="#td101"],.framing a[href="#td101"]{font-weight:800;color:#fff;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px}
-a.btn[href="#td101"]{text-decoration:none;font-weight:700}
+.acc-body a.tdlink,.framing a.tdlink{font-weight:800;color:#fff;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px}
+a.btn.tdlink{text-decoration:none;font-weight:700}
 .chal-note{display:block;font-size:.88rem;color:var(--dim);margin-top:6px}
 .navlink{text-decoration:none}
 /* ---- v7 (2026-07-18) ---- */

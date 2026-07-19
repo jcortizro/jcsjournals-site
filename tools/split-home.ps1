@@ -2,7 +2,7 @@
 # home/{home.css, home.html, home.js}. Marker-based. Drops the mockup-only
 # mock-note div, its CSS rules, and the hideNote JS binding (leaving the
 # binding in with no div would throw and kill the rest of the JS).
-$src  = "D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters\mfl-home-v1.html"
+$src  = "D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters\mfl-home-redesign-v1.html"
 $repo = "C:\Users\taino\jcsjournals-site"
 New-Item -ItemType Directory -Force "$repo\home" | Out-Null
 $lines = [System.IO.File]::ReadAllLines($src)

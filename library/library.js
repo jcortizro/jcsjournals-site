@@ -23,7 +23,7 @@ CATS.forEach(cat=>{const row=document.createElement('div');row.className='nextro
 const back=document.createElement('button');back.className='nbtn';back.innerHTML='<span class="triup" aria-hidden="true"></span>All topics';back.addEventListener('click',()=>goLibrary(cat));row.appendChild(back);
 const n=NEXT[cat.id];const go=document.createElement('button');go.className='nbtn primary';
 if(n){go.innerHTML='Next: <b>'+NUM[n]+'</b> '+SHORT[n]+' <span class="tri" aria-hidden="true"></span>';go.addEventListener('click',()=>openChain(n));}
-else{go.innerHTML='Going further <span class="tri" aria-hidden="true"></span>';go.addEventListener('click',()=>{closeCat(cat);setTimeout(()=>{const y=document.getElementById('further').getBoundingClientRect().top+window.scrollY-60;window.scrollTo({top:y,behavior:'smooth'});},380);});}
+else{go.innerHTML='Explore the paid services <span class="tri" aria-hidden="true"></span>';go.addEventListener('click',()=>{closeCat(cat);setTimeout(()=>{window.location.href='https://claude.ai/code/artifact/f26c6153-1077-44fe-8d03-fc3dea7dcf28#paid';},380);});}
 row.appendChild(go);cat.appendChild(row);});
 const wf=document.createElement('div');wf.className='wayfind';
 wf.innerHTML='<button class="wf-top"><span class="triup" aria-hidden="true"></span>Topics</button><span class="wf-lbl"></span><button class="wf-next"></button>';
@@ -31,7 +31,7 @@ document.body.appendChild(wf);
 const wfL=wf.querySelector('.wf-lbl'),wfN=wf.querySelector('.wf-next'),wfT=wf.querySelector('.wf-top');
 let wfCat=null;
 wfT.addEventListener('click',()=>goLibrary(wfCat));
-wfN.addEventListener('click',()=>{if(!wfCat)return;const n=NEXT[wfCat.id];if(n)openChain(n);else{closeCat(wfCat);setTimeout(()=>{const y=document.getElementById('further').getBoundingClientRect().top+window.scrollY-60;window.scrollTo({top:y,behavior:'smooth'});},380);}});
+wfN.addEventListener('click',()=>{if(!wfCat)return;const n=NEXT[wfCat.id];if(n)openChain(n);else{closeCat(wfCat);setTimeout(()=>{window.location.href='https://claude.ai/code/artifact/f26c6153-1077-44fe-8d03-fc3dea7dcf28#paid';},380);}});
 function wfUpdate(){let cur=null;for(const c of CATS){if(!c.classList.contains('open'))continue;const r=c.getBoundingClientRect();if(r.top<-40&&r.bottom>innerHeight*.55){cur=c;break;}}
 if(cur){wfCat=cur;wfL.innerHTML='<b>'+NUM[cur.id]+'</b>'+SHORT[cur.id];wfN.innerHTML=(NEXT[cur.id]?'Next':'Done')+' <span class="tri" aria-hidden="true"></span>';wf.classList.add('show');}
 else{wf.classList.remove('show');wfCat=null;}}
