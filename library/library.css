@@ -269,3 +269,9 @@ a.btn.tdlink{text-decoration:none;font-weight:700}
 .home-lnk{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--faint);text-decoration:none;padding:13px 16px;margin-left:-16px;border-radius:6px;transition:color .12s}
 .home-lnk:hover{color:#fff}
 .closerow{display:flex;justify-content:flex-end;margin-top:16px}
+.vidrow{display:inline-flex;align-items:center;gap:13px;text-align:left;background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--hair);border-radius:99px;padding:10px 22px 10px 12px;text-decoration:none;color:#fff;transition:border-color .12s,filter .12s;margin-top:18px}
+.vidrow:hover{border-color:var(--gold);filter:brightness(1.12)}
+.vidrow .vp{width:42px;height:42px;border-radius:50%;background:linear-gradient(45deg,#16324F,#2E6099);border:1.5px solid rgba(255,255,255,.75);display:grid;place-items:center;flex:0 0 42px}
+.vidrow .vp::after{content:"";border-left:12px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.vidrow .vt{display:block;font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:1px;text-transform:uppercase}
+.vidrow .vn{display:block;font-family:var(--body);font-weight:400;font-size:.8rem;color:var(--faint);text-transform:none;letter-spacing:.2px}
