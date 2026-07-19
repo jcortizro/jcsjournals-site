@@ -268,3 +268,4 @@ a.btn.tdlink{text-decoration:none;font-weight:700}
 .fq-chips{display:flex;flex-wrap:wrap;gap:7px}
 .home-lnk{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--faint);text-decoration:none;padding:13px 16px;margin-left:-16px;border-radius:6px;transition:color .12s}
 .home-lnk:hover{color:#fff}
+.closerow{display:flex;justify-content:flex-end;margin-top:16px}
