@@ -12,8 +12,20 @@ $enc = New-Object System.Text.UTF8Encoding($false)
 
 $part = [System.IO.File]::ReadAllText("$scratch\mfl-redesign.part.html")
 $content = [System.IO.File]::ReadAllText("$masters\mdhs-v4-final.html")
-$libCssLines = [System.IO.File]::ReadAllLines("$repo\library\library.css")
-$libJsLines = [System.IO.File]::ReadAllLines("$repo\library\library.js")
+# components come from the COPY MASTER's own style/script blocks (stable source; the
+# repo library/* files are generated FROM this script's output and must not feed it)
+$mLines = [System.IO.File]::ReadAllLines("$masters\mdhs-v4-final.html")
+$styleStart = -1; $styleEnd = -1; $scriptStart = -1; $scriptEnd = -1
+for ($i = 0; $i -lt $mLines.Length; $i++) {
+  $l = $mLines[$i].Trim()
+  if ($l -eq '<style>' -and $styleStart -lt 0) { $styleStart = $i }
+  elseif ($l -eq '</style>' -and $styleEnd -lt 0) { $styleEnd = $i }
+  elseif ($l -eq '<script>' -and $scriptStart -lt 0) { $scriptStart = $i }
+  elseif ($l -eq '</script>') { $scriptEnd = $i }
+}
+if ($styleStart -lt 0 -or $styleEnd -lt 0 -or $scriptStart -lt 0 -or $scriptEnd -lt 0) { throw "master block markers not found" }
+$libCssLines = $mLines[($styleStart+1)..($styleEnd-1)]
+$libJsLines = $mLines[($scriptStart+1)..($scriptEnd-1)]
 
 # ---- extract library content from the copy master ----
 $ledeM = [regex]::Match($content, '<p class="lede">This information[\s\S]*?</p>')
@@ -50,7 +62,7 @@ if ($mainStart -lt $mainMarker.Length -or $footerStart -lt 0) { throw "main/foot
 $page = $part.Substring(0, $mainStart) + "`n`n" + $libHero + "`n" + $libSection + "`n" + $dialog + "`n`n" + $part.Substring($footerStart)
 
 # ---- component CSS from the split library, shell classes filtered out ----
-$libCss = ($libCssLines | Where-Object { $_ -notmatch '^@font-face|^:root|^\*\{|^html|^body|^a\{|^button\{|^:focus-visible' }) -join "`n"
+$libCss = ($libCssLines | Where-Object { $_ -notmatch '^@font-face|^:root|^\*\{|^html|^body|^a\{|^button\{|^:focus-visible|^\.mock-note|^\.bg-photo|^\.bg-scrim|^main' }) -join "`n"
 $killPatterns = @(
   '(?<![\w-])\.site-header[^{]*\{[^}]*\}','(?<![\w-])\.hdr-in[^{]*\{[^}]*\}','(?<![\w-])\.hnav[^{]*\{[^}]*\}',
   '(?<![\w-])\.nav-item[^{]*\{[^}]*\}','(?<![\w-])\.nav-btn[^{]*\{[^}]*\}','(?<![\w-])\.dropdown[^{]*\{[^}]*\}',
@@ -66,7 +78,7 @@ $compat = ':root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB8
 $page = $page.Replace('</style>', ("/* ==== LIBRARY components ==== */`n" + $compat + "`n" + $libCss + "`n</style>"))
 
 # ---- library engine JS (minus the shell dropdown code the landing already has) ----
-$libJs = ($libJsLines | Where-Object { $_ -notmatch 'freeBtn|freeDD' }) -join "`n"
+$libJs = ($libJsLines | Where-Object { $_ -notmatch 'freeBtn|freeDD|hideNote' }) -join "`n"
 $page = $page.Replace('</script>', ("`n/* ==== LIBRARY engine ==== */`n" + $libJs + "`n</script>"))
 
 # ---- cross-page wiring: this page's shell links go to the real landing page ----
