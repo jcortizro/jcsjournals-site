@@ -24,7 +24,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:3px}
 .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
 .eyebrow{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:.72rem;letter-spacing:3px;color:var(--gold);margin:0 0 12px}
-.u{font-weight:800;color:#fff;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px}
+.u{font-weight:800;color:#fff}
 .hl{background:linear-gradient(transparent 55%,rgba(228,190,63,.34) 55%);padding:0 2px;color:#fff;font-weight:600}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .glass{background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:6px}
@@ -246,7 +246,7 @@ dl dt:not(:first-child){border-top:1px solid var(--hair);padding-top:16px;margin
 .spectrum .bar::before,.spectrum .bar::after{content:none}
 .cell-list{margin:0;padding-left:16px}.cell-list li{margin:.3em 0;color:var(--dim)}
 .tmin{color:var(--tier-red);font-weight:700}.topt{color:var(--tier-green);font-weight:700}.tideal{color:#7EB8E8;font-weight:700}
-.acc-body a.tdlink,.framing a.tdlink{font-weight:800;color:#fff;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px}
+.acc-body a.tdlink,.framing a.tdlink{font-weight:800;color:#fff;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
 a.btn.tdlink{text-decoration:none;font-weight:700}
 .chal-note{display:block;font-size:.88rem;color:var(--dim);margin-top:6px}
 .navlink{text-decoration:none}
@@ -255,7 +255,7 @@ a.btn.tdlink{text-decoration:none;font-weight:700}
 .acc-body li::marker{color:var(--gold)}
 .explainer ul{list-style:disc;padding-left:24px}
 .explainer li::marker{color:var(--gold)}
-.fbook{font-weight:700;color:#fff;border-bottom:2px solid var(--gold);padding-bottom:1px}
+.fbook{font-weight:700;color:#fff}
 .warnbox{display:flex;gap:13px;align-items:flex-start;background:rgba(230,196,90,.09);border:1px solid var(--gold);border-radius:10px;padding:15px 17px;margin:16px 0}
 .warnbox .wsym{position:relative;flex:0 0 24px;height:22px;margin-top:2px}
 .warnbox .wsym::before{content:"";position:absolute;left:0;top:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:21px solid var(--gold)}
