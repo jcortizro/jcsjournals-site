@@ -3,7 +3,7 @@
 # Marker-based (survives line-number drift). Drops the mockup-only bits:
 # .mock-note CSS rules, the mock-note div, and the hideNote JS binding
 # (leaving that binding in with no div would throw and kill the rest of the JS).
-$src  = "D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters\mdhs-v4-final.html"
+$src  = "D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters\mdhs-library-page.html"
 $repo = "C:\Users\taino\jcsjournals-site"
 $lines = [System.IO.File]::ReadAllLines($src)
 $enc = New-Object System.Text.UTF8Encoding($false)
