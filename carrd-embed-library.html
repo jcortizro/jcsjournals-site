@@ -1,17 +1,20 @@
-<!-- JC'S JOURNALS · LIBRARY PAGE · Carrd Embed loader
-     Paste this whole block into a Carrd "Embed" element (Type: Code).
-     It loads the page from the CDN and takes over the whole page. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jcortizro/jcsjournals-site@main/library/library.css">
+<!-- LIBRARY PAGE · Carrd Embed loader (v3, cache-proof: loads straight from GitHub)
+     Paste this whole block into a Carrd "Embed" element (Type: Code). -->
 <script>
 (function(){
-  var base="https://cdn.jsdelivr.net/gh/jcortizro/jcsjournals-site@main/library/";
-  fetch(base+"library.html").then(function(r){return r.text()}).then(function(h){
-    var d=document.createElement("div");d.id="jcj-page";d.innerHTML=h;
+  var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/library/";
+  Promise.all([
+    fetch(base+"library.css").then(function(r){return r.text()}),
+    fetch(base+"library.html").then(function(r){return r.text()}),
+    fetch(base+"library.js").then(function(r){return r.text()})
+  ]).then(function(a){
+    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+    var d=document.createElement("div");d.id="jcj-page";d.innerHTML=a[1];
     Array.prototype.forEach.call(document.body.children,function(c){
-      if(c.tagName!=="SCRIPT"&&c.tagName!=="LINK")c.style.display="none";
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
     });
     document.body.appendChild(d);
-    var s=document.createElement("script");s.src=base+"library.js";document.body.appendChild(s);
+    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
   });
 })();
 </script>
