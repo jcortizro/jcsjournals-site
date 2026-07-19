@@ -1,0 +1,17 @@
+<!-- FREE/PAID SERVICES HOME PAGE · Carrd Embed loader
+     Paste this whole block into a Carrd "Embed" element (Type: Code).
+     It loads the page from the CDN and takes over the whole page. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jcortizro/jcsjournals-site@main/home/home.css">
+<script>
+(function(){
+  var base="https://cdn.jsdelivr.net/gh/jcortizro/jcsjournals-site@main/home/";
+  fetch(base+"home.html").then(function(r){return r.text()}).then(function(h){
+    var d=document.createElement("div");d.id="home-page";d.innerHTML=h;
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="LINK")c.style.display="none";
+    });
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.src=base+"home.js";document.body.appendChild(s);
+  });
+})();
+</script>

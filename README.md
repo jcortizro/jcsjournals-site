@@ -10,6 +10,7 @@ element; the heavy page code (CSS/HTML/JS) lives here and is served free via jsD
 | Page | Files | Carrd snippet |
 |---|---|---|
 | Library ("The Diet") | `library/library.css` · `library/library.html` · `library/library.js` | `carrd-embed-library.html` |
+| Home (Free/Paid services, mockup) | `home/home.css` · `home/home.html` · `home/home.js` | `carrd-embed-home.html` |
 
 Source of truth for content: the site-masters in
 `D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters\`.
