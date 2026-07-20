@@ -38,15 +38,16 @@ RepRx 'dropdown-js' "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=
 RepRx 'eyebrow' ([regex]::Escape('The Library &middot; Free &middot; No Email Signup Required')) 'The Free Library &middot; No Email Signup Required' 1
 RepRx 'intro-line' ([regex]::Escape('<h1>Mucus-Free<br>Made Simple</h1>')) ('<h1>Mucus-Free<br>Made Simple</h1>' + "`n" + '    <p class="lede intro-line">Explore the 100+ year old knowledge that changed my life.</p>') 1
 
-# hero trims (v4, JC 7/19): lede ends at "...revised edition of the MDHS.";
-# the pick-a-topic line becomes the three stacked jump buttons; the old
-# click-out video pill goes (the video is now embedded in its own section)
+# hero trims (v4/v5, JC 7/19-20): lede ends at "...revised edition of the MDHS.";
+# the pick-a-topic line and the click-out video pill are both deleted. v5: the
+# three jump buttons are GONE too (Carrd hijacked their # links, so they did
+# nothing) — the video + library now sit directly under the hero text instead.
 RepRx 'lede-trim' ([regex]::Escape(': his annotations make everything easier to understand.</p>')) '.</p>' 1
-RepRx 'hero-ctas' ([regex]::Escape('<p class="lede">Pick a topic below; each one opens right where it is.</p>')) (Part 'hero-ctas.html') 1
+RepRx 'pick-a-topic-remove' ([regex]::Escape('<p class="lede">Pick a topic below; each one opens right where it is.</p>')) '' 1
 RepRx 'vidrow-remove' '(?s)<a class="vidrow".*?</a>' '' 1
 
-# socials + embedded-video sections before the library
-RepRx 'socials-insert' ([regex]::Escape('<section id="library">')) ((Part 'socials.html') + "`n" + (Part 'video.html') + "`n" + '<section id="library">') 1
+# ORDER (v5): hero -> video -> library -> socials
+RepRx 'video-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + '<section id="library">') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
 RepRx 'green-course-btn' ([regex]::Escape('<a class="btn green" class="tdlink" href="https://td101landing.carrd.co/#free">What Is Transition Diet 101?</a>')) '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>' 1
@@ -59,6 +60,9 @@ $fr = [regex]::Matches($h, [regex]::Escape('Transition Diet 101</span> course.')
 if ($fr -lt 1) { throw "build-jcj: framing-chip found none" }
 $h = $h.Replace('Transition Diet 101</span> course.', 'Transition Diet 101</span> course. <span class="soonchip">Coming Soon</span>')
 Write-Output "  framing-chip : $fr ok"
+
+# socials AFTER the library (v5), just before the legal dialog / footer
+RepRx 'socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ((Part 'socials.html') + "`n" + '<dialog id="legalModal">') 1
 
 # footer (Terms/Medical/Privacy only, no Contact) + mobile pill Library/Socials
 RepRx 'footer' '(?s)<footer>.*?</footer>' (Part 'new-footer.html') 1
@@ -73,6 +77,13 @@ $pc = [regex]::Matches($h, [regex]::Escape('https://td101landing.carrd.co/#paid'
 if ($pc -ne 2) { throw "build-jcj: expected 2 JS paid URLs, found $pc" }
 $h = $h.Replace('https://td101landing.carrd.co/#paid', '#socials')
 Write-Output "  js-paid-urls : 2 ok"
+
+# Carrd eats hash navigation -> in-page # links scroll via JS instead (v5)
+$rxScript = New-Object System.Text.RegularExpressions.Regex('(?m)^</script>$')
+if (-not $rxScript.IsMatch($h)) { throw "build-jcj: closing script marker not found" }
+$jsIns = (Part 'anchor-fix.js').TrimEnd() + "`n</script>"
+$h = $rxScript.Replace($h, [System.Text.RegularExpressions.MatchEvaluator]{ param($mm) $jsIns }, 1)
+Write-Output "  anchor-fix js merged : ok"
 
 # rebrand CSS merged INTO the main style block (split-jcj expects one block)
 $rxStyle = New-Object System.Text.RegularExpressions.Regex('(?m)^</style>$')

@@ -153,3 +153,16 @@ addEventListener('scroll',wfUpdate,{passive:true});addEventListener('resize',wfU
 
 /* ---- close buttons on every subsection (2026-07-18): collapse THIS read and re-center it where it sat, so the page never becomes a mess of open sections ---- */
 document.querySelectorAll('.acc.sub,.acc.qsub').forEach(a=>{const b=a.querySelector(':scope>.acc-panel>.inner>.acc-body');if(!b)return;const row=document.createElement('div');row.className='closerow';const btn=document.createElement('button');btn.className='nbtn';btn.innerHTML='<span class="triup" aria-hidden="true"></span>Close';btn.addEventListener('click',()=>{a.classList.remove('open');const t=a.querySelector(':scope>.acc-trigger');if(t)t.setAttribute('aria-expanded','false');const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;setTimeout(()=>a.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}),60);});row.appendChild(btn);b.appendChild(row);});
+/* Carrd hijacks hash navigation, so in-page # links scroll via JS instead
+   (preventDefault keeps the hash from ever changing). data-open links already
+   handle themselves (their element handler preventDefaults first). */
+document.addEventListener('click',function(e){
+  if(e.defaultPrevented)return;
+  var a=e.target.closest('a[href^="#"]');
+  if(!a)return;
+  var el=document.getElementById(a.getAttribute('href').slice(1));
+  if(!el)return;
+  e.preventDefault();
+  var y=el.getBoundingClientRect().top+window.scrollY-60;
+  window.scrollTo({top:y,behavior:'smooth'});
+});
