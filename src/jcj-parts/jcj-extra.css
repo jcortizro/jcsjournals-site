@@ -76,3 +76,9 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 .webi-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--on-free);color:#fff;font-family:var(--display);font-weight:800;font-size:.85rem;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:17px 34px;border-radius:9px;transition:filter .12s,transform .12s}
 .webi-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
 @media(max-width:560px){.webi-tab{width:max-content;max-width:94%;padding:9px 18px 7px}}
+/* announcement strips under the banner (v9.2) — small, low-key, stack as needed */
+.webi-sub{margin:14px auto 0;background:linear-gradient(rgba(9,22,45,.78),rgba(9,22,45,.78));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid rgba(46,141,255,.55);border-radius:12px;padding:13px 18px;text-align:center;color:#fff}
+.webi-sub .ws-t{margin:0 0 3px;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#7DB8FF}
+.webi-sub .ws-s{margin:0;font-size:.94rem;color:var(--dim2)}
+.webi-sub .ws-s a{color:#fff;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.webi-sub .ws-s a:hover{color:#7DB8FF}
