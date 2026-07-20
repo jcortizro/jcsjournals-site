@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>jcj mobile test</title>
+<style>
+  body{margin:0;background:#222;display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px;font-family:sans-serif}
+  .bar button{font-size:14px;padding:6px 14px;margin:0 3px}
+  iframe{width:390px;height:844px;border:2px solid #555;background:#000}
+</style>
+</head>
+<body>
+<!-- Mobile verification harness (file-18 law: verify at TRUE 390px via an
+     iframe wrapper, never trust headless window clamps). Wraps the Carrd-loader
+     replica (embed-test-jcj.html) at phone widths. Serve the repo root
+     (python -m http.server) and open /tools/mobile-test-jcj.html -->
+<div class="bar">
+  <button onclick="f.style.width='320px'">320</button>
+  <button onclick="f.style.width='360px'">360</button>
+  <button onclick="f.style.width='390px'">390</button>
+</div>
+<iframe id="f" src="embed-test-jcj.html"></iframe>
+</body>
+</html>

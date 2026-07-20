@@ -32,6 +32,11 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 .foot-nav button:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
 /* mobile pill: green was the paid color; socials go neutral */
 .mnav a.mp{color:var(--dim)}
+/* v11: third pill item — Contact -> #work-with-us (the green/guided lane). Three
+   items no longer fit at the shell's 13px/24px sizing on a 320-360px phone, so
+   the pill links slim down (pill is mobile-only; desktop never shows it). */
+.mnav a{padding:13px 16px;font-size:.74rem;letter-spacing:1.2px}
+.mnav a.mc{color:var(--paid)}
 /* legal modal typography */
 #modalContent h2{font-family:var(--display);font-weight:900;font-size:1.3rem;letter-spacing:.5px;text-transform:uppercase;margin:0 0 6px}
 #modalContent h3{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--free);margin:20px 0 6px}
@@ -51,9 +56,12 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 /* big block after the library */
 .ctabig{max-width:820px;margin:0 auto;text-align:center;background:linear-gradient(rgba(10,26,14,.82),rgba(10,26,14,.82));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1.5px solid var(--paid-line);border-top:3px solid var(--paid);border-radius:14px;padding:clamp(26px,4vw,40px) clamp(20px,4vw,38px);box-shadow:0 0 0 1px rgba(126,203,130,.18),0 22px 54px -26px rgba(0,0,0,.8)}
 .ctabig h2{margin:0 0 14px}
-.ctabig-lede{color:var(--dim);max-width:52em;margin:0 auto 22px;font-size:1rem}
-.ctabig .cta-row{margin:0 0 14px}
+/* v11: the lede is three short paragraphs (JC 7/20) — tighter gaps between them */
+.ctabig-lede{color:var(--dim);max-width:52em;margin:0 auto 12px;font-size:1rem}
+.ctabig .cta-row{margin:10px 0 14px}
 .ctabig .btn.green{padding:19px 34px;font-size:.88rem}
+/* v11: one-line button on phones — label scales with viewport, never wraps */
+@media(max-width:560px){.ctabig .btn.green{width:100%;justify-content:center;white-space:nowrap;font-size:clamp(.6rem,3.3vw,.82rem);letter-spacing:1.1px;padding:16px 10px}}
 .ctabig-fine{margin:0;font-size:.8rem;color:var(--faint)}
 /* compact strip at the end of each library topic */
 .ctamini{display:none;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;margin:22px 0 0;padding:15px 18px;border:1px solid var(--paid-line);border-left:3px solid var(--paid);border-radius:9px;background:linear-gradient(90deg,rgba(12,38,19,.6),rgba(12,38,19,.2))}
@@ -76,10 +84,13 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 .webi-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--on-free);color:#fff;font-family:var(--display);font-weight:800;font-size:.85rem;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:17px 34px;border-radius:9px;transition:filter .12s,transform .12s}
 .webi-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
 @media(max-width:560px){.webi-tab{width:max-content;max-width:94%;padding:9px 18px 7px}}
-/* announcement strips under the banner (v9.2) — small, low-key, stack as needed */
-.webi-sub{margin:14px auto 0;background:linear-gradient(rgba(9,22,45,.78),rgba(9,22,45,.78));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid rgba(46,141,255,.55);border-radius:12px;padding:13px 18px;text-align:center;color:#fff}
-.webi-sub .ws-t{margin:0 0 3px;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#7DB8FF}
-.webi-sub .ws-s{margin:0;font-size:.94rem;color:var(--dim2)}
+/* announcement strips under the banner (v9.2; v11: SOLID blue fill — JC nixed
+   the blue-outline-on-black look; dark ink + dark buttons mirror the yellow
+   card's bright-fill grammar) — small, low-key, stack as needed */
+.webi-sub{margin:14px auto 0;background:#2E8DFF;border-radius:12px;padding:13px 18px;text-align:center;color:#09162D;box-shadow:0 18px 44px -22px rgba(0,0,0,.7)}
+.webi-sub .ws-t{margin:0 0 3px;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:rgba(9,22,45,.78)}
+.webi-sub .ws-hype{margin:0 0 3px;font-size:1.02rem;font-weight:700;color:#09162D}
+.webi-sub .ws-s{margin:0;font-size:.94rem;color:rgba(9,22,45,.85)}
 .webi-sub .ws-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:11px}
-.webi-sub .ws-btn{display:inline-flex;align-items:center;justify-content:center;background:#2E8DFF;color:#fff;font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:11px 22px;border-radius:8px;transition:filter .12s,transform .12s}
-.webi-sub .ws-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.webi-sub .ws-btn{display:inline-flex;align-items:center;justify-content:center;background:#09162D;color:#fff;font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:11px 22px;border-radius:8px;transition:filter .12s,transform .12s}
+.webi-sub .ws-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
