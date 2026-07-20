@@ -34,18 +34,12 @@ RepRx 'title' ([regex]::Escape($oldTitle)) '<title>JC&rsquo;s Journals &middot; 
 RepRx 'header' '(?s)<header class="site-header">.*?</header>' (Part 'new-header.html') 1
 RepRx 'dropdown-js' "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=document\.querySelectorAll\('\.more-btn'\))" '' 1
 
-# hero (v6): eyebrow deleted entirely — the "Free Library" label now lives
-# down on the library section instead; JC's personal line added under the H1
-RepRx 'eyebrow-remove' ([regex]::Escape('<p class="eyebrow">The Library &middot; Free &middot; No Email Signup Required</p>')) '' 1
-RepRx 'intro-line' ([regex]::Escape('<h1>Mucus-Free<br>Made Simple</h1>')) ('<h1>Mucus-Free<br>Made Simple</h1>' + "`n" + '    <p class="lede intro-line">Explore the 100+ year old knowledge that changed my life.</p>') 1
-
-# hero trims (v4/v5, JC 7/19-20): lede ends at "...revised edition of the MDHS.";
-# the pick-a-topic line and the click-out video pill are both deleted. v5: the
-# three jump buttons are GONE too (Carrd hijacked their # links, so they did
-# nothing) — the video + library now sit directly under the hero text instead.
-RepRx 'lede-trim' ([regex]::Escape(': his annotations make everything easier to understand.</p>')) '.</p>' 1
-RepRx 'pick-a-topic-remove' ([regex]::Escape('<p class="lede">Pick a topic below; each one opens right where it is.</p>')) '' 1
-RepRx 'vidrow-remove' '(?s)<a class="vidrow".*?</a>' '' 1
+# hero PARKED (v9, JC 7/20): the whole "Mucus-Free Made Simple" hero is gone —
+# the webinar banner is now the top of the page. The v8 hero (JC's intro line +
+# trimmed lede) is saved verbatim in src\jcj-parts\parked-hero.html with its
+# restore recipe; the v4-v6 hero transform steps live in git history
+# (438db1b..9b7af9d) if the transform route is ever preferred.
+RepRx 'hero-remove' '(?s)<div class="hero">.*?</div>\s*(?=<section id="library">)' '' 1
 
 # ORDER (v8): hero -> webinar banner -> video -> library -> socials
 # v6 dividers DELETED in v7 (JC 7/20 — Carrd's own hr styling threw them off-center)
