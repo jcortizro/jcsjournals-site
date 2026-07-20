@@ -9,6 +9,7 @@ JC never re-pastes the snippets.
 |---|---|---|
 | Landing (Free/Paid) | https://td101landing.carrd.co/ | `carrd-embed-home.html` |
 | Library | https://td101library.carrd.co/ | `carrd-embed-library.html` |
+| JC's Journals | https://jcsjournals.com (JC attaches in Carrd) | `carrd-embed-jcj.html` |
 
 ## Build
 
@@ -19,6 +20,10 @@ JC never re-pastes the snippets.
 - `src\home.part.html` — the landing page AND the shared shell (background,
   header, dropdown, buttons). The library page is generated from this file, so
   shell edits hit both pages.
+- `src\jcj-parts\` — the JC's Journals page's rebrand blocks (header, socials,
+  footer, full legal docs, extra CSS). The jcj page is generated FROM the
+  library master by `tools\build-jcj-page.ps1`, so library copy edits flow into
+  it automatically; free/paid stay parked as "coming soon" there.
 - `site-masters\mdhs-v4-final.html` (on D:) — the library's copy master: JC's
   locked article text + library component CSS/JS.
 - `tools\urls.ps1` — the two page URLs. **Changing a domain = edit here, build, push.**

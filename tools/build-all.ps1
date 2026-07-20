@@ -14,4 +14,6 @@ $repo = "C:\Users\taino\jcsjournals-site"
 & "$repo\tools\split-home.ps1"
 & "$repo\tools\build-library-page.ps1"
 & "$repo\tools\split-library.ps1"
+& "$repo\tools\build-jcj-page.ps1"   # JC's Journals page (jcsjournals.com) — generated FROM the library master
+& "$repo\tools\split-jcj.ps1"
 Write-Output "BUILD ALL OK"

@@ -1,0 +1,40 @@
+/* ===== JC'S JOURNALS REBRAND (mockup v3 - 2026-07-19) ===== */
+/* header */
+.wordmark{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:2.4px;text-transform:uppercase;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 0}
+.hsoc{display:inline-flex;align-items:center;gap:2px}
+a.soc,span.soc{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:8px;color:var(--dim);text-decoration:none;transition:color .12s,background .12s}
+a.soc:hover{color:#fff;background:rgba(255,255,255,.08)}
+span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
+/* social cards */
+.socgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:980px;margin:0 auto}
+@media(max-width:760px){.socgrid{grid-template-columns:1fr 1fr;gap:12px}}
+.soccard{background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:12px;padding:24px 16px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:#fff;text-decoration:none;transition:border-color .12s,background .12s,transform .12s}
+a.soccard:hover{border-color:var(--free-line);background:rgba(255,255,255,.06);transform:translateY(-2px)}
+.soccard .sic{color:var(--free);display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--hair-strong);border-radius:50%;margin-bottom:4px}
+.soccard .snm{font-family:var(--display);font-weight:900;font-size:1.02rem;letter-spacing:.8px;text-transform:uppercase}
+.soccard .stag{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint)}
+.soccard.scoming{opacity:.8;border-top-color:var(--hair-strong)}
+.soccard.scoming .sic{color:var(--faint)}
+/* brand-colored cards (JC 7/19): deep brand body, bright brand outline, white icon in white circle */
+.soccard.yt,.soccard.fb,.soccard.ig{border:1.5px solid transparent;border-top-width:3px}
+.soccard.yt{background:linear-gradient(rgba(44,9,9,.8),rgba(44,9,9,.8)) padding-box,linear-gradient(#FF2A2A,#FF2A2A) border-box}
+.soccard.fb{background:linear-gradient(rgba(9,22,45,.8),rgba(9,22,45,.8)) padding-box,linear-gradient(#2E8DFF,#2E8DFF) border-box}
+.soccard.ig{background:linear-gradient(rgba(37,12,50,.8),rgba(37,12,50,.8)) padding-box,linear-gradient(120deg,#833AB4 0%,#C13584 32%,#E1306C 52%,#F77737 76%,#FCAF45 100%) border-box}
+a.soccard.yt:hover{border-color:transparent;background:linear-gradient(rgba(58,12,12,.84),rgba(58,12,12,.84)) padding-box,linear-gradient(#FF2A2A,#FF2A2A) border-box;filter:brightness(1.1);transform:translateY(-2px)}
+a.soccard.fb:hover{border-color:transparent;background:linear-gradient(rgba(13,30,60,.84),rgba(13,30,60,.84)) padding-box,linear-gradient(#2E8DFF,#2E8DFF) border-box;filter:brightness(1.1);transform:translateY(-2px)}
+a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,16,64,.84),rgba(48,16,64,.84)) padding-box,linear-gradient(120deg,#833AB4 0%,#C13584 32%,#E1306C 52%,#F77737 76%,#FCAF45 100%) border-box;filter:brightness(1.1);transform:translateY(-2px)}
+.soccard.yt .sic,.soccard.fb .sic,.soccard.ig .sic{color:#fff;border-color:rgba(255,255,255,.75)}
+.soonchip{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;background:var(--free);color:var(--on-free);border-radius:4px;padding:3px 7px;white-space:nowrap}
+/* hero intro line */
+.hero .lede.intro-line{color:#fff;font-weight:400;font-size:1.16rem;margin-bottom:14px}
+/* footer legal buttons (match .foot-nav a) */
+.foot-nav button{color:var(--dim2);padding:8px 0;transition:color .12s;letter-spacing:.2px}
+.foot-nav button:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
+/* mobile pill: green was the paid color; socials go neutral */
+.mnav a.mp{color:var(--dim)}
+/* legal modal typography */
+#modalContent h2{font-family:var(--display);font-weight:900;font-size:1.3rem;letter-spacing:.5px;text-transform:uppercase;margin:0 0 6px}
+#modalContent h3{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--free);margin:20px 0 6px}
+#modalContent p{margin:6px 0;color:var(--dim)}
+#modalContent ul{margin:6px 0 10px;padding-left:20px;color:var(--dim)}
+#modalContent li{margin:3px 0}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>embed test</title></head>
+<body>
+<p>carrd placeholder content</p>
+<script>
+(function(){
+  var base="/jcj/";
+  Promise.all([
+    fetch(base+"jcj.css").then(function(r){return r.text()}),
+    fetch(base+"jcj.html").then(function(r){return r.text()}),
+    fetch(base+"jcj.js").then(function(r){return r.text()})
+  ]).then(function(a){
+    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+    var d=document.createElement("div");d.id="jcj-page";d.innerHTML=a[1];
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
+    });
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>
