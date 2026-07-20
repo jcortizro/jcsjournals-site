@@ -41,11 +41,11 @@ RepRx 'dropdown-js' "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=
 # (438db1b..9b7af9d) if the transform route is ever preferred.
 RepRx 'hero-remove' '(?s)<div class="hero">.*?</div>\s*(?=<section id="library">)' '' 1
 
-# ORDER (v8): hero -> webinar banner -> video -> library -> socials
+# ORDER (v10, JC 7/20): video FIRST -> the two events (webinar banner + IG-live
+# strip, both inside webinar-banner.html) -> library -> socials
 # v6 dividers DELETED in v7 (JC 7/20 — Carrd's own hr styling threw them off-center)
-# v8 (JC 7/20): the "Overcoming Fatigue & Bloating" webinar promo card sits
-# between the hero and the video; drop it from this insert after the 7/23 event.
-RepRx 'webinar+video-insert' ([regex]::Escape('<section id="library">')) ((Part 'webinar-banner.html') + "`n" + (Part 'video.html') + "`n" + '<section id="library">') 1
+# Drop webinar-banner from this insert after the 7/23 event (strip dies 7/21).
+RepRx 'video+webinar-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + (Part 'webinar-banner.html') + "`n" + '<section id="library">') 1
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
