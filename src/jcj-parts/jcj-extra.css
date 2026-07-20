@@ -38,3 +38,10 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 #modalContent p{margin:6px 0;color:var(--dim)}
 #modalContent ul{margin:6px 0 10px;padding-left:20px;color:var(--dim)}
 #modalContent li{margin:3px 0}
+
+/* hero jump buttons (v4, JC 7/19): stacked, equal width */
+.hero-ctas{display:flex;flex-direction:column;align-items:center;gap:12px;margin:26px 0 10px}
+.hero-ctas .btn{width:min(100%,400px);justify-content:center;text-align:center}
+/* embedded intro video (v4) */
+.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}
+.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}

@@ -38,8 +38,15 @@ RepRx 'dropdown-js' "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=
 RepRx 'eyebrow' ([regex]::Escape('The Library &middot; Free &middot; No Email Signup Required')) 'The Free Library &middot; No Email Signup Required' 1
 RepRx 'intro-line' ([regex]::Escape('<h1>Mucus-Free<br>Made Simple</h1>')) ('<h1>Mucus-Free<br>Made Simple</h1>' + "`n" + '    <p class="lede intro-line">Explore the 100+ year old knowledge that changed my life.</p>') 1
 
-# socials section before the library
-RepRx 'socials-insert' ([regex]::Escape('<section id="library">')) ((Part 'socials.html') + "`n" + '<section id="library">') 1
+# hero trims (v4, JC 7/19): lede ends at "...revised edition of the MDHS.";
+# the pick-a-topic line becomes the three stacked jump buttons; the old
+# click-out video pill goes (the video is now embedded in its own section)
+RepRx 'lede-trim' ([regex]::Escape(': his annotations make everything easier to understand.</p>')) '.</p>' 1
+RepRx 'hero-ctas' ([regex]::Escape('<p class="lede">Pick a topic below; each one opens right where it is.</p>')) (Part 'hero-ctas.html') 1
+RepRx 'vidrow-remove' '(?s)<a class="vidrow".*?</a>' '' 1
+
+# socials + embedded-video sections before the library
+RepRx 'socials-insert' ([regex]::Escape('<section id="library">')) ((Part 'socials.html') + "`n" + (Part 'video.html') + "`n" + '<section id="library">') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
 RepRx 'green-course-btn' ([regex]::Escape('<a class="btn green" class="tdlink" href="https://td101landing.carrd.co/#free">What Is Transition Diet 101?</a>')) '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>' 1
