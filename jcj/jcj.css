@@ -533,13 +533,14 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 .webi-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--on-free);color:#fff;font-family:var(--display);font-weight:800;font-size:.85rem;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:17px 34px;border-radius:9px;transition:filter .12s,transform .12s}
 .webi-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
 @media(max-width:560px){.webi-tab{width:max-content;max-width:94%;padding:9px 18px 7px}}
-/* announcement strips under the banner (v9.2; v11: SOLID blue fill — JC nixed
-   the blue-outline-on-black look; dark ink + dark buttons mirror the yellow
-   card's bright-fill grammar) — small, low-key, stack as needed */
-.webi-sub{margin:14px auto 0;background:#2E8DFF;border-radius:12px;padding:13px 18px;text-align:center;color:#09162D;box-shadow:0 18px 44px -22px rgba(0,0,0,.7)}
-.webi-sub .ws-t{margin:0 0 3px;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:rgba(9,22,45,.78)}
-.webi-sub .ws-hype{margin:0 0 3px;font-size:1.02rem;font-weight:700;color:#09162D}
-.webi-sub .ws-s{margin:0;font-size:.94rem;color:rgba(9,22,45,.85)}
+/* announcement strips under the banner (v9.2) — small, low-key, stack as needed.
+   v11.1: the v11 solid-#2E8DFF fill is DEAD — JC saw it live and reverted it
+   ("return it to what it used to look like"); this block is the v10 styling
+   verbatim, plus .ws-hype for the hype line (v11 copy, which stays). */
+.webi-sub{margin:14px auto 0;background:linear-gradient(rgba(9,22,45,.78),rgba(9,22,45,.78));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid rgba(46,141,255,.55);border-radius:12px;padding:13px 18px;text-align:center;color:#fff}
+.webi-sub .ws-t{margin:0 0 3px;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#7DB8FF}
+.webi-sub .ws-hype{margin:0 0 3px;font-size:1.02rem;font-weight:700;color:#fff}
+.webi-sub .ws-s{margin:0;font-size:.94rem;color:var(--dim2)}
 .webi-sub .ws-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:11px}
-.webi-sub .ws-btn{display:inline-flex;align-items:center;justify-content:center;background:#09162D;color:#fff;font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:11px 22px;border-radius:8px;transition:filter .12s,transform .12s}
-.webi-sub .ws-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
+.webi-sub .ws-btn{display:inline-flex;align-items:center;justify-content:center;background:#2E8DFF;color:#fff;font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:11px 22px;border-radius:8px;transition:filter .12s,transform .12s}
+.webi-sub .ws-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
