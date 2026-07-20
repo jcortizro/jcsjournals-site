@@ -494,3 +494,6 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 /* embedded intro video (v4) */
 .videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}
 .videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
+
+/* section dividers (v6, JC 7/20) */
+hr.jdiv{border:0;height:1px;background:linear-gradient(90deg,transparent,var(--hair-strong) 18%,var(--hair-strong) 82%,transparent);margin:clamp(34px,5vw,54px) 0 0}

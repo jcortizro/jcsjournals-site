@@ -34,8 +34,9 @@ RepRx 'title' ([regex]::Escape($oldTitle)) '<title>JC&rsquo;s Journals &middot; 
 RepRx 'header' '(?s)<header class="site-header">.*?</header>' (Part 'new-header.html') 1
 RepRx 'dropdown-js' "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=document\.querySelectorAll\('\.more-btn'\))" '' 1
 
-# hero: eyebrow + JC's personal line from his old site
-RepRx 'eyebrow' ([regex]::Escape('The Library &middot; Free &middot; No Email Signup Required')) 'The Free Library &middot; No Email Signup Required' 1
+# hero (v6): eyebrow deleted entirely — the "Free Library" label now lives
+# down on the library section instead; JC's personal line added under the H1
+RepRx 'eyebrow-remove' ([regex]::Escape('<p class="eyebrow">The Library &middot; Free &middot; No Email Signup Required</p>')) '' 1
 RepRx 'intro-line' ([regex]::Escape('<h1>Mucus-Free<br>Made Simple</h1>')) ('<h1>Mucus-Free<br>Made Simple</h1>' + "`n" + '    <p class="lede intro-line">Explore the 100+ year old knowledge that changed my life.</p>') 1
 
 # hero trims (v4/v5, JC 7/19-20): lede ends at "...revised edition of the MDHS.";
@@ -47,7 +48,12 @@ RepRx 'pick-a-topic-remove' ([regex]::Escape('<p class="lede">Pick a topic below
 RepRx 'vidrow-remove' '(?s)<a class="vidrow".*?</a>' '' 1
 
 # ORDER (v5): hero -> video -> library -> socials
-RepRx 'video-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + '<section id="library">') 1
+# DIVIDERS + library heading (v6, JC 7/20): a rule after the hero text, one
+# after the video, and one under the FAQ (the last thing before socials).
+$divider = '<div class="wrap"><hr class="jdiv"></div>'
+# one insert point, three pieces: rule after the hero text, the video, rule after the video
+RepRx 'video+dividers' ([regex]::Escape('<section id="library">')) ($divider + "`n" + (Part 'video.html') + "`n" + $divider + "`n" + '<section id="library">') 1
+RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
 RepRx 'green-course-btn' ([regex]::Escape('<a class="btn green" class="tdlink" href="https://td101landing.carrd.co/#free">What Is Transition Diet 101?</a>')) '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>' 1
@@ -61,8 +67,8 @@ if ($fr -lt 1) { throw "build-jcj: framing-chip found none" }
 $h = $h.Replace('Transition Diet 101</span> course.', 'Transition Diet 101</span> course. <span class="soonchip">Coming Soon</span>')
 Write-Output "  framing-chip : $fr ok"
 
-# socials AFTER the library (v5), just before the legal dialog / footer
-RepRx 'socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ((Part 'socials.html') + "`n" + '<dialog id="legalModal">') 1
+# socials AFTER the library (v5) + the closing divider under the FAQ (v6)
+RepRx 'socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ($divider + "`n" + (Part 'socials.html') + "`n" + '<dialog id="legalModal">') 1
 
 # footer (Terms/Medical/Privacy only, no Contact) + mobile pill Library/Socials
 RepRx 'footer' '(?s)<footer>.*?</footer>' (Part 'new-footer.html') 1
