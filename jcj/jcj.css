@@ -512,3 +512,15 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 @media(max-width:560px){.ctamini{justify-content:center;text-align:center}.ctamini .cm-b{width:100%;justify-content:center}}
 
 .acc.cat.open>.ctamini{display:flex}
+
+/* ===== WEBINAR BANNER (v8, JC 7/20) — yellow = the free lane; date tab built into the card ===== */
+.webi{max-width:720px;margin:0 auto}
+.webi-tab{width:50%;margin:0 auto;background:var(--free);color:var(--on-free);text-align:center;font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:1.8px;text-transform:uppercase;padding:10px 14px 8px;border-radius:12px 12px 0 0}
+.webi-card{background:var(--free);color:var(--on-free);border-radius:16px;padding:clamp(26px,4.5vw,40px) clamp(20px,4vw,36px);text-align:center;box-shadow:0 26px 60px -28px rgba(0,0,0,.85)}
+.webi-kicker{margin:0 0 8px;font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:2.2px;text-transform:uppercase;opacity:.72}
+.webi-title{margin:0 0 12px;font-family:var(--display);font-weight:900;font-size:clamp(1.45rem,4vw,2.05rem);line-height:1.14;letter-spacing:.8px;text-transform:uppercase;color:var(--on-free)}
+.webi-lede{margin:0 auto 18px;max-width:34em;font-size:1.02rem;font-weight:400;line-height:1.5;opacity:.88}
+.webi-note{margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:1.8px;text-transform:uppercase;opacity:.62}
+.webi-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--on-free);color:#fff;font-family:var(--display);font-weight:800;font-size:.85rem;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:17px 34px;border-radius:9px;transition:filter .12s,transform .12s}
+.webi-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
+@media(max-width:560px){.webi-tab{width:max-content;max-width:94%;padding:9px 18px 7px}}

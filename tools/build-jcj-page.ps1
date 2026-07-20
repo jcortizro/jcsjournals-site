@@ -47,11 +47,11 @@ RepRx 'lede-trim' ([regex]::Escape(': his annotations make everything easier to 
 RepRx 'pick-a-topic-remove' ([regex]::Escape('<p class="lede">Pick a topic below; each one opens right where it is.</p>')) '' 1
 RepRx 'vidrow-remove' '(?s)<a class="vidrow".*?</a>' '' 1
 
-# ORDER (v5): hero -> video -> library -> socials
-# DIVIDERS + library heading (v6, JC 7/20): a rule after the hero text, one
-# after the video, and one under the FAQ (the last thing before socials).
-# v7: dividers DELETED (JC 7/20 — Carrd's own hr styling threw them off-center)
-RepRx 'video-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + '<section id="library">') 1
+# ORDER (v8): hero -> webinar banner -> video -> library -> socials
+# v6 dividers DELETED in v7 (JC 7/20 — Carrd's own hr styling threw them off-center)
+# v8 (JC 7/20): the "Overcoming Fatigue & Bloating" webinar promo card sits
+# between the hero and the video; drop it from this insert after the 7/23 event.
+RepRx 'webinar+video-insert' ([regex]::Escape('<section id="library">')) ((Part 'webinar-banner.html') + "`n" + (Part 'video.html') + "`n" + '<section id="library">') 1
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
