@@ -50,9 +50,8 @@ RepRx 'vidrow-remove' '(?s)<a class="vidrow".*?</a>' '' 1
 # ORDER (v5): hero -> video -> library -> socials
 # DIVIDERS + library heading (v6, JC 7/20): a rule after the hero text, one
 # after the video, and one under the FAQ (the last thing before socials).
-$divider = '<div class="wrap"><hr class="jdiv"></div>'
-# one insert point, three pieces: rule after the hero text, the video, rule after the video
-RepRx 'video+dividers' ([regex]::Escape('<section id="library">')) ($divider + "`n" + (Part 'video.html') + "`n" + $divider + "`n" + '<section id="library">') 1
+# v7: dividers DELETED (JC 7/20 — Carrd's own hr styling threw them off-center)
+RepRx 'video-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + '<section id="library">') 1
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
@@ -67,8 +66,8 @@ if ($fr -lt 1) { throw "build-jcj: framing-chip found none" }
 $h = $h.Replace('Transition Diet 101</span> course.', 'Transition Diet 101</span> course. <span class="soonchip">Coming Soon</span>')
 Write-Output "  framing-chip : $fr ok"
 
-# socials AFTER the library (v5) + the closing divider under the FAQ (v6)
-RepRx 'socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ($divider + "`n" + (Part 'socials.html') + "`n" + '<dialog id="legalModal">') 1
+# the big CTA block, then socials, after the library (v7)
+RepRx 'cta+socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ((Part 'cta-block.html') + "`n" + (Part 'socials.html') + "`n" + '<dialog id="legalModal">') 1
 
 # footer (Terms/Medical/Privacy only, no Contact) + mobile pill Library/Socials
 RepRx 'footer' '(?s)<footer>.*?</footer>' (Part 'new-footer.html') 1
@@ -87,7 +86,7 @@ Write-Output "  js-paid-urls : 2 ok"
 # Carrd eats hash navigation -> in-page # links scroll via JS instead (v5)
 $rxScript = New-Object System.Text.RegularExpressions.Regex('(?m)^</script>$')
 if (-not $rxScript.IsMatch($h)) { throw "build-jcj: closing script marker not found" }
-$jsIns = (Part 'anchor-fix.js').TrimEnd() + "`n</script>"
+$jsIns = (Part 'anchor-fix.js').TrimEnd() + "`n" + (Part 'cta-inline.js').TrimEnd() + "`n</script>"
 $h = $rxScript.Replace($h, [System.Text.RegularExpressions.MatchEvaluator]{ param($mm) $jsIns }, 1)
 Write-Output "  anchor-fix js merged : ok"
 
