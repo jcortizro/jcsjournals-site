@@ -41,12 +41,14 @@ RepRx 'dropdown-js' "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=
 # (438db1b..9b7af9d) if the transform route is ever preferred.
 RepRx 'hero-remove' '(?s)<div class="hero">.*?</div>\s*(?=<section id="library">)' '' 1
 
-# ORDER (v10, JC 7/20): video FIRST -> the two events (webinar banner + IG-live
-# strip, both inside webinar-banner.html) -> library -> socials
+# ORDER (v13, JC 7/24): video FIRST -> the "Contact The Team" CTA (cta-block,
+# moved up to sit right under the "What Is the MDHS?" video) -> library -> socials
 # v6 dividers DELETED in v7 (JC 7/20 — Carrd's own hr styling threw them off-center)
-# v12 (JC 7/23): the banner is now the REPLAY promo — drop webinar-banner from
-# this insert after Sunday 7/26, when the replay access closes.
-RepRx 'video+webinar-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + (Part 'webinar-banner.html') + "`n" + '<section id="library">') 1
+# v12 (JC 7/23): webinar banner was the REPLAY promo.
+# v13 (JC 7/24): webinar banner REMOVED entirely (replay run over), and the CTA
+# was pulled up here from the bottom-of-page insert. webinar-banner.html stays on
+# disk (its LIVE copy is in git history) for reuse at the next event.
+RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + (Part 'cta-block.html') + "`n" + '<section id="library">') 1
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
@@ -61,8 +63,9 @@ if ($fr -lt 1) { throw "build-jcj: framing-chip found none" }
 $h = $h.Replace('Transition Diet 101</span> course.', 'Transition Diet 101</span> course. <span class="soonchip">Coming Soon</span>')
 Write-Output "  framing-chip : $fr ok"
 
-# the big CTA block, then socials, after the library (v7)
-RepRx 'cta+socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ((Part 'cta-block.html') + "`n" + (Part 'socials.html') + "`n" + '<dialog id="legalModal">') 1
+# socials after the library (v13, JC 7/24: the CTA block moved up under the video,
+# so only socials is inserted here now)
+RepRx 'socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ((Part 'socials.html') + "`n" + '<dialog id="legalModal">') 1
 
 # footer (Terms/Medical/Privacy only, no Contact) + mobile pill Library/Socials
 RepRx 'footer' '(?s)<footer>.*?</footer>' (Part 'new-footer.html') 1
