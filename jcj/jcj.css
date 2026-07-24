@@ -522,8 +522,11 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 .acc.cat.open>.ctamini{display:flex}
 
 /* ===== WEBINAR BANNER (v8, JC 7/20) — yellow = the free lane; date tab built into the card ===== */
+/* v12 (JC 7/23): tab is min-width:50% instead of a hard 50% — JC's "half the
+   card's width" still holds for short dates, but the longer replay-deadline
+   line grows the tab instead of wrapping it onto two lines. */
 .webi{max-width:720px;margin:0 auto}
-.webi-tab{width:50%;margin:0 auto;background:#000;color:#fff;border:1px solid var(--hair-strong);border-bottom:0;text-align:center;font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:1.8px;text-transform:uppercase;padding:10px 14px 8px;border-radius:12px 12px 0 0}
+.webi-tab{width:max-content;min-width:50%;max-width:94%;margin:0 auto;background:#000;color:#fff;border:1px solid var(--hair-strong);border-bottom:0;text-align:center;font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:1.8px;text-transform:uppercase;padding:10px 14px 8px;border-radius:12px 12px 0 0}
 .webi-card{background:var(--free);color:var(--on-free);border-radius:16px;padding:clamp(26px,4.5vw,40px) clamp(20px,4vw,36px);text-align:center;box-shadow:0 26px 60px -28px rgba(0,0,0,.85)}
 .webi-kicker{margin:0 0 8px;font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:2.2px;text-transform:uppercase;opacity:.72}
 .webi-title{margin:0 0 12px;font-family:var(--display);font-weight:900;font-size:clamp(1.45rem,4vw,2.05rem);line-height:1.14;letter-spacing:.8px;text-transform:uppercase;color:var(--on-free)}
@@ -532,7 +535,16 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 .webi-note{margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:1.8px;text-transform:uppercase;opacity:.62}
 .webi-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--on-free);color:#fff;font-family:var(--display);font-weight:800;font-size:.85rem;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:17px 34px;border-radius:9px;transition:filter .12s,transform .12s}
 .webi-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
-@media(max-width:560px){.webi-tab{width:max-content;max-width:94%;padding:9px 18px 7px}}
+/* v12 (JC 7/23): second, quieter button under the main one — outlined in the
+   card's own ink so it reads as clearly secondary. It's an in-page # link:
+   anchor-fix.js scrolls it down to the green #work-with-us box. */
+.webi-btns{display:flex;flex-direction:column;align-items:center;gap:12px}
+.webi-btn2{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--on-free);border:1.5px solid rgba(23,18,4,.4);font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:12px 26px;border-radius:8px;transition:background .12s,border-color .12s,transform .12s}
+.webi-btn2:hover{background:rgba(23,18,4,.09);border-color:var(--on-free);transform:translateY(-1px)}
+/* phones (v12): the replay deadline + the second button are both longer strings
+   than the v8-v11 copy — tightened type here so each still sits on ONE line at
+   375px instead of wrapping into a two-line tab / two-line button. */
+@media(max-width:560px){.webi-tab{padding:9px 14px 7px;font-size:.64rem;letter-spacing:1px}.webi-btn{padding:16px 24px;font-size:.8rem}.webi-btn2{padding:15px 16px;font-size:.62rem;letter-spacing:.9px}}
 /* announcement strips under the banner (v9.2) — small, low-key, stack as needed.
    v11.1: the v11 solid-#2E8DFF fill is DEAD — JC saw it live and reverted it
    ("return it to what it used to look like"); this block is the v10 styling
