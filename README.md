@@ -10,6 +10,7 @@ JC never re-pastes the snippets.
 | Landing (Free/Paid) | https://td101landing.carrd.co/ | `carrd-embed-home.html` |
 | Library | https://td101library.carrd.co/ | `carrd-embed-library.html` |
 | JC's Journals | https://jcsjournals.com (JC attaches in Carrd) | `carrd-embed-jcj.html` |
+| TD 101 Recipe Book | not attached to a Carrd page yet | `carrd-embed-recipebook.html` |
 
 ## Build
 
@@ -28,6 +29,20 @@ JC never re-pastes the snippets.
   locked article text + library component CSS/JS.
 - `tools\urls.ps1` — the two page URLs. **Changing a domain = edit here, build, push.**
 - `src\` — foliage.jpg + the embedded font CSS.
+
+## The recipe book page
+
+`recipebook\*` is generated from a DIFFERENT project: `C:\ClaudeWork\Recipe Book\`.
+That folder holds the book's own generator (one template plus one data table).
+To update the live recipe book:
+
+    cd C:\ClaudeWork\Recipe Book
+    python build_book.py        # redraw all 50 pages from recipes_data.json
+    python export_to_site.py    # split into this repo's recipebook\ folder
+    cd C:\Users\taino\jcsjournals-site
+    git add -A; git commit -m "..."; git push
+
+Do not hand-edit `recipebook\*` here, it is overwritten on every export.
 
 ## Never hand-edit (generated)
 

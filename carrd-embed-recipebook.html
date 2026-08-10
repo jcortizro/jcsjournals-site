@@ -1,0 +1,23 @@
+<!-- RECIPE BOOK PAGE · Carrd Embed loader (loads straight from GitHub, same
+     cache-proof pattern as the home and library snippets)
+     Paste this whole block into a Carrd "Embed" element (Type: Code).
+     After that you never touch Carrd again: rebuild, push, and the live page
+     updates in about five minutes. -->
+<script>
+(function(){
+  var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/recipebook/";
+  Promise.all([
+    fetch(base+"recipebook.css").then(function(r){return r.text()}),
+    fetch(base+"recipebook.html").then(function(r){return r.text()}),
+    fetch(base+"recipebook.js").then(function(r){return r.text()})
+  ]).then(function(a){
+    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+    var d=document.createElement("div");d.id="jcj-page";d.innerHTML=a[1];
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
+    });
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+  });
+})();
+</script>

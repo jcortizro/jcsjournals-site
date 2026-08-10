@@ -1,0 +1,168 @@
+:root {
+    color-scheme: light dark;
+    --bg:#EEF1EA; --chrome-ink:#12233C; --chrome-soft:#4C6076; --chrome-line:#CFD8C8; --chrome-card:#FFFFFF;
+    /* Sampled from the live jcsjournals.com on 2026-08-09, not invented.
+       paper #EDF2EF, pale green card #E2EFE5, button green #51845A, olive gold eyebrows. */
+    --navy:#101410;        /* near-black with a green bias, his headline ink */
+    --green:#2F5B37;       /* deep forest, for text and headings */
+    --green-mid:#51845A;   /* his button green, for fills */
+    --green-pale:#E2EFE5;  /* his card fill */
+    --orange:#7C6A14;      /* his olive gold eyebrow */
+    --yellow:#E8DFA8;      /* soft gold highlight, replaces the neon */
+    --red:#B4544C;
+    --paper:#F5F7F2;       /* back to the original near-white, JC's call */
+    --ink:#101410; --ink-soft:#4A554C; --rule:#D6DED8;
+    --display:"Arial Black","Segoe UI Black","Helvetica Neue",system-ui,sans-serif;
+    --body:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){:root{--bg:#0E1712;--chrome-ink:#E8EDE4;--chrome-soft:#9DAE9B;--chrome-line:#26362B;--chrome-card:#17231B;}}
+  :root[data-theme="dark"]{--bg:#0E1712;--chrome-ink:#E8EDE4;--chrome-soft:#9DAE9B;--chrome-line:#26362B;--chrome-card:#17231B;}
+  :root[data-theme="light"]{--bg:#EEF1EA;--chrome-ink:#12233C;--chrome-soft:#4C6076;--chrome-line:#CFD8C8;--chrome-card:#FFFFFF;}
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--chrome-ink);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:52px 20px 96px;display:flex;flex-direction:column;gap:44px}
+
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--chrome-soft);margin:0}
+  h1{font-family:var(--display);font-size:clamp(28px,5vw,42px);line-height:1.05;letter-spacing:-.015em;margin:10px 0 0;text-wrap:balance}
+  .lede{font-size:17px;color:var(--chrome-soft);max-width:66ch;margin:14px 0 0}
+  .toc{background:var(--chrome-card);border:1px solid var(--chrome-line);border-radius:3px;padding:20px 24px;display:flex;flex-direction:column;gap:12px}
+  .toc h3{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0;color:var(--chrome-soft);font-weight:700}
+  .toc ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--chrome-soft)}
+  .toc li b{color:var(--chrome-ink)}
+
+  .spread-frame{display:flex;flex-direction:column;gap:12px}
+  .spread-label{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;max-width:640px;margin:0 auto;width:100%}
+  .spread-label strong{font-family:var(--display);font-size:16px;letter-spacing:-.01em}
+  .spread-label em{font-style:normal;font-size:13px;color:var(--chrome-soft)}
+  /* JC, 2026-08-10: "make it to where the entire book is scrollable instead of
+     2 sheets side by side". One page per row, stacked, so a phone gets a full
+     width sheet instead of two half-width ones. Capped so a desktop page stays
+     about the size it was rather than ballooning to the full column. */
+  .spread{display:flex;flex-direction:column;gap:18px;max-width:640px;margin:0 auto}
+
+  .page-wrap{container-type:inline-size;width:100%}
+  .page{color-scheme:light;width:100%;aspect-ratio:8.5/11;background:var(--paper);color:var(--ink);
+    border:1px solid var(--rule);box-shadow:0 14px 38px rgba(0,20,50,.15);padding:5.8% 6.8%;
+    display:flex;flex-direction:column;overflow:hidden;font-family:var(--body);
+    font-size:2.14cqw;line-height:1.42}
+
+  .r-eyebrow{font-size:.66em;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:0}
+  .r-eyebrow.g{color:var(--green)}
+  .r-title{font-family:var(--display);font-size:1.9em;line-height:1.06;letter-spacing:-.02em;text-transform:uppercase;margin:.18em 0 0;color:var(--navy);text-wrap:balance}
+  .r-sub{font-size:.8em;color:var(--ink-soft);margin:.42em 0 0}
+  .r-hr{height:1.5px;background:var(--navy);margin:.8em 0 .7em;opacity:.85}
+
+  .watch{margin-top:.8em;background:var(--green-mid);color:#fff;padding:.6em .75em .65em;display:grid;grid-template-columns:1fr auto;gap:.75em;align-items:center}
+  .watch h3{margin:0 0 .16em;font-size:.58em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#EFE7C4}
+  .watch p{margin:0;font-size:.7em;line-height:1.32}
+  .watch .soon{display:block;opacity:.88}
+  .watch a{font-weight:700;font-size:.66em;color:var(--navy);background:#fff;padding:.48em .78em;border-radius:2px;text-decoration:none;white-space:nowrap;display:inline-block}
+  .watch a:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+
+  .minis{display:grid;grid-template-columns:repeat(3,1fr);gap:.45em;margin-top:.65em}
+  .mini{border:1px solid var(--rule);border-top:.2em solid var(--green);background:var(--green-pale);padding:.48em .52em .52em;margin:0;min-width:0;display:flex;flex-direction:column;gap:.12em}
+  .mini dt{font-size:.5em;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--green)}
+  .mini dd{margin:0;font-size:.64em;line-height:1.26;color:var(--ink-soft)}
+  .mini dd b{color:var(--navy);font-weight:700;display:block;font-size:1.18em}
+  .mini .ptr{display:block;color:var(--orange);font-weight:600;margin-top:.14em}
+
+  .r-h{font-size:.58em;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 .45em}
+  .r-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.2em}
+  .r-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.26em}
+  .r-list li{font-size:.7em;padding-left:.9em;text-indent:-.9em;line-height:1.34}
+  .r-list li::before{content:"\00b7 ";color:var(--green);font-weight:700}
+
+  .r-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:.36em}
+  .r-steps li{counter-increment:st;display:flex;gap:.5em;font-size:.7em;line-height:1.38}
+  .r-steps li::before{content:counter(st);font-weight:700;font-size:.82em;color:#fff;background:var(--navy);
+    width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;flex:none;margin-top:.05em}
+
+  .r-notes{margin-top:.7em;padding-top:.6em;border-top:1px solid var(--rule)}
+  .r-notes .plain{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.22em}
+  .r-notes li{font-size:.64em;color:var(--ink-soft);line-height:1.34;padding-left:.9em;text-indent:-.9em}
+  .r-notes li::before{content:"\00b7 ";color:var(--orange);font-weight:700}
+
+  .swaps{margin-top:.7em;padding:.6em .7em .65em;border:1px solid var(--rule);border-left:.24em solid var(--orange);background:rgba(124,106,20,.05)}
+  .swaps h4{margin:0 0 .1em;font-size:.58em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+  .swaps .sptr{margin:0 0 .4em;font-size:.58em;font-weight:700;color:var(--orange);letter-spacing:.03em;opacity:.85}
+  .swaps dl{margin:0;display:flex;flex-direction:column;gap:.24em}
+  .swaps .row{display:grid;grid-template-columns:7.4em 1fr;gap:.6em;align-items:baseline}
+  .swaps dt{font-size:.6em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+  .swaps dd{margin:0;font-size:.66em;line-height:1.34;color:var(--ink-soft)}
+  .blk-h{font-size:.58em;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin:0 0 .16em}
+  .blk-ptr{font-size:.6em;font-weight:700;color:var(--orange);letter-spacing:.03em;margin:0 0 .45em}
+  .who{font-size:.76em;color:var(--ink-soft);line-height:1.4;margin:0}
+  .who b{color:var(--navy)}
+
+  .day{margin-top:.9em;border-top:.2em solid var(--green);background:var(--green-pale);padding:.7em .8em .75em}
+  .day-slots{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.18em}
+  .day-slots li{display:grid;grid-template-columns:6.1em 1fr;gap:.5em;align-items:start;font-size:.7em;line-height:1.3;color:var(--ink-soft);padding:.18em .3em;border-radius:2px}
+  .day-slots .lbl{font-size:.84em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;line-height:1.55}
+  .day-slots .val{min-width:0;overflow-wrap:anywhere}
+  .day-slots li.here{background:var(--yellow);color:var(--navy);font-weight:600}
+  .day-slots li.here .lbl{color:var(--navy)}
+
+  .order{margin-top:.9em}
+  .order .blk-h{color:var(--navy)}
+  .order ol{margin:0;padding:0;list-style:none;counter-reset:o;display:flex;flex-direction:column;gap:.24em}
+  .order li{counter-increment:o;display:flex;gap:.5em;font-size:.7em;line-height:1.34;color:var(--ink-soft)}
+  .order li::before{content:counter(o);font-weight:700;font-size:.82em;color:var(--navy);background:rgba(47,91,55,.13);
+    width:1.6em;height:1.6em;border-radius:50%;display:grid;place-items:center;flex:none;margin-top:.03em}
+  .order li b{color:var(--navy)}
+
+  .clock{margin-top:.9em}
+  .clock .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.2em,1fr));gap:.45em .55em}
+  .clock .grid div{border-left:.2em solid var(--green);padding:.05em 0 .05em .45em;font-size:.64em;line-height:1.28;color:var(--ink-soft)}
+  .clock b{display:block;color:var(--navy);font-size:1.14em}
+
+  .terms{margin-top:.9em;border-top:1.5px solid var(--navy);padding-top:.55em}
+  .terms .blk-h{color:var(--navy)}
+  .terms-grid{display:flex;flex-direction:column;gap:.32em}
+  .term{font-size:.66em;line-height:1.32;color:var(--ink-soft);margin:0}
+  .term b{color:var(--navy);font-weight:700}
+  .term .ptr{color:var(--orange);font-weight:700;letter-spacing:.03em}
+
+  .cta-bar{margin-top:auto;padding-top:.7em;border-top:1px solid var(--rule);display:flex;align-items:center;gap:.85em}
+  .cta-bar p{margin:0;font-size:.66em;color:var(--ink-soft);flex:1 1 auto;line-height:1.34;min-width:0}
+  .btn{font-weight:700;font-size:.66em;color:#fff;background:var(--green-mid);padding:.48em .85em;border-radius:2px;text-decoration:none;display:inline-block;white-space:nowrap;flex:none}
+  .btn:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+
+  .tocbtn{font-size:.5em;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--green);text-decoration:none;border:1px solid var(--rule);border-radius:2px;
+    padding:.3em .6em;background:var(--paper);white-space:nowrap;line-height:1}
+  .tocbtn:hover{background:var(--green-pale);color:var(--navy)}
+  .tocbtn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  .folio{margin-top:auto;padding-top:.7em;display:flex;justify-content:space-between;align-items:baseline;font-size:.54em;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .cta-bar + .folio{margin-top:.6em;padding-top:0}
+
+  /* ---------------------------------------------------------- front matter */
+  /* Added 2026-08-10 on JC's ask: a clickable contents page and a short
+     "how to use this" intro, both pointing at Transition Diet 101.
+     Grid, not CSS columns: the auto-fit probe measures the page unconstrained,
+     and a multi-column block collapses to one tall column when height is auto,
+     which would make every contents page report as overflowing. */
+  .anatomy{display:grid;grid-template-columns:1fr 1fr;gap:1em;margin-top:.75em}
+  .an-n{margin:0 0 .18em;font-size:.55em;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--orange)}
+  .an-b{margin:0;font-size:.68em;line-height:1.36;color:var(--ink-soft)}
+  .an-b b{color:var(--navy)}
+
+  .howto{margin-top:.85em;border-top:.2em solid var(--green);background:var(--green-pale);padding:.7em .8em .75em}
+  .howto .blk-h{margin-bottom:.3em}
+
+  .toc-book{margin-top:.5em;display:grid;grid-template-columns:1fr 1fr;gap:.55em 1.25em;align-items:start}
+  .toc-cat{min-width:0}
+  .toc-h{display:flex;align-items:baseline;gap:.4em;margin:0 0 .24em;padding-bottom:.16em;
+    font-size:.55em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--green);border-bottom:1px solid var(--rule)}
+  .toc-n{margin-left:auto;color:var(--orange)}
+  .toc-cat ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.08em}
+  .toc-cat a{display:flex;align-items:baseline;gap:.3em;text-decoration:none;
+    color:var(--ink-soft);font-size:.62em;line-height:1.3;padding:.05em 0}
+  .toc-cat .t{flex:0 1 auto;min-width:0}
+  .toc-cat .dots{flex:1 1 auto;min-width:.7em;border-bottom:1px dotted var(--rule);transform:translateY(-.2em)}
+  .toc-cat .pg{flex:none;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+  .toc-cat a:hover .t{color:var(--green-mid)}
+  .toc-cat a:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:1px}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
