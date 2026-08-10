@@ -39,7 +39,11 @@
      2 sheets side by side". One page per row, stacked, so a phone gets a full
      width sheet instead of two half-width ones. Capped so a desktop page stays
      about the size it was rather than ballooning to the full column. */
-  .spread{display:flex;flex-direction:column;gap:18px;max-width:640px;margin:0 auto}
+  /* width:100% is load-bearing. .spread-frame is a COLUMN flex container, so
+     "margin:0 auto" here is a cross-axis auto margin: without a definite width
+     it absorbs the whole line, the element collapses to 0, and every page
+     inside (width:100%) collapses with it. */
+  .spread{display:flex;flex-direction:column;gap:18px;width:100%;max-width:640px;margin:0 auto}
 
   .page-wrap{container-type:inline-size;width:100%}
   .page{color-scheme:light;width:100%;aspect-ratio:8.5/11;background:var(--paper);color:var(--ink);
