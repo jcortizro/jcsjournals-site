@@ -76,11 +76,16 @@
   .r-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.26em}
   .r-list li{font-size:.7em;padding-left:.9em;text-indent:-.9em;line-height:1.34}
   .r-list li::before{content:"\00b7\00a0";color:var(--green);font-weight:700}
+  .r-list li.grp{font-weight:700;padding-left:0;text-indent:0;margin-top:.2em}
+  .r-list li.grp::before{content:none}
+  .r-list li.grp:first-child{margin-top:0}
+  .r-list li.sub{padding-left:1.9em;text-indent:-.9em}
 
   .r-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:.36em}
   .r-steps li{counter-increment:st;display:flex;gap:.5em;font-size:.7em;line-height:1.38}
   .r-steps li::before{content:counter(st);font-weight:700;font-size:.82em;color:#fff;background:var(--navy);
-    width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;flex:none;margin-top:.05em}
+    width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;flex:none;margin-top:.05em;
+    line-height:1;text-indent:0;letter-spacing:0}
 
   .r-notes{margin-top:.7em;padding-top:.6em;border-top:1px solid var(--rule)}
   .r-notes .plain{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.22em}
