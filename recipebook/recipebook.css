@@ -165,6 +165,21 @@
     color:var(--ink-soft);border:1px solid var(--rule);background:transparent;
     padding:.44em .8em;border-radius:2px;display:inline-block;white-space:nowrap;flex:none}
   .watch .cta-soon{color:#fff;border-color:rgba(255,255,255,.45)}
+  /* When the same chip is a LIVE link (the waitlist), it has to invite the tap
+     that the inert version deliberately did not. Colour and cursor only:
+     no size, padding, border-width or font change, so the box stays pixel
+     identical on all 50 pages and the fit cannot move. */
+  a.cta-soon{color:var(--green);border-color:var(--green);text-decoration:none;cursor:pointer}
+  a.cta-soon:hover{background:var(--green-pale)}
+  a.cta-soon:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  /* On the green band the live CTA is `.watch a`: a white pill, navy text, the
+     original design's look for a real call to action. But `.watch .cta-soon`
+     (two classes) OUTRANKS `.watch a` (one class + one element) and paints the
+     text white, which shipped an invisible label in a solid white box. This
+     rule is (0,2,1) so it wins, and it changes colour only: padding, border
+     width and font all stay put, so the 50 page fit cannot move. */
+  .watch a.cta-soon{color:var(--navy);border-color:transparent}
+  .watch a.cta-soon:hover{background:#F3F6F1}
 
   .tocbtn{font-size:.5em;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
     color:var(--green);text-decoration:none;border:1px solid var(--rule);border-radius:2px;

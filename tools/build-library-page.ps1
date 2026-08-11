@@ -157,14 +157,37 @@ AddRecipeNote 'timing' 'a stunning visual infographic of this information' `
 # there, so the reader lands nowhere. Park them exactly as the hub already
 # does: de-linked, still readable. Done here so the jcj page inherits it.
 $greenBtn = '<a class="btn green" class="tdlink" href="' + $landingUrl + '#free">What Is Transition Diet 101?</a>'
+# ---- THE COURSE IS NO LONGER A DEAD END (2026-08-11) ----
+# The course still does not exist, but the WAITLIST does, so these stop being
+# parked ghosts and become a real action: leave your name, get in the moment it
+# opens. JC, 2026-08-11: "I'm cool with the library getting a little bit more
+# text because that's fine, that's definitely a reader's haven", so unlike the
+# recipe book this side carries a full sentence of promise, not just a chip.
 $n = ([regex]::Matches($page, [regex]::Escape($greenBtn))).Count
 if ($n -ne 1) { throw "build-library: expected 1 green course button, found $n" }
-$page = $page.Replace($greenBtn, '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>')
+$page = $page.Replace($greenBtn, '<a class="btn green" href="' + $SignupUrl + '">Get Notified When It Drops</a>')
+
+# JC's own "Make My Free Account" placeholder. There are no accounts to make and
+# the waitlist button beside it already carries the action, so two buttons to
+# one destination would just be noise. Remove it rather than duplicate the CTA.
+$acct = '<span class="btn ghost">Make My Free Account <span class="chip">soon</span></span>'
+$n = ([regex]::Matches($page, [regex]::Escape($acct))).Count
+if ($n -ne 1) { throw "build-library: expected 1 'Make My Free Account' ghost, found $n" }
+$page = $page.Replace($acct, '')
+
+# The promise, in the paragraph that already sends the reader to the course.
+$tail = 'apply this information lives.</p>'
+$n = ([regex]::Matches($page, [regex]::Escape($tail))).Count
+if ($n -ne 1) { throw "build-library: expected 1 course paragraph tail, found $n" }
+$page = $page.Replace($tail, 'apply this information lives. It is not open yet, so leave your name ' +
+  'below and you are in the second it drops, free, no payment and no catch.</p>')
 
 $n = ([regex]::Matches($page, '<a class="tdlink" href="[^"]*">(.*?)</a>')).Count
 if ($n -ne 14) { throw "build-library: expected 14 tdlinks, found $n" }
+# The 14 inline mentions stay plain text on purpose: 14 links to the same page
+# inside body copy reads as spam and fights the one real button.
 $page = [regex]::Replace($page, '<a class="tdlink" href="[^"]*">(.*?)</a>', '<span class="tdlink">$1</span>')
-Write-Output "  parked course links : 1 + 14 ok"
+Write-Output "  course CTA live + account ghost removed + 14 mentions plain : ok"
 
 # ---- ONE FOOTER ACROSS THE FAMILY ----
 # The shell still carried the design-proposal footer ("Branding TBD, Redesign
