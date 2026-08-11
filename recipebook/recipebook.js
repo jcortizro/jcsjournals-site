@@ -62,7 +62,11 @@
   // land it ourselves once the pages exist. Runs after the fit pass so the
   // target is at its final height, and re-runs on hashchange for repeat links.
   function landOnHash() {
-    var id = (location.hash || '').slice(1);
+    // The Carrd loader stashes the hash at parse time because Carrd wipes
+    // location.hash before this script ever runs. Prefer the stash, use it
+    // once, then fall back to the live hash for in-page hashchange.
+    var id = window.__deepHash || (location.hash || '').slice(1);
+    window.__deepHash = '';
     if (!id) return;
     var t = document.getElementById(id);
     if (!t) return;

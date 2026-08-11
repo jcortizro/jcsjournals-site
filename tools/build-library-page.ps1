@@ -105,6 +105,18 @@ $bg64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes("$repo\src\foli
 $page = $page.Replace('/*__ASSETS__*/', $assets).Replace('__BGIMG__', $bg64)
 if ($page.Contains('__LIBURL__') -or $page.Contains('__BGIMG__')) { throw "unresolved tokens remain" }
 
+# ---- LANDINGS MUST BE INSTANT, NOT SMOOTH ----
+# Arriving at freelibrary.carrd.co/#greenjuice opened the right topic but did
+# not move the page: measured scrollY 0 with the target 2086px down. Carrd
+# interrupts a smooth scroll over that distance. Instant lands every time, and
+# the css scroll-behavior is forced off around it because 'auto' defers to it.
+$smooth = "window.scrollTo({top:y,behavior:'smooth'})"
+$instant = "(function(){var de=document.documentElement,p=de.style.scrollBehavior;de.style.scrollBehavior='auto';window.scrollTo(0,y);de.style.scrollBehavior=p;})()"
+$n = ([regex]::Matches($page, [regex]::Escape($smooth))).Count
+if ($n -ne 3) { throw "build-library: expected 3 smooth scrollTo calls, found $n" }
+$page = $page.Replace($smooth, $instant)
+Write-Output "  landings forced instant : 3 ok"
+
 # ---- CROSS LINKS INTO THE FREE RECIPE BOOK (JC 2026-08-10) ----
 # "the library needs those free recipe book links where it makes sense", and
 # clicking one must land the reader on that exact spread. Each note is added
