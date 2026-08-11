@@ -506,6 +506,25 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 /* THE WAITLIST FORM. Same shell as the rest of the family; only the form
    controls are new. Inputs are dark panels with a gold focus ring so they read
    as part of the free lane. */
+/* WHAT IS IN IT / WHAT IT IS NOT. Two plain columns that stack on a phone.
+   This block answers the one objection the form cannot: "what am I actually
+   getting, and is this another extreme protocol". Every line is Prof. Spira's
+   own from his Video Plan, so it stays factual and stays short. */
+#whatsin{max-width:900px;margin:0 auto 34px}
+.incols{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px}
+.blk-h{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--free);margin:0 0 12px}
+.inlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.inlist li{position:relative;padding-left:18px;font-size:.97rem;line-height:1.5;color:var(--dim)}
+.inlist li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;
+  border-radius:50%;background:var(--free);opacity:.75}
+.inlist b{color:#fff;font-weight:600}
+.inline-note{margin:14px 0 0;font-size:.9rem;line-height:1.5;color:var(--faint)}
+.signlede{margin:0 0 22px;font-size:1rem;line-height:1.55;color:var(--dim)}
+@media(max-width:720px){
+  .incols{grid-template-columns:1fr;gap:22px}
+}
+
 .signbox{max-width:620px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
   border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:30px 28px 26px}
 #waitform{display:flex;flex-direction:column;gap:16px}
