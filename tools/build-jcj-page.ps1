@@ -110,8 +110,34 @@ $cssIns = (Part 'jcj-extra.css').TrimEnd() + "`n</style>"
 $h = $rxStyle.Replace($h, [System.Text.RegularExpressions.MatchEvaluator]{ param($mm) $cssIns }, 1)
 Write-Output "  extra-css merged : ok"
 
+# ---- THE LIBRARY MOVES OUT (JC 2026-08-10) ----
+# The hub keeps the "Free, No Email Signup Required / The Free Library" heading
+# (his copy, untouched) and now POINTS at the library's own site instead of
+# carrying all six topics inline. The hub's job is the video, the human, and
+# the routing; the library is its own page in the same design.
+$libSectionRx = '(?s)<section id="library">.*?</section>\s*(?=<!-- funnel -->)'
+$m = [regex]::Matches($h, $libSectionRx)
+if ($m.Count -ne 1) { throw "build-jcj: library section matched $($m.Count), expected 1" }
+$libPointer = @"
+<section id="library">
+      <div class="sect-head">
+        <p class="kicker k-free">Free &middot; No Email Signup Required</p>
+        <h2>The Free Library</h2>
+        <p class="sect-lede">Six topics that take you from what the Mucusless Diet Healing System is, to how to actually eat a meal.</p>
+      </div>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn" href="$LibraryUrl">Open The Free Library</a>
+      </div>
+    </section>
+
+"@
+$h = [regex]::Replace($h, $libSectionRx, { param($mm) $libPointer })
+Write-Output ("  library -> pointer : ok (" + [math]::Round($m[0].Value.Length/1kb) + " KB of inline topics removed)")
+
 # guards
 if ([regex]::Matches($h, 'td101landing|td101library').Count -ne 0) { throw "build-jcj: residual dead td101 subdomain refs" }
+if ([regex]::Matches($h, 'class="acc cat"').Count -ne 0) { throw "build-jcj: library accordions survived the pointer swap" }
+if ([regex]::Matches($h, [regex]::Escape($LibraryUrl)).Count -lt 1) { throw "build-jcj: no link to the library" }
 $dockCount = [regex]::Matches($h, '<nav class="dockbar"').Count
 if ($dockCount -ne 1) { throw "build-jcj: expected exactly 1 dock in the output, found $dockCount" }
 if ([regex]::Matches($h, '(?s)<nav class="mnav"').Count -ne 0) { throw "build-jcj: the old mobile pill resurfaced" }
