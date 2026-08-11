@@ -97,7 +97,7 @@ document.querySelectorAll('.acc.sub,.acc.qsub').forEach(a=>{const b=a.querySelec
      The POST is sent as form-encoded with no custom headers, which keeps it a
      CORS "simple request": Apps Script does not answer preflight OPTIONS, so
      anything fancier fails in the browser even when the script is fine. */
-  var ENDPOINT = '';
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwMB9tFEhlSdP5zpY1MEDUTvF0-anUUuwQOO-0CIk39LaaeSz305yXzFldeNwGK-Sw4/exec';
 
   var form = document.getElementById('waitform');
   var done = document.getElementById('signdone');
