@@ -1825,6 +1825,23 @@
   if (document.readyState === 'complete') run();
   else window.addEventListener('load', run);
   window.addEventListener('resize', function () { clearTimeout(window.__t); window.__t = setTimeout(run, 200); });
+
+  // Carrd hijacks hash navigation, so inside a Carrd embed every href="#x"
+  // silently does nothing (proven live on the td101landing embed, and the same
+  // trap the jcj page hit). Delegated handler + scrollIntoView works in both
+  // homes: standalone GitHub Pages and the Carrd shell. Capture phase, so this
+  // wins even if the host page has its own delegated click handlers.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    var t = document.getElementById(id);
+    if (!t) return;
+    e.preventDefault();
+    e.stopPropagation();
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, true);
 })();
 </script>
 </body>
