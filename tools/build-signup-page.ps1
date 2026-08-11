@@ -83,6 +83,15 @@ if ([regex]::Matches($h, 'id="waitform"').Count -ne 1) { throw "build-signup: th
 if ([regex]::Matches($h, 'id="legalModal"').Count -ne 1) { throw "build-signup: the legal modal is missing" }
 if ([regex]::Matches($h, 'id="modalContent"').Count -ne 1) { throw "build-signup: the modal content slot is missing" }
 if ([regex]::Matches($h, 'data-modal').Count -lt 3) { throw "build-signup: the footer legal links are missing" }
+# Every element the component toggles with .hidden needs an explicit
+# [hidden]{display:none}, because an author display rule outranks the browser's.
+# Without it a successful signup renders the filled form and a stuck "Sending..."
+# button underneath the success panel, while the script still reads hidden=true.
+foreach ($sel in @('#waitform\[hidden\]', '\.signdone\[hidden\]')) {
+  if ([regex]::Matches($h, $sel).Count -lt 1) {
+    throw "build-signup: missing a [hidden] display rule for $sel, so JS cannot hide it"
+  }
+}
 if ([regex]::Matches($h, 'class="acc cat"').Count -ne 0) { throw "build-signup: library topics leaked into the signup page" }
 
 [IO.File]::WriteAllText("$masters\signup-page.html", $h, $utf8)

@@ -4,6 +4,12 @@
 .signbox{max-width:620px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
   border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:30px 28px 26px}
 #waitform{display:flex;flex-direction:column;gap:16px}
+/* ⛔ An author display rule OUTRANKS the browser's [hidden]{display:none}, so
+   setting .hidden on these in JS did nothing and a successful signup showed the
+   filled form with a stuck "Sending..." button UNDERNEATH the success message.
+   Caught by looking at the live page, not by the script, which read hidden=true
+   and was satisfied. Every element this component toggles needs its own rule. */
+#waitform[hidden],.signdone[hidden],.ferr[hidden]{display:none}
 .fieldrow{display:flex;gap:14px}
 .fieldrow .field{flex:1 1 0;min-width:0}
 .field{display:flex;flex-direction:column;gap:7px}
