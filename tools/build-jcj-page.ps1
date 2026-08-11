@@ -12,6 +12,10 @@
 # fails the build loudly instead of shipping a half-transformed page.
 $ErrorActionPreference = 'Stop'
 $repo    = "C:\Users\taino\jcsjournals-site"
+# urls.ps1 is THE single place page URLs are defined. The library master this
+# page is generated FROM already has them substituted in, so the patterns below
+# must be built from the same variables or a URL change silently breaks them.
+. "$repo\tools\urls.ps1"
 $masters = "D:\00. MUCUS-FREE LIFE\01. Operations\02. Working Procedures\Claude SOPs\00. JC Brand\JC Website\site-masters"
 $parts   = "$repo\src\jcj-parts"
 $utf8    = New-Object System.Text.UTF8Encoding($false)
@@ -30,9 +34,12 @@ function RepRx([string]$label, [string]$pattern, [string]$replacement, [int]$exp
 $oldTitle = '<title>Free Education ' + [char]0xB7 + ' The Mucusless Diet Healing System</title>'
 RepRx 'title' ([regex]::Escape($oldTitle)) '<title>JC&rsquo;s Journals &middot; Mucus-Free Made Simple</title>' 1
 
-# header -> wordmark + social icons; kill the orphaned dropdown JS
-RepRx 'header' '(?s)<header class="site-header">.*?</header>' (Part 'new-header.html') 1
-RepRx 'dropdown-js' "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=document\.querySelectorAll\('\.more-btn'\))" '' 1
+# header + dropdown-JS removal are now INHERITED from the library master
+# (build-library-page.ps1 does both, so all three sites share one header).
+# Assert rather than repeat, so a drift upstream fails here loudly.
+if ([regex]::Matches($h, [regex]::Escape('<a class="wordmark"')).Count -ne 1) { throw "build-jcj: inherited wordmark header missing" }
+if ($h -match "var freeBtn=document\.getElementById\('freeBtn'\)") { throw "build-jcj: orphaned dropdown JS survived upstream" }
+Write-Output "  header inherited : ok"
 
 # hero PARKED (v9, JC 7/20): the whole "Mucus-Free Made Simple" hero is gone —
 # the webinar banner is now the top of the page. The v8 hero (JC's intro line +
@@ -52,7 +59,7 @@ RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'vid
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
-RepRx 'green-course-btn' ([regex]::Escape('<a class="btn green" class="tdlink" href="https://td101landing.carrd.co/#free">What Is Transition Diet 101?</a>')) '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>' 1
+RepRx 'green-course-btn' ([regex]::Escape('<a class="btn green" class="tdlink" href="' + $LandingUrl + '#free">What Is Transition Diet 101?</a>')) '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>' 1
 $m = [regex]::Matches($h, '<a class="tdlink" href="[^"]*">(.*?)</a>')
 if ($m.Count -ne 14) { throw "build-jcj: tdlink matched $($m.Count), expected 14" }
 $h = [regex]::Replace($h, '<a class="tdlink" href="[^"]*">(.*?)</a>', '<span class="tdlink">$1</span>')
@@ -69,16 +76,24 @@ RepRx 'socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ((Part 'soc
 
 # footer (Terms/Medical/Privacy only, no Contact) + mobile pill Library/Socials
 RepRx 'footer' '(?s)<footer>.*?</footer>' (Part 'new-footer.html') 1
-RepRx 'mnav' '(?s)<nav class="mnav"[^>]*>.*?</nav>' (Part 'new-mnav.html') 1
+# THE DOCK BAR is INHERITED from the library master (build-library-page.ps1
+# injects it there, and this page is generated from that master, so the layering
+# gives it to us for free). Only one thing differs on the hub: it OWNS the
+# contact box, so Contact is an in-page anchor that anchor-fix.js scrolls,
+# not a trip to another site.
+$dockCount = [regex]::Matches($h, '<nav class="dockbar"').Count
+if ($dockCount -ne 1) { throw "build-jcj: expected exactly 1 inherited dock, found $dockCount" }
+RepRx 'dock-contact-inpage' ([regex]::Escape('<a class="dock-item dock-contact" href="https://jcsjournals.com/#work-with-us">')) '<a class="dock-item dock-contact" href="#work-with-us">' 1
 
 # full legal docs into the modal
 RepRx 'legal-object' '(?m)^const LEGAL=\{.*$' (Part 'legal.js') 1
 
 # JS funnel end-buttons: paid -> socials
 RepRx 'endbtn-text' ([regex]::Escape("go.innerHTML='Explore the paid services ")) "go.innerHTML='See my social media " 1
-$pc = [regex]::Matches($h, [regex]::Escape('https://td101landing.carrd.co/#paid')).Count
+$paidUrl = $LandingUrl + '#paid'
+$pc = [regex]::Matches($h, [regex]::Escape($paidUrl)).Count
 if ($pc -ne 2) { throw "build-jcj: expected 2 JS paid URLs, found $pc" }
-$h = $h.Replace('https://td101landing.carrd.co/#paid', '#socials')
+$h = $h.Replace($paidUrl, '#socials')
 Write-Output "  js-paid-urls : 2 ok"
 
 # Carrd eats hash navigation -> in-page # links scroll via JS instead (v5)
@@ -96,7 +111,10 @@ $h = $rxStyle.Replace($h, [System.Text.RegularExpressions.MatchEvaluator]{ param
 Write-Output "  extra-css merged : ok"
 
 # guards
-if ([regex]::Matches($h, 'td101landing').Count -ne 0) { throw "build-jcj: residual td101landing refs" }
+if ([regex]::Matches($h, 'td101landing|td101library').Count -ne 0) { throw "build-jcj: residual dead td101 subdomain refs" }
+$dockCount = [regex]::Matches($h, '<nav class="dockbar"').Count
+if ($dockCount -ne 1) { throw "build-jcj: expected exactly 1 dock in the output, found $dockCount" }
+if ([regex]::Matches($h, '(?s)<nav class="mnav"').Count -ne 0) { throw "build-jcj: the old mobile pill resurfaced" }
 if ([regex]::Matches($h, 'My Journey').Count -ne 0)   { throw "build-jcj: My Journey resurfaced" }
 
 [IO.File]::WriteAllText("$masters\jcj-page.html", $h, $utf8)

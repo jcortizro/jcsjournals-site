@@ -84,7 +84,9 @@ $page = $page.Replace('</script>', ("`n/* ==== LIBRARY engine ==== */`n" + $libJ
 # ---- cross-page wiring: this page's shell links go to the real landing page ----
 $page = $page.Replace('href="#free" data-close-dd>Transition Diet 101</a>', ('href="' + $landingUrl + '#free">Transition Diet 101</a>'))
 $page = $page.Replace('<a href="__LIBURL__">The Library</a>', '<a href="#library" data-close-dd>The Library</a>')
-$page = $page.Replace('href="#free" data-close-dd>The Recipe Book</a>', ('href="' + $landingUrl + '#free">The Recipe Book</a>'))
+# The recipe book is a REAL page now (2026-08-10), so its dropdown item goes
+# straight there instead of to the parked landing.
+$page = $page.Replace('href="#free" data-close-dd>The Recipe Book</a>', ('href="' + $RecipesUrl + '">The Recipe Book</a>'))
 $page = $page.Replace('href="#free" data-close-dd>The Book + Mind Maps</a>', ('href="' + $landingUrl + '#free">The Book + Mind Maps</a>'))
 $page = $page.Replace('<a class="h-paid" href="#paid">Paid</a>', ('<a class="h-paid" href="' + $landingUrl + '#paid">Paid</a>'))
 $page = $page.Replace('<a class="h-home" href="#top">Home</a>', ('<a class="h-home" href="' + $landingUrl + '">Home</a>'))
@@ -102,6 +104,59 @@ $assets = [System.IO.File]::ReadAllText("$repo\src\montserrat.css") + "`n" + [Sy
 $bg64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes("$repo\src\foliage.jpg"))
 $page = $page.Replace('/*__ASSETS__*/', $assets).Replace('__BGIMG__', $bg64)
 if ($page.Contains('__LIBURL__') -or $page.Contains('__BGIMG__')) { throw "unresolved tokens remain" }
+
+# ---- ONE HEADER ACROSS THE FAMILY (JC 2026-08-10) ----
+# All three sites must look like one website, so the library wears the same
+# wordmark + social icons header as jcsjournals.com. The old Home/Free/Paid
+# dropdown it replaces was navigation; the dock bar below now carries that job.
+# Done HERE, at the top of the chain, so the jcj page inherits it (that page is
+# generated FROM this master) instead of each build repeating the swap.
+$hdr = [System.IO.File]::ReadAllText("$repo\src\jcj-parts\new-header.html")
+$n = ([regex]::Matches($page, '(?s)<header class="site-header">.*?</header>')).Count
+if ($n -ne 1) { throw "build-library: expected 1 header, found $n" }
+$page = [regex]::Replace($page, '(?s)<header class="site-header">.*?</header>', { param($m) $hdr })
+
+# the dropdown's JS is now orphaned; drop it so it cannot throw on a missing node
+$ddRx = "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=document\.querySelectorAll\('\.more-btn'\))"
+$n = ([regex]::Matches($page, $ddRx)).Count
+if ($n -ne 1) { throw "build-library: expected 1 dropdown JS block, found $n" }
+$page = [regex]::Replace($page, $ddRx, '')
+Write-Output "  shared header + dropdown JS removed : ok"
+
+# ---- THE DOCK BAR (shared with jcsjournals.com and the recipe book) ----
+# One source in src\shared; this page just fills in its contact target, which
+# lives on the hub. Guarded: each injection must land exactly once.
+$dockHtml = [System.IO.File]::ReadAllText("$repo\src\shared\dock.html").Replace('__CONTACT__', 'https://jcsjournals.com/#work-with-us')
+$dockCss  = [System.IO.File]::ReadAllText("$repo\src\shared\dock.css")
+$dockJs   = [System.IO.File]::ReadAllText("$repo\src\shared\dock.js")
+if ($dockHtml.Contains('__CONTACT__')) { throw "build-library: dock contact token unresolved" }
+
+$headerCss = [System.IO.File]::ReadAllText("$repo\src\shared\header.css")
+$n = ([regex]::Matches($page, '</style>')).Count
+if ($n -ne 1) { throw "build-library: expected 1 </style>, found $n" }
+$page = $page.Replace('</style>', ("/* ==== SHARED HEADER ==== */`n" + $headerCss + "`n/* ==== DOCK BAR ==== */`n" + $dockCss + "`n</style>"))
+
+$n = ([regex]::Matches($page, '</script>')).Count
+if ($n -ne 1) { throw "build-library: expected 1 </script>, found $n" }
+$page = $page.Replace('</script>', ("`n/* ==== DOCK BAR ==== */`n" + $dockJs + "`n</script>"))
+
+# The dock REPLACES the old mobile pill rather than sitting next to it. Remove
+# the pill here, at the top of the chain, so the jcj page (which is generated
+# FROM this master) inherits exactly one dock and never a duplicate.
+$n = ([regex]::Matches($page, '(?s)<nav class="mnav"[^>]*>.*?</nav>')).Count
+if ($n -ne 1) { throw "build-library: expected 1 mnav to remove, found $n" }
+$page = [regex]::Replace($page, '(?s)<nav class="mnav"[^>]*>.*?</nav>', '')
+
+$n = ([regex]::Matches($page, '  <footer>')).Count
+if ($n -ne 1) { throw "build-library: expected 1 footer marker, found $n" }
+$page = $page.Replace('  <footer>', ($dockHtml + "`n  <footer>"))
+
+$n = ([regex]::Matches($page, '<nav class="dockbar"')).Count
+if ($n -ne 1) { throw "build-library: expected exactly 1 dock, found $n" }
+Write-Output "  mnav removed + dock bar injected : ok"
+
+# Dead-subdomain guard (2026-08-10 rename): the old Carrd names must never ship.
+if ($page -match 'td101landing|td101library') { throw "build-library: dead td101 subdomain reference remains" }
 
 [System.IO.File]::WriteAllText("$masters\mdhs-library-page.html", $page, $enc)
 Write-Output ("library page generated: " + (Get-Item "$masters\mdhs-library-page.html").Length + " bytes")

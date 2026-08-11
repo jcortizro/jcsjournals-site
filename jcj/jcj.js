@@ -153,6 +153,41 @@ addEventListener('scroll',wfUpdate,{passive:true});addEventListener('resize',wfU
 
 /* ---- close buttons on every subsection (2026-07-18): collapse THIS read and re-center it where it sat, so the page never becomes a mess of open sections ---- */
 document.querySelectorAll('.acc.sub,.acc.qsub').forEach(a=>{const b=a.querySelector(':scope>.acc-panel>.inner>.acc-body');if(!b)return;const row=document.createElement('div');row.className='closerow';const btn=document.createElement('button');btn.className='nbtn';btn.innerHTML='<span class="triup" aria-hidden="true"></span>Close';btn.addEventListener('click',()=>{a.classList.remove('open');const t=a.querySelector(':scope>.acc-trigger');if(t)t.setAttribute('aria-expanded','false');const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;setTimeout(()=>a.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}),60);});row.appendChild(btn);b.appendChild(row);});
+
+/* ==== DOCK BAR ==== */
+(function(){
+  /* Drop-UP menus for the dock bar. BLOCK COMMENTS ONLY in this file: Carrd
+     publishes embed code flattened to a single line, so a line comment would
+     comment out the rest of the program and the page would render blank.
+     Capture phase on the buttons so a host page's own delegated handlers
+     (Carrd's, and the book's anchor handler) cannot swallow the click. */
+  var grps = [].slice.call(document.querySelectorAll('.dock-grp'));
+  if (!grps.length) return;
+  function closeAll(except){
+    grps.forEach(function(g){
+      if (g !== except){
+        g.classList.remove('open');
+        var b = g.querySelector('.dock-btn');
+        if (b) b.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+  grps.forEach(function(g){
+    var b = g.querySelector('.dock-btn');
+    if (!b) return;
+    b.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var open = !g.classList.contains('open');
+      closeAll(g);
+      g.classList.toggle('open', open);
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }, true);
+  });
+  document.addEventListener('click', function(){ closeAll(null); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAll(null); });
+})();
+
 /* Carrd hijacks hash navigation, so in-page # links scroll via JS instead
    (preventDefault keeps the hash from ever changing). data-open links already
    handle themselves (their element handler preventDefaults first). */

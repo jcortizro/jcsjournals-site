@@ -53,10 +53,29 @@
   window.addEventListener('resize', function () { clearTimeout(window.__t); window.__t = setTimeout(run, 200); });
 
   // Carrd hijacks hash navigation, so inside a Carrd embed every href="#x"
-  // silently does nothing (proven live on the td101landing embed, and the same
-  // trap the jcj page hit). Delegated handler + scrollIntoView works in both
-  // homes: standalone GitHub Pages and the Carrd shell. Capture phase, so this
-  // wins even if the host page has its own delegated click handlers.
+  // silently does nothing (proven live on the recipe book's Carrd page, and the
+  // same trap the jcj page hit). Delegated handler + scrollIntoView works in
+  // both homes: standalone GitHub Pages and the Carrd shell. Capture phase, so
+  // this wins even if the host page has its own delegated click handlers.
+  // DEEP ENTRY. Another site can link straight at a spread, for example
+  // freerecipes.carrd.co/#r08. Carrd's shell swallows the native hash jump, so
+  // land it ourselves once the pages exist. Runs after the fit pass so the
+  // target is at its final height, and re-runs on hashchange for repeat links.
+  function landOnHash() {
+    var id = (location.hash || '').slice(1);
+    if (!id) return;
+    var t = document.getElementById(id);
+    if (!t) return;
+    var de = document.documentElement;
+    var prev = de.style.scrollBehavior;
+    de.style.scrollBehavior = 'auto';
+    t.scrollIntoView({ behavior: 'instant', block: 'start' });
+    de.style.scrollBehavior = prev;
+  }
+  if (document.readyState === 'complete') setTimeout(landOnHash, 60);
+  else window.addEventListener('load', function () { setTimeout(landOnHash, 60); });
+  window.addEventListener('hashchange', landOnHash);
+
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a[data-t], a[href^="#"]') : null;
     if (!a) return;

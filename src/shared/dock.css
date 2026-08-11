@@ -1,0 +1,37 @@
+/* THE DOCK BAR. One source, three sites (jcsjournals.com, the free library,
+   the free recipe book). The little bar at the bottom is the connective tissue
+   between them, so it must be pixel identical everywhere.
+   Colors are JC's spec, 2026-08-10: Contact green (the contact box's own
+   --paid green), Resources yellow (--free gold, the free lane). Fallback hexes
+   are the same values, for any surface that lacks the tokens. */
+.dockbar{position:fixed;left:0;right:0;bottom:14px;z-index:60;display:flex;justify-content:center;pointer-events:none}
+.dock-in{pointer-events:auto;display:flex;gap:2px;align-items:center;background:rgba(8,12,9,.93);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 8px;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.dock-item{font-family:var(--display,'Montserrat',sans-serif);font-weight:700;font-size:.72rem;letter-spacing:1.5px;
+  text-transform:uppercase;color:rgba(255,255,255,.9);text-decoration:none;background:none;border:0;cursor:pointer;
+  padding:11px 15px;border-radius:999px;line-height:1;transition:color .12s,background .12s}
+.dock-item:hover{background:rgba(255,255,255,.07)}
+.dock-item:focus-visible{outline:2px solid #E4BE3F;outline-offset:2px}
+.dock-contact{color:var(--paid,#7ECB82)}
+.dock-contact:hover{color:#9BDB9F;background:rgba(126,203,130,.12)}
+.dock-res{color:var(--free,#E4BE3F)}
+.dock-res:hover{color:#F0D268;background:rgba(228,190,63,.12)}
+.dock-grp{position:relative}
+.dock-pop{position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);min-width:210px;
+  display:none;flex-direction:column;background:rgba(8,12,9,.98);border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;padding:8px;box-shadow:0 18px 40px -14px rgba(0,0,0,.9)}
+.dock-grp.open .dock-pop{display:flex}
+.dock-pop a{font-family:var(--body,'Source Sans 3',system-ui,sans-serif);font-weight:400;font-size:.92rem;
+  letter-spacing:.2px;color:#fff;text-decoration:none;padding:10px 12px;border-radius:8px;
+  white-space:nowrap;text-align:left;text-transform:none}
+.dock-pop a:hover{background:rgba(255,255,255,.08);color:#E4BE3F}
+.dock-pop-res a{color:var(--free,#E4BE3F)}
+.dock-pop-res a:hover{background:rgba(228,190,63,.12);color:#F0D268}
+/* The dock replaces the old mobile pill wherever it ships, so the two can
+   never stack on top of each other at the bottom of the screen. */
+.mnav{display:none!important}
+@media(max-width:420px){
+  .dock-item{font-size:.66rem;letter-spacing:1.1px;padding:10px 11px}
+  .dock-pop{min-width:180px}
+}

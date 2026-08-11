@@ -1,8 +1,3 @@
-var freeBtn=document.getElementById('freeBtn'),freeDD=document.getElementById('freeDD');
-freeBtn.addEventListener('click',function(ev){ev.stopPropagation();var o=freeDD.classList.contains('open');freeDD.classList.toggle('open',!o);freeBtn.setAttribute('aria-expanded',String(!o));});
-freeDD.addEventListener('click',function(ev){ev.stopPropagation();});
-document.querySelectorAll('[data-close-dd]').forEach(function(a){a.addEventListener('click',function(){freeDD.classList.remove('open');freeBtn.setAttribute('aria-expanded','false');});});
-document.addEventListener('click',function(){freeDD.classList.remove('open');freeBtn.setAttribute('aria-expanded','false');});
 document.querySelectorAll('.more-btn').forEach(function(b){
   b.addEventListener('click',function(){
     var x=document.getElementById(b.dataset.more);
@@ -38,7 +33,7 @@ CATS.forEach(cat=>{const row=document.createElement('div');row.className='nextro
 const back=document.createElement('button');back.className='nbtn';back.innerHTML='<span class="triup" aria-hidden="true"></span>All topics';back.addEventListener('click',()=>goLibrary(cat));row.appendChild(back);
 const n=NEXT[cat.id];const go=document.createElement('button');go.className='nbtn primary';
 if(n){go.innerHTML='Next: <b>'+NUM[n]+'</b> '+SHORT[n]+' <span class="tri" aria-hidden="true"></span>';go.addEventListener('click',()=>openChain(n));}
-else{go.innerHTML='Explore the paid services <span class="tri" aria-hidden="true"></span>';go.addEventListener('click',()=>{closeCat(cat);setTimeout(()=>{window.location.href='https://td101landing.carrd.co/#paid';},380);});}
+else{go.innerHTML='Explore the paid services <span class="tri" aria-hidden="true"></span>';go.addEventListener('click',()=>{closeCat(cat);setTimeout(()=>{window.location.href='https://jcsjournals.com/#paid';},380);});}
 row.appendChild(go);cat.appendChild(row);});
 const wf=document.createElement('div');wf.className='wayfind';
 wf.innerHTML='<button class="wf-top"><span class="triup" aria-hidden="true"></span>Topics</button><span class="wf-lbl"></span><button class="wf-next"></button>';
@@ -46,7 +41,7 @@ document.body.appendChild(wf);
 const wfL=wf.querySelector('.wf-lbl'),wfN=wf.querySelector('.wf-next'),wfT=wf.querySelector('.wf-top');
 let wfCat=null;
 wfT.addEventListener('click',()=>goLibrary(wfCat));
-wfN.addEventListener('click',()=>{if(!wfCat)return;const n=NEXT[wfCat.id];if(n)openChain(n);else{closeCat(wfCat);setTimeout(()=>{window.location.href='https://td101landing.carrd.co/#paid';},380);}});
+wfN.addEventListener('click',()=>{if(!wfCat)return;const n=NEXT[wfCat.id];if(n)openChain(n);else{closeCat(wfCat);setTimeout(()=>{window.location.href='https://jcsjournals.com/#paid';},380);}});
 function wfUpdate(){let cur=null;for(const c of CATS){if(!c.classList.contains('open'))continue;const r=c.getBoundingClientRect();if(r.top<-40&&r.bottom>innerHeight*.55){cur=c;break;}}
 if(cur){wfCat=cur;wfL.innerHTML='<b>'+NUM[cur.id]+'</b>'+SHORT[cur.id];wfN.innerHTML=(NEXT[cur.id]?'Next':'Done')+' <span class="tri" aria-hidden="true"></span>';wf.classList.add('show');}
 else{wf.classList.remove('show');wfCat=null;}}
@@ -54,3 +49,38 @@ addEventListener('scroll',wfUpdate,{passive:true});addEventListener('resize',wfU
 
 /* ---- close buttons on every subsection (2026-07-18): collapse THIS read and re-center it where it sat, so the page never becomes a mess of open sections ---- */
 document.querySelectorAll('.acc.sub,.acc.qsub').forEach(a=>{const b=a.querySelector(':scope>.acc-panel>.inner>.acc-body');if(!b)return;const row=document.createElement('div');row.className='closerow';const btn=document.createElement('button');btn.className='nbtn';btn.innerHTML='<span class="triup" aria-hidden="true"></span>Close';btn.addEventListener('click',()=>{a.classList.remove('open');const t=a.querySelector(':scope>.acc-trigger');if(t)t.setAttribute('aria-expanded','false');const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;setTimeout(()=>a.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'}),60);});row.appendChild(btn);b.appendChild(row);});
+
+/* ==== DOCK BAR ==== */
+(function(){
+  /* Drop-UP menus for the dock bar. BLOCK COMMENTS ONLY in this file: Carrd
+     publishes embed code flattened to a single line, so a line comment would
+     comment out the rest of the program and the page would render blank.
+     Capture phase on the buttons so a host page's own delegated handlers
+     (Carrd's, and the book's anchor handler) cannot swallow the click. */
+  var grps = [].slice.call(document.querySelectorAll('.dock-grp'));
+  if (!grps.length) return;
+  function closeAll(except){
+    grps.forEach(function(g){
+      if (g !== except){
+        g.classList.remove('open');
+        var b = g.querySelector('.dock-btn');
+        if (b) b.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+  grps.forEach(function(g){
+    var b = g.querySelector('.dock-btn');
+    if (!b) return;
+    b.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var open = !g.classList.contains('open');
+      closeAll(g);
+      g.classList.toggle('open', open);
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }, true);
+  });
+  document.addEventListener('click', function(){ closeAll(null); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAll(null); });
+})();
+
