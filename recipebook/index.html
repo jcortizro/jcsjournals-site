@@ -1840,7 +1840,10 @@
     if (!t) return;
     e.preventDefault();
     e.stopPropagation();
-    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Instant, not smooth: on this 44k px page the smooth animation gets
+    // interrupted about 700px in and strands the reader between pages.
+    // Measured live on the Carrd embed; the instant jump lands at exactly 0.
+    t.scrollIntoView({ behavior: 'auto', block: 'start' });
   }, true);
 })();
 </script>
