@@ -567,8 +567,26 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 .pathcard .pd{font-family:var(--body);font-weight:300;font-size:.98rem;line-height:1.55;color:rgba(255,255,255,.85)}
 .pathcard .pgo{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;color:#E4BE3F;margin-top:4px}
 @media(max-width:700px){.pathgrid{grid-template-columns:1fr}}
-#book{position:relative;z-index:2;background:transparent}
+#book{position:relative;z-index:2;background:transparent;padding-bottom:96px}
 #book .wrap{background:transparent}
+
+
+.dockbar{position:fixed;left:0;right:0;bottom:14px;z-index:60;display:flex;justify-content:center;pointer-events:none}
+.dock-in{pointer-events:auto;display:flex;gap:4px;align-items:center;background:rgba(8,12,9,.92);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 10px;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.85);backdrop-filter:blur(8px)}
+.dock-item{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.6px;text-transform:uppercase;
+  color:rgba(255,255,255,.88);text-decoration:none;background:none;border:0;cursor:pointer;
+  padding:10px 14px;border-radius:999px;transition:color .12s,background .12s}
+.dock-item:hover{color:#E4BE3F;background:rgba(255,255,255,.06)}
+.dock-grp{position:relative}
+.dock-pop{position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);min-width:200px;
+  display:none;flex-direction:column;background:rgba(8,12,9,.97);border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;padding:8px;box-shadow:0 18px 40px -14px rgba(0,0,0,.9)}
+.dock-grp.open .dock-pop{display:flex}
+.dock-pop a{font-family:var(--body);font-weight:400;font-size:.92rem;letter-spacing:.2px;color:#fff;
+  text-decoration:none;padding:10px 12px;border-radius:8px;white-space:nowrap;text-align:left}
+.dock-pop a:hover{background:rgba(255,255,255,.08);color:#E4BE3F}
 
 #book :is(a,b,strong,em,i,p,h1,h2,h3,h4,h5,ul,ol,li,dl,dt,dd,span,header,section){all:revert}
 </style>
@@ -628,68 +646,11 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
   <a class="wordmark" href="https://jcsjournals.com">JC&rsquo;s Journals</a>
 </div></header>
 <main class="twin-main">
-<section id="video">
+<section id="bookintro">
   <div class="sect-head">
-    <p class="kicker k-free">Watch First</p>
-    <h2>What Is the Mucusless Diet Healing System?</h2>
-  </div>
-  <div class="videobox">
-    <iframe src="https://www.youtube.com/embed/Djygxncc58I" title="What Is the Mucusless Diet Healing System?" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-  </div>
-</section>
-<section id="work-with-us">
-  <div class="ctabig">
-    <p class="kicker k-paid">Not Sure Where To Begin?</p>
-    <h2>Speak To A Human</h2>
-    <p class="ctabig-lede">The Mucusless Diet Healing System is not one-size-fits-all. Where you begin depends on how you currently eat, what you are struggling with, and how quickly your body can comfortably transition.</p>
-    <p class="ctabig-lede">Book a free 15-minute call with our team and tell us where you are, what you have already tried, and where you feel stuck. We&rsquo;ll help you identify the most practical next step and direct you toward the resource or service that best fits your situation.</p>
-    <div class="cta-row">
-      <a class="btn green" href="https://calendly.com/team-mucusfreelife/15-minute-clarity-call" target="_blank" rel="noopener">Book A Free 15-Minute Call</a>
-    </div>
-    <p class="ctabig-fine">Free. No obligation. Educational guidance only, not medical advice.</p>
-  </div>
-</section>
-<section id="paths">
-  <div class="sect-head">
-    <p class="kicker k-free">Choose Your Path</p>
-    <h2>Start Where You Are</h2>
-    <p class="sect-lede">Two doors into the same system. Pick the one that fits how you learn.</p>
-  </div>
-  <div class="pathgrid">
-    <a class="pathcard" href="#book" data-t="book">
-      <span class="pk">Learn To Cook</span>
-      <span class="pd">The free TD 101 Recipe Book. 24 transition recipes with the context behind every one, right on this page.</span>
-      <span class="pgo">Open the recipe book &darr;</span>
-    </a>
-    <a class="pathcard" href="https://jcsjournals.com">
-      <span class="pk">Learn The Theory</span>
-      <span class="pd">The free educational library on JC&rsquo;s Journals. The why behind every recipe, article by article.</span>
-      <span class="pgo">Visit the library &rarr;</span>
-    </a>
-  </div>
-</section>
-<section id="socials">
-  <div class="sect-head">
-    <p class="kicker k-free">My Social Media</p>
-    <h2>Follow The Journey</h2>
-    <p class="sect-lede">This is where the lives, the videos, and the connection happen.</p>
-  </div>
-  <div class="socgrid">
-    <a class="soccard yt" href="https://www.youtube.com/@jcsjournals" target="_blank" rel="noopener">
-      <span class="sic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg></span>
-      <span class="snm">YouTube</span>
-      <span class="stag">Lives | Education</span>
-    </a>
-    <a class="soccard fb" href="https://www.facebook.com/jc.ortiz.roman/" target="_blank" rel="noopener">
-      <span class="sic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.52 1.5-3.9 3.77-3.9 1.1 0 2.24.2 2.24.2v2.46H15.2c-1.24 0-1.63.78-1.63 1.57v1.88h2.78l-.45 2.9h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg></span>
-      <span class="snm">Facebook</span>
-      <span class="stag">Lives | Connect</span>
-    </a>
-    <a class="soccard ig" href="https://www.instagram.com/jcs_journals/" target="_blank" rel="noopener">
-      <span class="sic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></span>
-      <span class="snm">Instagram</span>
-      <span class="stag">Connect</span>
-    </a>
+    <p class="kicker k-free">Free &middot; No Email Signup Required</p>
+    <h2>The TD 101 Recipe Book</h2>
+    <p class="sect-lede">Twenty four transition recipes from Transition Diet 101, each with the context behind it: the menu plan it belongs to, when to eat it, and how it fits into a full day. Every page is right here, keep scrolling.</p>
   </div>
 </section>
 </main>
@@ -2258,6 +2219,30 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
 </section>
 </div>
 </div>
+
+<nav class="dockbar" aria-label="Site navigation">
+  <div class="dock-in">
+    <a class="dock-item" href="https://jcsjournals.com/#work-with-us">Contact</a>
+    <div class="dock-grp">
+      <button type="button" class="dock-item dock-btn" data-pop="pop-res" aria-expanded="false">Resources</button>
+      <div class="dock-pop" id="pop-res">
+        <a href="https://jcsjournals.com">JC&rsquo;s Journals Home</a>
+        <a href="https://td101library.carrd.co">The Free Library</a>
+        <a href="https://td101landing.carrd.co">The Free Recipe Book</a>
+      </div>
+    </div>
+    <div class="dock-grp">
+      <button type="button" class="dock-item dock-btn" data-pop="pop-soc" aria-expanded="false">Socials</button>
+      <div class="dock-pop" id="pop-soc">
+        <a href="https://www.youtube.com/@jcsjournals" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.facebook.com/jc.ortiz.roman/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/jcs_journals/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@jcsjournal" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <script>
 (function () {
   // Nothing may ever clip. Shrink a page's type until its content fits, and
@@ -2343,6 +2328,27 @@ a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,1
     de.style.scrollBehavior = prev;
   }, true);
 })();
+
+(function(){
+  var grps = document.querySelectorAll('.dock-grp');
+  function closeAll(except){
+    grps.forEach(function(g){
+      if(g !== except){ g.classList.remove('open');
+        var b=g.querySelector('.dock-btn'); if(b) b.setAttribute('aria-expanded','false'); }
+    });
+  }
+  grps.forEach(function(g){
+    var b = g.querySelector('.dock-btn');
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = g.classList.toggle('open');
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      closeAll(g);
+    }, true);
+  });
+  document.addEventListener('click', function(){ closeAll(null); });
+})();
+
 </script>
 </body>
 </html>
