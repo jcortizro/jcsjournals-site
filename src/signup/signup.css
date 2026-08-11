@@ -1,0 +1,29 @@
+/* THE WAITLIST FORM. Same shell as the rest of the family; only the form
+   controls are new. Inputs are dark panels with a gold focus ring so they read
+   as part of the free lane. */
+.signbox{max-width:620px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
+  border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:30px 28px 26px}
+#waitform{display:flex;flex-direction:column;gap:16px}
+.fieldrow{display:flex;gap:14px}
+.fieldrow .field{flex:1 1 0;min-width:0}
+.field{display:flex;flex-direction:column;gap:7px}
+.flab{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint)}
+.field input{font-family:var(--body);font-size:1rem;font-weight:300;color:#fff;background:rgba(0,0,0,.34);
+  border:1px solid var(--hair-strong);border-radius:9px;padding:14px 15px;width:100%;
+  transition:border-color .12s,background .12s}
+.field input::placeholder{color:rgba(255,255,255,.36)}
+.field input:focus{outline:none;border-color:var(--free);background:rgba(0,0,0,.5)}
+.field input:focus-visible{outline:2px solid var(--free);outline-offset:2px}
+.field input[aria-invalid="true"]{border-color:#E97676}
+#waitform .btn{align-self:flex-start;border:0;cursor:pointer;font-family:var(--display)}
+#waitform .btn[disabled]{opacity:.6;cursor:default}
+.ferr{margin:0;font-size:.9rem;color:#E97676}
+.ffine{margin:2px 0 0;font-size:.82rem;color:var(--faint);line-height:1.5}
+.signdone .dtitle{font-family:var(--display);font-weight:900;font-size:1.5rem;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--free);margin:0 0 10px}
+.signdone .dsub{margin:0 0 20px;font-size:1rem;line-height:1.55;color:var(--dim)}
+.signdone .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:560px){
+  .signbox{padding:24px 18px 20px}
+  .fieldrow{flex-direction:column;gap:16px}
+}

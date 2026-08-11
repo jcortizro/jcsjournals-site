@@ -167,6 +167,9 @@ footer .wrap{display:flex;flex-direction:column;gap:12px}
 
 /* mobile pill + mock note */
 .mnav{display:none}
+.mock-note{position:fixed;bottom:16px;right:16px;z-index:70;max-width:270px;background:var(--panel-solid);backdrop-filter:blur(14px);border:1px solid var(--free);border-radius:8px;padding:11px 14px;font-size:.75rem;color:var(--dim);box-shadow:0 16px 40px -18px rgba(0,0,0,.7)}
+.mock-note b{color:var(--free);font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:.68rem;display:block;margin-bottom:3px}
+.mock-note button{color:var(--faint);text-decoration:underline;font-size:.72rem;margin-top:6px;padding:0}
 @media(max-width:920px){
   .grid4{grid-template-columns:1fr 1fr}
 }
@@ -499,132 +502,34 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
   .dock-pop{min-width:180px}
 }
 
-/* ===== JC'S JOURNALS REBRAND (mockup v3 - 2026-07-19) ===== */
-/* header */
-.wordmark{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:2.4px;text-transform:uppercase;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 0}
-/* START HERE box (JC 2026-08-11): the two free doors in ONE box, recipe book
-   first, a hairline divider between them. Same panel treatment as the rest of
-   the page so it reads as part of the system, not a new component. */
-.startbox{max-width:760px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
-  border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:26px 26px 24px;
-  display:flex;flex-direction:column;gap:20px}
-/* Centred, like the Speak To A Human box (JC 2026-08-11). */
-.startrow{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
-.startrow .starttext{max-width:52ch}
-.startrow h3{font-family:var(--display);font-weight:900;font-size:1.16rem;letter-spacing:1.2px;text-transform:uppercase;
-  color:var(--free);margin:0 0 6px}
-.startrow p{margin:0;font-size:.95rem;line-height:1.5;color:var(--dim)}
-.startrow .btn{flex:none}
-.startdiv{height:1px;background:var(--hair-strong);opacity:.75}
-@media(max-width:620px){
-  .startbox{padding:22px 18px 20px}
-  .startrow .btn{width:100%;justify-content:center}
+/* ==== SIGNUP ==== */
+/* THE WAITLIST FORM. Same shell as the rest of the family; only the form
+   controls are new. Inputs are dark panels with a gold focus ring so they read
+   as part of the free lane. */
+.signbox{max-width:620px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
+  border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:30px 28px 26px}
+#waitform{display:flex;flex-direction:column;gap:16px}
+.fieldrow{display:flex;gap:14px}
+.fieldrow .field{flex:1 1 0;min-width:0}
+.field{display:flex;flex-direction:column;gap:7px}
+.flab{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint)}
+.field input{font-family:var(--body);font-size:1rem;font-weight:300;color:#fff;background:rgba(0,0,0,.34);
+  border:1px solid var(--hair-strong);border-radius:9px;padding:14px 15px;width:100%;
+  transition:border-color .12s,background .12s}
+.field input::placeholder{color:rgba(255,255,255,.36)}
+.field input:focus{outline:none;border-color:var(--free);background:rgba(0,0,0,.5)}
+.field input:focus-visible{outline:2px solid var(--free);outline-offset:2px}
+.field input[aria-invalid="true"]{border-color:#E97676}
+#waitform .btn{align-self:flex-start;border:0;cursor:pointer;font-family:var(--display)}
+#waitform .btn[disabled]{opacity:.6;cursor:default}
+.ferr{margin:0;font-size:.9rem;color:#E97676}
+.ffine{margin:2px 0 0;font-size:.82rem;color:var(--faint);line-height:1.5}
+.signdone .dtitle{font-family:var(--display);font-weight:900;font-size:1.5rem;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--free);margin:0 0 10px}
+.signdone .dsub{margin:0 0 20px;font-size:1rem;line-height:1.55;color:var(--dim)}
+.signdone .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:560px){
+  .signbox{padding:24px 18px 20px}
+  .fieldrow{flex-direction:column;gap:16px}
 }
-.hsoc{display:inline-flex;align-items:center;gap:2px}
-a.soc,span.soc{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:8px;color:var(--dim);text-decoration:none;transition:color .12s,background .12s}
-a.soc:hover{color:#fff;background:rgba(255,255,255,.08)}
-span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
-/* social cards */
-.socgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:980px;margin:0 auto}
-@media(max-width:760px){.socgrid{grid-template-columns:1fr 1fr;gap:12px}}
-.soccard{background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:12px;padding:24px 16px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:#fff;text-decoration:none;transition:border-color .12s,background .12s,transform .12s}
-a.soccard:hover{border-color:var(--free-line);background:rgba(255,255,255,.06);transform:translateY(-2px)}
-.soccard .sic{color:var(--free);display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--hair-strong);border-radius:50%;margin-bottom:4px}
-.soccard .snm{font-family:var(--display);font-weight:900;font-size:1.02rem;letter-spacing:.8px;text-transform:uppercase}
-.soccard .stag{font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint)}
-.soccard.scoming{opacity:.8;border-top-color:var(--hair-strong)}
-.soccard.scoming .sic{color:var(--faint)}
-/* brand-colored cards (JC 7/19): deep brand body, bright brand outline, white icon in white circle */
-.soccard.yt,.soccard.fb,.soccard.ig,.soccard.tk{border:1.5px solid transparent;border-top-width:3px}
-.soccard.yt{background:linear-gradient(rgba(44,9,9,.8),rgba(44,9,9,.8)) padding-box,linear-gradient(#FF2A2A,#FF2A2A) border-box}
-.soccard.fb{background:linear-gradient(rgba(9,22,45,.8),rgba(9,22,45,.8)) padding-box,linear-gradient(#2E8DFF,#2E8DFF) border-box}
-.soccard.ig{background:linear-gradient(rgba(37,12,50,.8),rgba(37,12,50,.8)) padding-box,linear-gradient(120deg,#833AB4 0%,#C13584 32%,#E1306C 52%,#F77737 76%,#FCAF45 100%) border-box}
-a.soccard.yt:hover{border-color:transparent;background:linear-gradient(rgba(58,12,12,.84),rgba(58,12,12,.84)) padding-box,linear-gradient(#FF2A2A,#FF2A2A) border-box;filter:brightness(1.1);transform:translateY(-2px)}
-a.soccard.fb:hover{border-color:transparent;background:linear-gradient(rgba(13,30,60,.84),rgba(13,30,60,.84)) padding-box,linear-gradient(#2E8DFF,#2E8DFF) border-box;filter:brightness(1.1);transform:translateY(-2px)}
-a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,16,64,.84),rgba(48,16,64,.84)) padding-box,linear-gradient(120deg,#833AB4 0%,#C13584 32%,#E1306C 52%,#F77737 76%,#FCAF45 100%) border-box;filter:brightness(1.1);transform:translateY(-2px)}
-.soccard.tk{background:linear-gradient(rgba(16,16,18,.86),rgba(16,16,18,.86)) padding-box,linear-gradient(120deg,#25F4EE 0%,#25F4EE 38%,#FE2C55 62%,#FE2C55 100%) border-box}
-a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,24,27,.88),rgba(24,24,27,.88)) padding-box,linear-gradient(120deg,#25F4EE 0%,#25F4EE 38%,#FE2C55 62%,#FE2C55 100%) border-box;filter:brightness(1.1);transform:translateY(-2px)}
-.soccard.yt .sic,.soccard.fb .sic,.soccard.ig .sic,.soccard.tk .sic{color:#fff;border-color:rgba(255,255,255,.75)}
-.soonchip{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;background:var(--free);color:var(--on-free);border-radius:4px;padding:3px 7px;white-space:nowrap}
-/* hero intro line */
-.hero .lede.intro-line{color:#fff;font-weight:400;font-size:1.16rem;margin-bottom:14px}
-/* footer legal buttons (match .foot-nav a) */
-.foot-nav button{color:var(--dim2);padding:8px 0;transition:color .12s;letter-spacing:.2px}
-.foot-nav button:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
-/* mobile pill: green was the paid color; socials go neutral */
-.mnav a.mp{color:var(--dim)}
-/* v11: third pill item — Contact -> #work-with-us (the green/guided lane). Three
-   items no longer fit at the shell's 13px/24px sizing on a 320-360px phone, so
-   the pill links slim down (pill is mobile-only; desktop never shows it). */
-.mnav a{padding:13px 16px;font-size:.74rem;letter-spacing:1.2px}
-.mnav a.mc{color:var(--paid)}
-/* legal modal typography */
-#modalContent h2{font-family:var(--display);font-weight:900;font-size:1.3rem;letter-spacing:.5px;text-transform:uppercase;margin:0 0 6px}
-#modalContent h3{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--free);margin:20px 0 6px}
-#modalContent p{margin:6px 0;color:var(--dim)}
-#modalContent ul{margin:6px 0 10px;padding-left:20px;color:var(--dim)}
-#modalContent li{margin:3px 0}
 
-/* hero jump buttons (v4, JC 7/19): stacked, equal width */
-.hero-ctas{display:flex;flex-direction:column;align-items:center;gap:12px;margin:26px 0 10px}
-.hero-ctas .btn{width:min(100%,400px);justify-content:center;text-align:center}
-/* embedded intro video (v4) */
-.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}
-.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
-
-
-/* ===== WORK-WITH-US CTA (v7, JC 7/20) — green = the guided/service lane ===== */
-/* big block after the library */
-.ctabig{max-width:820px;margin:0 auto;text-align:center;background:linear-gradient(rgba(10,26,14,.82),rgba(10,26,14,.82));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1.5px solid var(--paid-line);border-top:3px solid var(--paid);border-radius:14px;padding:clamp(26px,4vw,40px) clamp(20px,4vw,38px);box-shadow:0 0 0 1px rgba(126,203,130,.18),0 22px 54px -26px rgba(0,0,0,.8)}
-.ctabig h2{margin:0 0 14px}
-/* v11: the lede is three short paragraphs (JC 7/20) — tighter gaps between them */
-.ctabig-lede{color:var(--dim);max-width:52em;margin:0 auto 12px;font-size:1rem}
-.ctabig .cta-row{margin:10px 0 14px}
-.ctabig .btn.green{padding:19px 34px;font-size:.88rem}
-/* v11: one-line button on phones — label scales with viewport, never wraps */
-@media(max-width:560px){.ctabig .btn.green{width:100%;justify-content:center;white-space:nowrap;font-size:clamp(.6rem,3.3vw,.82rem);letter-spacing:1.1px;padding:16px 10px}}
-.ctabig-fine{margin:0;font-size:.8rem;color:var(--faint)}
-/* compact strip at the end of each library topic */
-.ctamini{display:none;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;margin:22px 0 0;padding:15px 18px;border:1px solid var(--paid-line);border-left:3px solid var(--paid);border-radius:9px;background:linear-gradient(90deg,rgba(12,38,19,.6),rgba(12,38,19,.2))}
-.ctamini .cm-t{flex:1 1 260px;font-family:var(--display);font-weight:700;font-size:.92rem;letter-spacing:.2px;color:#fff}
-.ctamini .cm-s{display:block;font-family:var(--body);font-weight:300;font-size:.88rem;color:var(--dim2);margin-top:3px}
-.ctamini .cm-b{flex:0 0 auto;padding:13px 22px;font-size:.76rem}
-@media(max-width:560px){.ctamini{justify-content:center;text-align:center}.ctamini .cm-b{width:100%;justify-content:center}}
-
-.acc.cat.open>.ctamini{display:flex}
-
-/* ===== WEBINAR BANNER (v8, JC 7/20) — yellow = the free lane; date tab built into the card ===== */
-/* v12 (JC 7/23): tab is min-width:50% instead of a hard 50% — JC's "half the
-   card's width" still holds for short dates, but the longer replay-deadline
-   line grows the tab instead of wrapping it onto two lines. */
-.webi{max-width:720px;margin:0 auto}
-.webi-tab{width:max-content;min-width:50%;max-width:94%;margin:0 auto;background:#000;color:#fff;border:1px solid var(--hair-strong);border-bottom:0;text-align:center;font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:1.8px;text-transform:uppercase;padding:10px 14px 8px;border-radius:12px 12px 0 0}
-.webi-card{background:var(--free);color:var(--on-free);border-radius:16px;padding:clamp(26px,4.5vw,40px) clamp(20px,4vw,36px);text-align:center;box-shadow:0 26px 60px -28px rgba(0,0,0,.85)}
-.webi-kicker{margin:0 0 8px;font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:2.2px;text-transform:uppercase;opacity:.72}
-.webi-title{margin:0 0 12px;font-family:var(--display);font-weight:900;font-size:clamp(1.45rem,4vw,2.05rem);line-height:1.14;letter-spacing:.8px;text-transform:uppercase;color:var(--on-free)}
-.webi-lede{margin:0 auto 6px;max-width:34em;font-size:1.02rem;font-weight:400;line-height:1.5;opacity:.88}
-.webi-me{margin:0 0 18px;font-size:1.02rem;font-weight:700}
-.webi-note{margin:0 0 16px;font-family:var(--display);font-weight:700;font-size:.62rem;letter-spacing:1.8px;text-transform:uppercase;opacity:.62}
-.webi-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--on-free);color:#fff;font-family:var(--display);font-weight:800;font-size:.85rem;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:17px 34px;border-radius:9px;transition:filter .12s,transform .12s}
-.webi-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
-/* v12 (JC 7/23): second, quieter button under the main one — outlined in the
-   card's own ink so it reads as clearly secondary. It's an in-page # link:
-   anchor-fix.js scrolls it down to the green #work-with-us box. */
-.webi-btns{display:flex;flex-direction:column;align-items:center;gap:12px}
-.webi-btn2{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--on-free);border:1.5px solid rgba(23,18,4,.4);font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:12px 26px;border-radius:8px;transition:background .12s,border-color .12s,transform .12s}
-.webi-btn2:hover{background:rgba(23,18,4,.09);border-color:var(--on-free);transform:translateY(-1px)}
-/* phones (v12): the replay deadline + the second button are both longer strings
-   than the v8-v11 copy — tightened type here so each still sits on ONE line at
-   375px instead of wrapping into a two-line tab / two-line button. */
-@media(max-width:560px){.webi-tab{padding:9px 14px 7px;font-size:.64rem;letter-spacing:1px}.webi-btn{padding:16px 24px;font-size:.8rem}.webi-btn2{padding:15px 16px;font-size:.62rem;letter-spacing:.9px}}
-/* announcement strips under the banner (v9.2) — small, low-key, stack as needed.
-   v11.1: the v11 solid-#2E8DFF fill is DEAD — JC saw it live and reverted it
-   ("return it to what it used to look like"); this block is the v10 styling
-   verbatim, plus .ws-hype for the hype line (v11 copy, which stays). */
-.webi-sub{margin:14px auto 0;background:linear-gradient(rgba(9,22,45,.78),rgba(9,22,45,.78));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid rgba(46,141,255,.55);border-radius:12px;padding:13px 18px;text-align:center;color:#fff}
-.webi-sub .ws-t{margin:0 0 3px;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#7DB8FF}
-.webi-sub .ws-hype{margin:0 0 3px;font-size:1.02rem;font-weight:700;color:#fff}
-.webi-sub .ws-s{margin:0;font-size:.94rem;color:var(--dim2)}
-.webi-sub .ws-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:11px}
-.webi-sub .ws-btn{display:inline-flex;align-items:center;justify-content:center;background:#2E8DFF;color:#fff;font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:11px 22px;border-radius:8px;transition:filter .12s,transform .12s}
-.webi-sub .ws-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}

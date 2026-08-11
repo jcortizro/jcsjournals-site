@@ -1,0 +1,40 @@
+<!-- TD 101 WAITLIST PAGE (td101.carrd.co) · Carrd Embed loader.
+     Paste this whole block into a Carrd "Embed" element, Type: Code, then
+     Publish. After that you never touch Carrd again: rebuild, push, and the
+     live page updates within about five minutes.
+
+     Two traps this file is shaped around, both measured on JC's live pages:
+     Carrd publishes embed code FLATTENED TO ONE LINE, so a // comment would
+     comment out the rest of the program; and Carrd SPLITS embed code at a
+     literal closing script or style tag, which is why the fetched page is
+     parsed with DOMParser instead of regexes. -->
+<script>
+(function(){
+  var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/signup/";
+  function hide(){
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
+    });
+  }
+  /* cache:'no-cache' forces revalidation, so a push shows up immediately
+     instead of up to five minutes later. */
+  var opt={cache:'no-cache'};
+  Promise.all([
+    fetch(base+"signup.css",opt).then(function(r){return r.text()}),
+    fetch(base+"signup.html",opt).then(function(r){return r.text()}),
+    fetch(base+"signup.js",opt).then(function(r){return r.text()})
+  ]).then(function(a){
+    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+    hide();
+    var d=document.createElement("div");d.id="signup-page";d.innerHTML=a[1];
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+  }).catch(function(){
+    hide();
+    var d=document.createElement("div");
+    d.style.cssText="font:16px/1.6 system-ui,sans-serif;color:#E4BE3F;background:#0a0f0a;padding:48px 24px;text-align:center;min-height:100vh";
+    d.innerHTML="<b>The waitlist page is not published yet.</b><br>Push the repo and this page fills itself in, no re-paste needed.";
+    document.body.appendChild(d);
+  });
+})();
+</script>

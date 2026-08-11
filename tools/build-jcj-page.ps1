@@ -141,7 +141,7 @@ $libPointer = @"
             <h3>Learn The Basics</h3>
             <p>The free educational library. Six topics that take you from what the Mucusless Diet Healing System is, to how to actually eat a meal.</p>
           </div>
-          <a class="btn ghost" href="$LibraryUrl">Open The Library</a>
+          <a class="btn" href="$LibraryUrl">Open The Library</a>
         </div>
       </div>
     </section>
