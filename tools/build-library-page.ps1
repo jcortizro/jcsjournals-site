@@ -136,17 +136,20 @@ function AddRecipeNote([string]$label, [string]$uniquePhrase, [string]$inner) {
   Write-Output "  recipe note [$label] : ok"
 }
 
-$bk = $RecipesUrl.TrimEnd('/')
+# Deep links into the book use ?r= rather than #, because Carrd wipes the hash
+# on that site before the book's script can read it (measured: #r08 arrived
+# with an empty hash and no scroll). The query string survives.
+$bk = $RecipesUrl.TrimEnd('/') + '/?r='
 AddRecipeNote 'fruit' 'created by yours truly.' `
-  ("Want the meals themselves? The <a href=`"$bk/#r09`">Mono Fruit Meal</a> and <a href=`"$bk/#r10`">Dried Fruit Followed by Juicy Fruit</a> are written out step by step in the free recipe book.")
+  ("Want the meals themselves? The <a href=`"${bk}r09`">Mono Fruit Meal</a> and <a href=`"${bk}r10`">Dried Fruit Followed by Juicy Fruit</a> are written out step by step in the free recipe book.")
 AddRecipeNote 'veg' 'of the whole vegetable meal, built visually' `
-  ("The salad bases that put this into practice start with the <a href=`"$bk/#r01`">Carrot-Cabbage Coleslaw</a> in the free recipe book.")
+  ("The salad bases that put this into practice start with the <a href=`"${bk}r01`">Carrot-Cabbage Coleslaw</a> in the free recipe book.")
 AddRecipeNote 'howtoeat' 'you can also download the free infographic guide' `
-  ("For a full vegetable meal built exactly this way, see the <a href=`"$bk/#r02`">Kale and Spinach Minced Salad</a> in the free recipe book.")
+  ("For a full vegetable meal built exactly this way, see the <a href=`"${bk}r02`">Kale and Spinach Minced Salad</a> in the free recipe book.")
 AddRecipeNote 'greenjuice' 'green juice, check out' `
-  ("Both green juices are written out in the free recipe book: <a href=`"$bk/#r07`">my green juice</a> and the <a href=`"$bk/#r08`">Soothing Green Juice</a>.")
+  ("Both green juices are written out in the free recipe book: <a href=`"${bk}r07`">my green juice</a> and the <a href=`"${bk}r08`">Soothing Green Juice</a>.")
 AddRecipeNote 'timing' 'a stunning visual infographic of this information' `
-  ("The two-course fruit meal this timing is built around is the <a href=`"$bk/#r10`">Dried Fruit Followed by Juicy Fruit</a> in the free recipe book.")
+  ("The two-course fruit meal this timing is built around is the <a href=`"${bk}r10`">Dried Fruit Followed by Juicy Fruit</a> in the free recipe book.")
 
 # ---- THE PARKED COURSE (2026-08-10) ----
 # Transition Diet 101 does not exist yet, and the page these links used to

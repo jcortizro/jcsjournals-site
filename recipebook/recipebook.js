@@ -62,10 +62,15 @@
   // land it ourselves once the pages exist. Runs after the fit pass so the
   // target is at its final height, and re-runs on hashchange for repeat links.
   function landOnHash() {
-    // The Carrd loader stashes the hash at parse time because Carrd wipes
-    // location.hash before this script ever runs. Prefer the stash, use it
-    // once, then fall back to the live hash for in-page hashchange.
-    var id = window.__deepHash || (location.hash || '').slice(1);
+    // Carrd WIPES location.hash before this script ever runs, so a cross site
+    // deep link cannot rely on it: measured, freerecipes.carrd.co/#r08 arrived
+    // with an empty hash and scrollY 0. Carrd leaves the QUERY STRING alone, so
+    // links from the other sites use ?r=r08 and that is read first. The loader
+    // stash and the live hash remain as fallbacks for surfaces that keep it
+    // (GitHub Pages, and the library's own Carrd page, which does).
+    var q = '';
+    try { q = new URLSearchParams(location.search).get('r') || ''; } catch (e) {}
+    var id = q || window.__deepHash || (location.hash || '').slice(1);
     window.__deepHash = '';
     if (!id) return;
     var t = document.getElementById(id);
