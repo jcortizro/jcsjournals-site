@@ -510,6 +510,31 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
    This block answers the one objection the form cannot: "what am I actually
    getting, and is this another extreme protocol". Every line is Prof. Spira's
    own from his Video Plan, so it stays factual and stays short. */
+/* ⛔ HERO LINE BREAKS, JC 2026-08-11: "two words up top, one word in the
+   middle, two words at the bottom, it just looks weird."
+   The <br> already splits the h1 into "Start Where You" / "Actually Are", but
+   at the inherited size the first line does not FIT a phone, so it re-wrapped
+   and orphaned "You" on its own line. Measured with web-verify\line_probe.py
+   at 390: 3 lines filling 92% / 27% / 96%. The 27% was the orphan.
+   Glyph advance measures ~0.702 of font-size for this face, so 15 characters
+   need about 10.5x the font-size in width. 7vw keeps the top line inside a
+   331px column at 390 and hits the old 3.9rem at ~890px, so DESKTOP IS
+   UNCHANGED and only phones shrink. Re-measure with line_probe if this text
+   ever changes length. */
+.hero h1{font-size:clamp(1.5rem,7vw,3.9rem)}
+
+/* Same problem on the eyebrow: it split "Not Open Yet" across two lines. Each
+   segment is nowrap so a break can only land on a separator, and below 520px
+   it shrinks just enough to sit on ONE line instead. */
+.eyebrow .nb{white-space:nowrap}
+@media(max-width:520px){
+  .eyebrow{font-size:.585rem;letter-spacing:2.2px}
+}
+/* 360px phones still split it, so tighten the tracking a touch further there. */
+@media(max-width:380px){
+  .eyebrow{font-size:.555rem;letter-spacing:1.6px}
+}
+
 #whatsin{max-width:900px;margin:0 auto 34px}
 .incols{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px}
 .blk-h{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.8px;
