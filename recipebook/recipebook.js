@@ -70,9 +70,15 @@
     if (!t) return;
     e.preventDefault();
     e.stopPropagation();
-    // Instant, not smooth: on this 44k px page the smooth animation gets
-    // interrupted about 700px in and strands the reader between pages.
-    // Measured live on the Carrd embed; the instant jump lands at exactly 0.
-    t.scrollIntoView({ behavior: 'auto', block: 'start' });
+    // Instant, never smooth: on this 44k px page smooth animation gets
+    // interrupted and strands the reader between pages. And 'auto' is NOT
+    // instant, it defers to the css scroll-behavior, which the site shell
+    // sets to smooth. So: force the css off for the jump, use 'instant',
+    // then restore. Measured live on the Carrd embed, lands at exactly 0.
+    var de = document.documentElement;
+    var prev = de.style.scrollBehavior;
+    de.style.scrollBehavior = 'auto';
+    t.scrollIntoView({ behavior: 'instant', block: 'start' });
+    de.style.scrollBehavior = prev;
   }, true);
 })();
