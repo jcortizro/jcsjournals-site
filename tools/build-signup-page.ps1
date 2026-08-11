@@ -83,6 +83,28 @@ if ([regex]::Matches($h, 'id="waitform"').Count -ne 1) { throw "build-signup: th
 if ([regex]::Matches($h, 'id="legalModal"').Count -ne 1) { throw "build-signup: the legal modal is missing" }
 if ([regex]::Matches($h, 'id="modalContent"').Count -ne 1) { throw "build-signup: the modal content slot is missing" }
 if ([regex]::Matches($h, 'data-modal').Count -lt 3) { throw "build-signup: the footer legal links are missing" }
+
+# ---- GATE: this page makes exactly ONE promise ----
+# JC, 2026-08-11: "remove the promises that there's no spam, they only receive
+# one email, because I'm not the one in charge of marketing... the main thing is
+# that they'll get access to Transition Diet 101, they'll be notified the second
+# it drops. That's the only promise."
+# He does not control the mailing, so he cannot promise volume, frequency,
+# unsubscribe behaviour or absence of spam. Anything that creeps back in is a
+# claim he would have to keep, so the build refuses it. This checks the SHIPPED
+# page, comments included, because a comment ships too.
+$bannedClaims = @('no spam', 'No Spam', 'unsubscribe', 'Unsubscribe',
+                  'one email', 'One email', 'One Email', 'nothing else')
+foreach ($claim in $bannedClaims) {
+  if ($h.ToLower().Contains($claim.ToLower())) {
+    throw ("build-signup: the page claims '" + $claim + "'. This page promises ONE thing: " +
+           "notified, and in, the second the course drops. Nothing about email handling.")
+  }
+}
+if ([regex]::Matches($h, 'the second it drops|second Transition Diet 101 drops').Count -lt 1) {
+  throw "build-signup: the one promise is missing from the page"
+}
+Write-Output "  one promise only, no email claims : ok"
 # Every element the component toggles with .hidden needs an explicit
 # [hidden]{display:none}, because an author display rule outranks the browser's.
 # Without it a successful signup renders the filled form and a stuck "Sending..."
