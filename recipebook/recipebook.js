@@ -58,9 +58,13 @@
   // homes: standalone GitHub Pages and the Carrd shell. Capture phase, so this
   // wins even if the host page has its own delegated click handlers.
   document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    var a = e.target.closest ? e.target.closest('a[data-t], a[href^="#"]') : null;
     if (!a) return;
-    var id = a.getAttribute('href').slice(1);
+    // data-t first: on the Carrd surface the loader strips these anchors'
+    // hrefs so Carrd's own hash handling never sees the click at all (its
+    // handler animates back to the section top and undoes any jump we make).
+    // On GitHub Pages / the PDF the hrefs stay and native behavior is fine.
+    var id = a.getAttribute('data-t') || (a.getAttribute('href') || '').slice(1);
     if (!id) return;
     var t = document.getElementById(id);
     if (!t) return;
