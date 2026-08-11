@@ -130,6 +130,13 @@
   .terms-grid{display:flex;flex-direction:column;gap:.32em}
   .term{font-size:.66em;line-height:1.32;color:var(--ink-soft);margin:0}
   .term b{color:var(--navy);font-weight:700}
+  /* A key term that the free library explains. Inherits the term's own colour
+     and weight so nothing about the page's rhythm changes; only the underline
+     says it is clickable. */
+  .termlink{color:inherit;text-decoration:underline;text-decoration-color:var(--green);
+    text-decoration-thickness:1px;text-underline-offset:2px}
+  .termlink:hover{color:var(--green-mid);text-decoration-color:var(--green-mid)}
+  .termlink:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:1px}
   .term .ptr{color:var(--orange);font-weight:700;letter-spacing:.03em}
 
   .cta-bar{margin-top:auto;padding-top:.7em;border-top:1px solid var(--rule);display:flex;align-items:center;gap:.85em}

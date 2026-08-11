@@ -105,6 +105,37 @@ $bg64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes("$repo\src\foli
 $page = $page.Replace('/*__ASSETS__*/', $assets).Replace('__BGIMG__', $bg64)
 if ($page.Contains('__LIBURL__') -or $page.Contains('__BGIMG__')) { throw "unresolved tokens remain" }
 
+# ---- CROSS LINKS INTO THE FREE RECIPE BOOK (JC 2026-08-10) ----
+# "the library needs those free recipe book links where it makes sense", and
+# clicking one must land the reader on that exact spread. Each note is added
+# right under the existing visual-note in the same topic, and reuses the
+# visual-note class verbatim, so the formatting is the page's own proven block
+# and cannot drift. Its links already render gold (.visual-note a{color:gold}).
+# Anchors are matched on pure ASCII phrases because PS 5.1 reads this file as
+# ANSI and an emoji literal here would corrupt; the marker is built by code point.
+$salad = [char]::ConvertFromUtf32(0x1F957)
+
+function AddRecipeNote([string]$label, [string]$uniquePhrase, [string]$inner) {
+  $rx = '<div class="visual-note">(?:(?!</div>).)*?' + [regex]::Escape($uniquePhrase) + '(?:(?!</div>).)*?</div>'
+  $m = [regex]::Matches($script:page, $rx, 'Singleline')
+  if ($m.Count -ne 1) { throw "build-library: recipe note '$label' anchor matched $($m.Count), expected 1" }
+  $note = '<div class="visual-note"><span class="vv" aria-hidden="true">' + $script:salad + '</span><span>' + $inner + '</span></div>'
+  $script:page = $script:page.Replace($m[0].Value, $m[0].Value + $note)
+  Write-Output "  recipe note [$label] : ok"
+}
+
+$bk = $RecipesUrl.TrimEnd('/')
+AddRecipeNote 'fruit' 'created by yours truly.' `
+  ("Want the meals themselves? The <a href=`"$bk/#r09`">Mono Fruit Meal</a> and <a href=`"$bk/#r10`">Dried Fruit Followed by Juicy Fruit</a> are written out step by step in the free recipe book.")
+AddRecipeNote 'veg' 'of the whole vegetable meal, built visually' `
+  ("The salad bases that put this into practice start with the <a href=`"$bk/#r01`">Carrot-Cabbage Coleslaw</a> in the free recipe book.")
+AddRecipeNote 'howtoeat' 'you can also download the free infographic guide' `
+  ("For a full vegetable meal built exactly this way, see the <a href=`"$bk/#r02`">Kale and Spinach Minced Salad</a> in the free recipe book.")
+AddRecipeNote 'greenjuice' 'green juice, check out' `
+  ("Both green juices are written out in the free recipe book: <a href=`"$bk/#r07`">my green juice</a> and the <a href=`"$bk/#r08`">Soothing Green Juice</a>.")
+AddRecipeNote 'timing' 'a stunning visual infographic of this information' `
+  ("The two-course fruit meal this timing is built around is the <a href=`"$bk/#r10`">Dried Fruit Followed by Juicy Fruit</a> in the free recipe book.")
+
 # ---- THE PARKED COURSE (2026-08-10) ----
 # Transition Diet 101 does not exist yet, and the page these links used to
 # reach (td101landing) is gone. Left alone they point at an anchor that is not
