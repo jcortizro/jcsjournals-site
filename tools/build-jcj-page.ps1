@@ -118,15 +118,31 @@ Write-Output "  extra-css merged : ok"
 $libSectionRx = '(?s)<section id="library">.*?</section>\s*(?=<!-- funnel -->)'
 $m = [regex]::Matches($h, $libSectionRx)
 if ($m.Count -ne 1) { throw "build-jcj: library section matched $($m.Count), expected 1" }
+# ONE box, two free doors, recipe book FIRST with a hairline divider between
+# them (JC 2026-08-11). The library is labelled "Learn The Basics" here, not
+# "The Free Library", because that is what it does for someone landing cold.
 $libPointer = @"
 <section id="library">
       <div class="sect-head">
         <p class="kicker k-free">Free &middot; No Email Signup Required</p>
-        <h2>The Free Library</h2>
-        <p class="sect-lede">Six topics that take you from what the Mucusless Diet Healing System is, to how to actually eat a meal.</p>
+        <h2>Start Here, Free</h2>
       </div>
-      <div class="cta-row" style="justify-content:center">
-        <a class="btn" href="$LibraryUrl">Open The Free Library</a>
+      <div class="startbox">
+        <div class="startrow">
+          <div class="starttext">
+            <h3>24 Free Recipes</h3>
+            <p>The TD 101 Recipe Book. Every recipe with the context behind it: which menu plan it belongs to, when to eat it, and how it fits into a full day.</p>
+          </div>
+          <a class="btn" href="$RecipesUrl">Open The Recipe Book</a>
+        </div>
+        <div class="startdiv" aria-hidden="true"></div>
+        <div class="startrow">
+          <div class="starttext">
+            <h3>Learn The Basics</h3>
+            <p>The free educational library. Six topics that take you from what the Mucusless Diet Healing System is, to how to actually eat a meal.</p>
+          </div>
+          <a class="btn ghost" href="$LibraryUrl">Open The Library</a>
+        </div>
       </div>
     </section>
 

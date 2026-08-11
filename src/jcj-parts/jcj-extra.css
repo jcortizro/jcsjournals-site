@@ -1,6 +1,24 @@
 /* ===== JC'S JOURNALS REBRAND (mockup v3 - 2026-07-19) ===== */
 /* header */
 .wordmark{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:2.4px;text-transform:uppercase;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 0}
+/* START HERE box (JC 2026-08-11): the two free doors in ONE box, recipe book
+   first, a hairline divider between them. Same panel treatment as the rest of
+   the page so it reads as part of the system, not a new component. */
+.startbox{max-width:760px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
+  border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:26px 26px 24px;
+  display:flex;flex-direction:column;gap:20px}
+.startrow{display:flex;align-items:center;gap:22px}
+.startrow .starttext{flex:1 1 auto;min-width:0}
+.startrow h3{font-family:var(--display);font-weight:900;font-size:1.16rem;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--free);margin:0 0 6px}
+.startrow p{margin:0;font-size:.95rem;line-height:1.5;color:var(--dim)}
+.startrow .btn{flex:none}
+.startdiv{height:1px;background:var(--hair-strong);opacity:.75}
+@media(max-width:620px){
+  .startbox{padding:22px 18px 20px}
+  .startrow{flex-direction:column;align-items:stretch;gap:14px}
+  .startrow .btn{align-self:flex-start}
+}
 .hsoc{display:inline-flex;align-items:center;gap:2px}
 a.soc,span.soc{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:8px;color:var(--dim);text-decoration:none;transition:color .12s,background .12s}
 a.soc:hover{color:#fff;background:rgba(255,255,255,.08)}
