@@ -59,11 +59,11 @@ RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'vid
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
-RepRx 'green-course-btn' ([regex]::Escape('<a class="btn green" class="tdlink" href="' + $LandingUrl + '#free">What Is Transition Diet 101?</a>')) '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>' 1
-$m = [regex]::Matches($h, '<a class="tdlink" href="[^"]*">(.*?)</a>')
-if ($m.Count -ne 14) { throw "build-jcj: tdlink matched $($m.Count), expected 14" }
-$h = [regex]::Replace($h, '<a class="tdlink" href="[^"]*">(.*?)</a>', '<span class="tdlink">$1</span>')
-Write-Output "  tdlink->span : 14 ok"
+# The parked course (green button + 14 tdlinks) is now handled upstream in
+# build-library-page.ps1, so this page inherits it. Assert, do not repeat.
+if ([regex]::Matches($h, '<a class="tdlink" href=').Count -ne 0) { throw "build-jcj: live tdlinks survived upstream parking" }
+if ([regex]::Matches($h, '<span class="tdlink">').Count -ne 14) { throw "build-jcj: expected 14 inherited parked tdlinks" }
+Write-Output "  parked course inherited : 14 ok"
 RepRx 'course-note-chip' ([regex]::Escape('Transition Diet 101</span> teaches.</span></div>')) ('Transition Diet 101</span> teaches. <span class="soonchip">Coming Soon</span></span></div>') 1
 $fr = [regex]::Matches($h, [regex]::Escape('Transition Diet 101</span> course.')).Count
 if ($fr -lt 1) { throw "build-jcj: framing-chip found none" }

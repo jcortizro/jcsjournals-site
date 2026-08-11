@@ -105,6 +105,21 @@ $bg64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes("$repo\src\foli
 $page = $page.Replace('/*__ASSETS__*/', $assets).Replace('__BGIMG__', $bg64)
 if ($page.Contains('__LIBURL__') -or $page.Contains('__BGIMG__')) { throw "unresolved tokens remain" }
 
+# ---- THE PARKED COURSE (2026-08-10) ----
+# Transition Diet 101 does not exist yet, and the page these links used to
+# reach (td101landing) is gone. Left alone they point at an anchor that is not
+# there, so the reader lands nowhere. Park them exactly as the hub already
+# does: de-linked, still readable. Done here so the jcj page inherits it.
+$greenBtn = '<a class="btn green" class="tdlink" href="' + $landingUrl + '#free">What Is Transition Diet 101?</a>'
+$n = ([regex]::Matches($page, [regex]::Escape($greenBtn))).Count
+if ($n -ne 1) { throw "build-library: expected 1 green course button, found $n" }
+$page = $page.Replace($greenBtn, '<span class="btn ghost">What Is Transition Diet 101? <span class="chip">soon</span></span>')
+
+$n = ([regex]::Matches($page, '<a class="tdlink" href="[^"]*">(.*?)</a>')).Count
+if ($n -ne 14) { throw "build-library: expected 14 tdlinks, found $n" }
+$page = [regex]::Replace($page, '<a class="tdlink" href="[^"]*">(.*?)</a>', '<span class="tdlink">$1</span>')
+Write-Output "  parked course links : 1 + 14 ok"
+
 # ---- ONE HEADER ACROSS THE FAMILY (JC 2026-08-10) ----
 # All three sites must look like one website, so the library wears the same
 # wordmark + social icons header as jcsjournals.com. The old Home/Free/Paid
