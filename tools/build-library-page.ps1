@@ -151,6 +151,27 @@ if ($n -ne 14) { throw "build-library: expected 14 tdlinks, found $n" }
 $page = [regex]::Replace($page, '<a class="tdlink" href="[^"]*">(.*?)</a>', '<span class="tdlink">$1</span>')
 Write-Output "  parked course links : 1 + 14 ok"
 
+# ---- ONE FOOTER ACROSS THE FAMILY ----
+# The shell still carried the design-proposal footer ("Branding TBD, Redesign
+# proposal..."), which was shipping on the live library page. Same real footer
+# as the hub, applied here so the jcj page inherits it.
+$ftr = [System.IO.File]::ReadAllText("$repo\src\jcj-parts\new-footer.html")
+$fm = [regex]::Matches($page, '(?s)<footer>.*?</footer>')
+if ($fm.Count -ne 1) { throw "build-library: expected 1 footer, found $($fm.Count)" }
+$page = $page.Replace($fm[0].Value, $ftr)
+# The design-proposal scaffolding note ships too: its CSS is filtered out of
+# this page, so the text renders raw at the bottom of a live site. Remove the
+# element, not just its wording.
+$mn = [regex]::Matches($page, '(?s)<div class="mock-note">.*?</div>')
+if ($mn.Count -ne 1) { throw "build-library: expected 1 mock-note, found $($mn.Count)" }
+$page = $page.Replace($mn[0].Value, '')
+# Guard the VISIBLE mockup copy only. ("branding TBD" also appears in an HTML
+# comment in the header, which the header swap below deletes anyway, and which
+# a reader never sees. PS -match is case insensitive while [regex]::Matches is
+# not, which is what made that comment look like a survivor.)
+if (([string]$page) -match 'Redesign proposal|placeholder drafts he owns') { throw "build-library: mockup scaffolding survived" }
+Write-Output "  shared footer + scaffolding removed : ok"
+
 # ---- ONE HEADER ACROSS THE FAMILY (JC 2026-08-10) ----
 # All three sites must look like one website, so the library wears the same
 # wordmark + social icons header as jcsjournals.com. The old Home/Free/Paid
