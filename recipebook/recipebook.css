@@ -132,6 +132,15 @@
   .btn{font-weight:700;font-size:.66em;color:#fff;background:var(--green-mid);padding:.48em .85em;border-radius:2px;text-decoration:none;display:inline-block;white-space:nowrap;flex:none}
   .btn:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
 
+  /* Stands in for a CTA while TD101_URL is empty. Deliberately not a button:
+     it is an outlined chip, so nothing invites a click that goes nowhere.
+     Sits at the same size and rhythm so the page does not reflow when the
+     real link arrives. */
+  .cta-soon{font-weight:700;font-size:.6em;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink-soft);border:1px solid var(--rule);background:transparent;
+    padding:.44em .8em;border-radius:2px;display:inline-block;white-space:nowrap;flex:none}
+  .watch .cta-soon{color:#fff;border-color:rgba(255,255,255,.45)}
+
   .tocbtn{font-size:.5em;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
     color:var(--green);text-decoration:none;border:1px solid var(--rule);border-radius:2px;
     padding:.3em .6em;background:var(--paper);white-space:nowrap;line-height:1}
