@@ -11,3 +11,27 @@ document.addEventListener('click',function(e){
   var y=el.getBoundingClientRect().top+window.scrollY-60;
   window.scrollTo({top:y,behavior:'smooth'});
 });
+
+/* ARRIVAL, not just clicks. Another site linking in (the dock's Contact, from
+   the free library or the free recipe book) lands here as jcsjournals.com/#work-with-us,
+   and Carrd swallows the native hash jump AND wipes the hash a moment later, so
+   the reader sits at the top of the page with the contact box below the fold.
+   Measured on a 390 by 780 viewport: scrollY 0, box 454px down.
+   The hash is read immediately, at parse time, before Carrd can clear it, and
+   the jump is INSTANT: a smooth animation over this distance gets interrupted. */
+(function(){
+  var wanted=(location.hash||'').slice(1);
+  function land(id){
+    if(!id)return;
+    var el=document.getElementById(id);
+    if(!el)return;
+    var de=document.documentElement,prev=de.style.scrollBehavior;
+    de.style.scrollBehavior='auto';
+    window.scrollTo(0,el.getBoundingClientRect().top+window.scrollY-60);
+    de.style.scrollBehavior=prev;
+  }
+  function run(){ land(wanted); setTimeout(function(){land(wanted);},350); }
+  if(document.readyState==='complete')run();
+  else window.addEventListener('load',run);
+  window.addEventListener('hashchange',function(){ land((location.hash||'').slice(1)); });
+})();
