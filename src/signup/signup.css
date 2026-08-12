@@ -17,6 +17,8 @@
    UNCHANGED and only phones shrink. Re-measure with line_probe if this text
    ever changes length. */
 .hero h1{font-size:clamp(1.5rem,7vw,3.9rem)}
+/* Bold inside the lede lifts to white, same emphasis treatment as the list. */
+.hero .lede b{color:#fff;font-weight:600}
 
 /* Same problem on the eyebrow: it split "Not Open Yet" across two lines. Each
    segment is nowrap so a break can only land on a separator, and below 520px
