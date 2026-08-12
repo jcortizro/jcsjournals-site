@@ -101,7 +101,10 @@ foreach ($claim in $bannedClaims) {
            "notified, and in, the second the course drops. Nothing about email handling.")
   }
 }
-if ([regex]::Matches($h, 'the second it drops|second Transition Diet 101 drops').Count -lt 1) {
+# Match the invariant, "notified the second ...", not one exact sentence, so JC
+# can reword the ending (it drops / it becomes available to the public) without
+# the gate firing on his own copy. The promise itself still cannot go missing.
+if ([regex]::Matches($h, 'notified the second').Count -lt 1) {
   throw "build-signup: the one promise is missing from the page"
 }
 Write-Output "  one promise only, no email claims : ok"
