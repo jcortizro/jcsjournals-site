@@ -508,7 +508,17 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 .startbox{max-width:760px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
   border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:26px 26px 24px;
   display:flex;flex-direction:column;gap:20px}
-/* Centred, like the Speak To A Human box (JC 2026-08-11). */
+/* ⛔ "SPEAK TO A" / "REAL PERSON" must measure the SAME WIDTH (JC 2026-08-11:
+   "they should both be the same width"). The top line is 10 characters against
+   11, so it ran ~14% short at every size. Tracking on line 1 only closes it,
+   and because the shortfall is proportional the same em value works at every
+   breakpoint (measured 390 / 768 / 1400). The negative margin cancels the
+   trailing letter-space so the line still centres optically.
+   Instrument: web-verify\line_probe.py, which reports each line's fill of the
+   column. Re-measure if this wording ever changes. */
+.cta-h2 .l1{letter-spacing:.123em;margin-right:-.123em;display:inline-block}
+
+/* Centred, like the Speak To A Real Person box (JC 2026-08-11). */
 .startrow{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
 .startrow .starttext{max-width:52ch}
 .startrow h3{font-family:var(--display);font-weight:900;font-size:1.16rem;letter-spacing:1.2px;text-transform:uppercase;
