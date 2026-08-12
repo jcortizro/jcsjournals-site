@@ -17,6 +17,21 @@
    column. Re-measure if this wording ever changes. */
 .cta-h2 .l1{letter-spacing:.123em;margin-right:-.123em;display:inline-block}
 
+/* ⛔ SIZE IS RELATIVE TO THE BOX, NOT THE VIEWPORT (JC 2026-08-11: "it should be
+   almost the same width as the text under it, it should take up a good portion
+   of the box it is in"). The heading was 34.4px and each line filled only 36%
+   of the box while the paragraph under it filled 98%.
+   A vw value cannot hold that ratio, because the box is 53% of the viewport on
+   a desktop and 74% on a phone, so the fill would sag in the middle. Container
+   units are measured against the BOX, so 11.2cqw holds the same proportion at
+   every width. The vw clamp is the fallback for anything without cqw support.
+   Line 1's tracking is in em, so it scales with this automatically. */
+.ctabig{container-type:inline-size}
+.cta-h2{font-size:clamp(1.9rem,7vw,4.6rem);line-height:1.04}
+@supports (font-size:1cqw){
+  .cta-h2{font-size:min(11.2cqw,5.6rem)}
+}
+
 /* Centred, like the Speak To A Real Person box (JC 2026-08-11). */
 .startrow{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
 .startrow .starttext{max-width:52ch}

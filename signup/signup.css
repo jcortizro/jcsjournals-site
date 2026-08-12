@@ -557,7 +557,9 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 /* Who is actually teaching this. Sits between the two columns and the form, so
    the last thing read before the ask is the authority behind it. */
 #taughtby{max-width:760px;margin:0 auto 34px;text-align:center}
-.taught{margin:0;font-size:1rem;line-height:1.6;color:var(--dim)}
+/* Same size as the copy at the top of the page (JC 2026-08-11: "make the text
+   as big as the text in the beginning of that page"). .lede is 1.1rem. */
+.taught{margin:0;font-size:1.1rem;line-height:1.6;color:var(--dim)}
 .taught b{color:#fff;font-weight:600}
 @media(max-width:720px){
   .incols{grid-template-columns:1fr;gap:22px}
