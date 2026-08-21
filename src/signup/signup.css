@@ -39,8 +39,10 @@
 
 #whatsin{max-width:900px;margin:0 auto 34px}
 .incols{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px}
-.blk-h{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.8px;
-  text-transform:uppercase;color:var(--free);margin:0 0 12px}
+/* JC 2026-08-21: "bigger and bolder". Was a .72rem kicker, now a real heading.
+   Letter-spacing comes down because large caps need less of it. */
+.blk-h{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--free);margin:0 0 14px}
 .inlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
 .inlist li{position:relative;padding-left:18px;font-size:.97rem;line-height:1.5;color:var(--dim)}
 .inlist li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;
@@ -96,3 +98,12 @@
   .fieldrow{flex-direction:column;gap:16px}
   #waitform .btn{width:100%;justify-content:center}
 }
+
+/* ONE SPACING SCALE (JC 2026-08-21). He likes the LENGTH and hated the rhythm:
+   "I don't know why there's all this weird spacing stuff you have going on, it's
+   actually really annoying to me." The shell gives every <section> up to 84px of
+   top padding and each block here adds 34px below itself, so gaps ran 96 to 128px
+   and the last reached ~158px once .signbox's own padding landed. One value now. */
+#taughtby,#whatsin,#signup{padding-top:0}
+#taughtby,#whatsin{margin:0 auto 34px}
+#signup{margin:0 auto}

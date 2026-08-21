@@ -188,7 +188,7 @@ footer .wrap{display:flex;flex-direction:column;gap:12px}
   .grid4{grid-template-columns:1fr}
 }
 /* ==== LIBRARY components ==== */
-:root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}
+:root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}a.tdwatch::after{content:"WATCH IT FREE";font-family:var(--body);font-weight:600;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.06);border:1px solid var(--hair-strong);border-radius:99px;padding:4px 9px;margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:baseline;text-decoration:none}a.tdwatch:hover::after{border-color:var(--gold);filter:brightness(1.35)}
   --display:'Montserrat',sans-serif;--body:'Source Sans 3','Source Sans Pro',system-ui,sans-serif;
   --text:#fff;--dim:rgba(255,255,255,.90);--dim2:rgba(255,255,255,.85);--faint:rgba(255,255,255,.78);
   --panel:rgba(15,19,12,.72);--panel-solid:rgba(15,19,12,.96);--hair:rgba(255,255,255,.17);--hair-strong:rgba(255,255,255,.36);
@@ -544,8 +544,10 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 
 #whatsin{max-width:900px;margin:0 auto 34px}
 .incols{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px}
-.blk-h{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.8px;
-  text-transform:uppercase;color:var(--free);margin:0 0 12px}
+/* JC 2026-08-21: "bigger and bolder". Was a .72rem kicker, now a real heading.
+   Letter-spacing comes down because large caps need less of it. */
+.blk-h{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--free);margin:0 0 14px}
 .inlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
 .inlist li{position:relative;padding-left:18px;font-size:.97rem;line-height:1.5;color:var(--dim)}
 .inlist li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;
@@ -601,4 +603,13 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
   .fieldrow{flex-direction:column;gap:16px}
   #waitform .btn{width:100%;justify-content:center}
 }
+
+/* ONE SPACING SCALE (JC 2026-08-21). He likes the LENGTH and hated the rhythm:
+   "I don't know why there's all this weird spacing stuff you have going on, it's
+   actually really annoying to me." The shell gives every <section> up to 84px of
+   top padding and each block here adds 34px below itself, so gaps ran 96 to 128px
+   and the last reached ~158px once .signbox's own padding landed. One value now. */
+#taughtby,#whatsin,#signup{padding-top:0}
+#taughtby,#whatsin{margin:0 auto 34px}
+#signup{margin:0 auto}
 

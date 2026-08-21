@@ -504,6 +504,16 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
   border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:26px 26px 24px;
   display:flex;flex-direction:column;gap:20px}
 
+.cta-h2 .l1{letter-spacing:.123em;margin-right:-.123em;display:inline-block}
+
+
+.ctabig{container-type:inline-size}
+.cta-h2{font-size:clamp(1.9rem,7vw,4.6rem);line-height:1.04}
+@supports (font-size:1cqw){
+  .cta-h2{font-size:min(11.2cqw,5.6rem)}
+}
+
+
 .startrow{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
 .startrow .starttext{max-width:52ch}
 .startrow h3{font-family:var(--display);font-weight:900;font-size:1.16rem;letter-spacing:1.2px;text-transform:uppercase;
@@ -629,6 +639,7 @@ a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,2
 @media(max-width:700px){.pathgrid{grid-template-columns:1fr}}
 #book{position:relative;z-index:2;background:transparent;padding-bottom:96px}
 #book .wrap{background:transparent}
+.sect-lede a.tdlink{font-weight:800;color:#fff;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
 
 /* THE DOCK BAR. One source, three sites (jcsjournals.com, the free library,
    the free recipe book). The little bar at the bottom is the connective tissue
@@ -765,7 +776,7 @@ a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,2
   <div class="sect-head">
     <p class="kicker k-free">Free &middot; No Email Signup Required</p>
     <h2>The TD 101 Recipe Book</h2>
-    <p class="sect-lede">Twenty four transition recipes from Transition Diet 101, each with the context behind it: the menu plan it belongs to, when to eat it, and how it fits into a full day. Every page is right here, keep scrolling.</p>
+    <p class="sect-lede">Twenty four transition recipes from <a class="tdlink" href="https://td101.carrd.co/">Transition Diet 101</a>, each with the context behind it: the menu plan it belongs to, when to eat it, and how it fits into a full day. Every page is right here, keep scrolling.</p>
   </div>
 </section>
 </main>
@@ -1890,9 +1901,9 @@ a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,2
     
     <div class="watch">
       <div>
-        <h3>Watch the full walkthrough</h3>
-        <p>This recipe has its own video in <b>Transition Diet 101</b>, Module 5, under Menu Plan 1.
-        <span class="soon">You get in the second it drops.</span></p>
+        <h3>From the same kitchen</h3>
+        <p>This recipe comes from <b>Transition Diet 101</b>, the free course.
+        <span class="soon">Most recipes in this book also have their own video walkthrough there.</span></p>
       </div>
       <a class="cta-soon" href="https://td101.carrd.co/">Get notified</a>
     </div>

@@ -75,6 +75,7 @@ $killPatterns = @(
 )
 foreach ($p in $killPatterns) { $libCss = [regex]::Replace($libCss, $p, '') }
 $compat = ':root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}'
+$compat = $compat + 'a.tdwatch::after{content:"WATCH IT FREE";font-family:var(--body);font-weight:600;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.06);border:1px solid var(--hair-strong);border-radius:99px;padding:4px 9px;margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:baseline;text-decoration:none}a.tdwatch:hover::after{border-color:var(--gold);filter:brightness(1.35)}'
 $page = $page.Replace('</style>', ("/* ==== LIBRARY components ==== */`n" + $compat + "`n" + $libCss + "`n</style>"))
 
 # ---- library engine JS (minus the shell dropdown code the landing already has) ----
@@ -184,9 +185,40 @@ $page = $page.Replace($tail, 'apply this information lives. It is not open yet, 
 
 $n = ([regex]::Matches($page, '<a class="tdlink" href="[^"]*">(.*?)</a>')).Count
 if ($n -ne 14) { throw "build-library: expected 14 tdlinks, found $n" }
-# The 14 inline mentions stay plain text on purpose: 14 links to the same page
-# inside body copy reads as spam and fights the one real button.
-$page = [regex]::Replace($page, '<a class="tdlink" href="[^"]*">(.*?)</a>', '<span class="tdlink">$1</span>')
+# REVERSED 2026-08-21 ON JC'S ORDER. These 14 were switched off on 2026-08-11
+# because "14 links to one page reads as spam". He overruled it: "the library
+# needs to have every part that the Transition Diet 101 course can be mentioned
+# and have a clickable link where people are sent to it... We've been losing so
+# many people!" The anti-spam control is NOT fewer links, it is that these are
+# inline TEXT links (white, bold, gold underline, already styled by
+# .acc-body a.tdlink) and there is still exactly ONE button on the page.
+$page = [regex]::Replace($page, '<a class="tdlink" href="[^"]*">(.*?)</a>', ('<a class="tdlink" href="' + $SignupUrl + '">$1</a>'))
+
+$n = ([regex]::Matches($page, '<a class="tdlink" href="' + [regex]::Escape($SignupUrl) + '">')).Count
+if ($n -ne 14) { throw "build-library: expected 14 live tdlinks after the swap, found $n" }
+if ([regex]::Matches($page, '<span class="tdlink">').Count -ne 0) { throw "build-library: a dead tdlink span survived" }
+Write-Output "  14 inline course links LIVE : ok"
+
+# ---- REGISTER 2: the five video promises carry a chip (2026-08-21) ----
+# Five of the fourteen do not pitch the course, they promise a specific video or
+# infographic that lives inside it. That is the highest intent moment on the
+# page, so the chip names the ASSET, not the course. Detected by the film
+# clapper glyph that already opens each of those notes, so a copy edit that adds
+# or removes a video promise fails this build loudly instead of drifting.
+# Built by code point: PS 5.1 reads this file as ANSI and an emoji literal
+# here would corrupt (same reason as the salad marker above).
+$film = [char]::ConvertFromUtf32(0x1F3AC)
+# NOTE 2026-08-21: bounded by </div>, not </span>. Measured markup: the glyph
+# sits inside its OWN icon-only span (<span class="vv">[glyph]</span>) that
+# closes immediately, so a </span> boundary trips before ever reaching the
+# target anchor. The real scope of one visual-note is its enclosing </div>.
+$watchRx = '(?s)' + [regex]::Escape($film) + '(?:(?!</div>).)*?<a class="tdlink"'
+$n = ([regex]::Matches($page, $watchRx)).Count
+if ($n -ne 5) { throw "build-library: expected 5 watch-register mentions, found $n" }
+$page = [regex]::Replace($page, $watchRx, { param($m) $m.Value.Replace('<a class="tdlink"', '<a class="tdlink tdwatch"') })
+$n = ([regex]::Matches($page, 'class="tdlink tdwatch"')).Count
+if ($n -ne 5) { throw "build-library: expected 5 tdwatch links, found $n" }
+Write-Output "  5 watch chips : ok"
 Write-Output "  course CTA live + account ghost removed + 14 mentions plain : ok"
 
 # ---- ONE FOOTER ACROSS THE FAMILY ----

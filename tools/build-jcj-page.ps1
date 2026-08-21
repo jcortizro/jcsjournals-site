@@ -58,16 +58,19 @@ RepRx 'hero-remove' '(?s)<div class="hero">.*?</div>\s*(?=<section id="library">
 RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + (Part 'cta-block.html') + "`n" + '<section id="library">') 1
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
-# TD101 course parked: green button -> ghost+soon, links -> plain gold spans, soon chips
-# The parked course (green button + 14 tdlinks) is now handled upstream in
-# build-library-page.ps1, so this page inherits it. Assert, do not repeat.
-if ([regex]::Matches($h, '<a class="tdlink" href=').Count -ne 0) { throw "build-jcj: live tdlinks survived upstream parking" }
-if ([regex]::Matches($h, '<span class="tdlink">').Count -ne 14) { throw "build-jcj: expected 14 inherited parked tdlinks" }
+# TD101 course parked -> LIVE (2026-08-21). The library upstream now ships 14
+# LIVE tdlink anchors (JC overruled the 2026-08-11 "parked" downgrade), so this
+# page inherits live anchors, not dead spans. Assert the new reality, do not
+# repeat the old one. This inherited body is discarded a few steps down by the
+# "library -> pointer" replace, so nothing here reaches the final page, but the
+# assert must still match or the build throws.
+if ([regex]::Matches($h, '<a class="tdlink[^"]*" href=').Count -ne 14) { throw "build-jcj: expected 14 inherited live tdlinks" }
+if ([regex]::Matches($h, '<span class="tdlink">').Count -ne 0) { throw "build-jcj: a dead tdlink span survived upstream" }
 Write-Output "  parked course inherited : 14 ok"
-RepRx 'course-note-chip' ([regex]::Escape('Transition Diet 101</span> teaches.</span></div>')) ('Transition Diet 101</span> teaches. <span class="soonchip">Coming Soon</span></span></div>') 1
-$fr = [regex]::Matches($h, [regex]::Escape('Transition Diet 101</span> course.')).Count
+RepRx 'course-note-chip' ([regex]::Escape('Transition Diet 101</a> teaches.</span></div>')) ('Transition Diet 101</a> teaches. <span class="soonchip">Coming Soon</span></span></div>') 1
+$fr = [regex]::Matches($h, [regex]::Escape('Transition Diet 101</a> course.')).Count
 if ($fr -lt 1) { throw "build-jcj: framing-chip found none" }
-$h = $h.Replace('Transition Diet 101</span> course.', 'Transition Diet 101</span> course. <span class="soonchip">Coming Soon</span>')
+$h = $h.Replace('Transition Diet 101</a> course.', 'Transition Diet 101</a> course. <span class="soonchip">Coming Soon</span>')
 Write-Output "  framing-chip : $fr ok"
 
 # socials after the library (v13, JC 7/24: the CTA block moved up under the video,
@@ -131,7 +134,7 @@ $libPointer = @"
         <div class="startrow">
           <div class="starttext">
             <h3>24 Free Recipes</h3>
-            <p>The TD 101 Recipe Book. Every recipe with the context behind it: which menu plan it belongs to, when to eat it, and how it fits into a full day.</p>
+            <p>The <a class="tdlink" href="$SignupUrl">TD 101</a> Recipe Book. Every recipe with the context behind it: which menu plan it belongs to, when to eat it, and how it fits into a full day.</p>
           </div>
           <a class="btn" href="$RecipesUrl">Open The Recipe Book</a>
         </div>
@@ -142,6 +145,15 @@ $libPointer = @"
             <p>The free educational library. Six topics that take you from what the Mucusless Diet Healing System is, to how to actually eat a meal.</p>
           </div>
           <a class="btn" href="$LibraryUrl">Open The Library</a>
+        </div>
+        <div class="startdiv" aria-hidden="true"></div>
+        <div class="startrow">
+          <div class="starttext">
+            <h3>Start Your Practice</h3>
+            <p>Learn how to apply the Mucusless Diet Healing System to your unique body and your unique lifestyle, in a 100% free course that covers every single thing I wish I knew when I first started my practice over five years ago.</p>
+            <p class="startsoon">Dropping in September</p>
+          </div>
+          <a class="btn" href="$SignupUrl">Join The Waitlist</a>
         </div>
       </div>
     </section>
@@ -154,6 +166,9 @@ Write-Output ("  library -> pointer : ok (" + [math]::Round($m[0].Value.Length/1
 if ([regex]::Matches($h, 'td101landing|td101library').Count -ne 0) { throw "build-jcj: residual dead td101 subdomain refs" }
 if ([regex]::Matches($h, 'class="acc cat"').Count -ne 0) { throw "build-jcj: library accordions survived the pointer swap" }
 if ([regex]::Matches($h, [regex]::Escape($LibraryUrl)).Count -lt 1) { throw "build-jcj: no link to the library" }
+if ([regex]::Matches($h, [regex]::Escape($SignupUrl)).Count -lt 2) { throw "build-jcj: the hub must carry at least 2 paths to the course (the third card + the inline mention)" }
+if ([regex]::Matches($h, '<div class="startrow">').Count -ne 3) { throw "build-jcj: expected 3 Start Here cards" }
+Write-Output "  hub course paths : ok"
 $dockCount = [regex]::Matches($h, '<nav class="dockbar"').Count
 if ($dockCount -ne 1) { throw "build-jcj: expected exactly 1 dock in the output, found $dockCount" }
 if ([regex]::Matches($h, '(?s)<nav class="mnav"').Count -ne 0) { throw "build-jcj: the old mobile pill resurfaced" }

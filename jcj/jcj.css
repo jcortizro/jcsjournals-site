@@ -185,7 +185,7 @@ footer .wrap{display:flex;flex-direction:column;gap:12px}
   .grid4{grid-template-columns:1fr}
 }
 /* ==== LIBRARY components ==== */
-:root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}
+:root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}a.tdwatch::after{content:"WATCH IT FREE";font-family:var(--body);font-weight:600;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.06);border:1px solid var(--hair-strong);border-radius:99px;padding:4px 9px;margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:baseline;text-decoration:none}a.tdwatch:hover::after{border-color:var(--gold);filter:brightness(1.35)}
   --display:'Montserrat',sans-serif;--body:'Source Sans 3','Source Sans Pro',system-ui,sans-serif;
   --text:#fff;--dim:rgba(255,255,255,.90);--dim2:rgba(255,255,255,.85);--faint:rgba(255,255,255,.78);
   --panel:rgba(15,19,12,.72);--panel-solid:rgba(15,19,12,.96);--hair:rgba(255,255,255,.17);--hair-strong:rgba(255,255,255,.36);
@@ -653,3 +653,10 @@ a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,2
 .webi-sub .ws-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:11px}
 .webi-sub .ws-btn{display:inline-flex;align-items:center;justify-content:center;background:#2E8DFF;color:#fff;font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:11px 22px;border-radius:8px;transition:filter .12s,transform .12s}
 .webi-sub .ws-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+
+/* TD101 funnel repair, 2026-08-21. The library's inline course-link style is
+   scoped to .acc-body and .framing, neither of which exists on the hub, so the
+   hub needs the same values declared against its own card. Same numbers, so the
+   two sites cannot drift apart. */
+.starttext a.tdlink{font-weight:800;color:#fff;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
+.startsoon{margin:6px 0 0;font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
