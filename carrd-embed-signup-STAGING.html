@@ -1,0 +1,35 @@
+<!-- STAGING loader for the TD 101 waitlist page. Paste into the TEST Carrd
+     site's Embed element (Type: Code). Identical to carrd-embed-signup.html
+     except it reads the "staging" branch instead of "main", so the test page
+     shows your work in progress while td101.carrd.co keeps serving main.
+
+     Workflow: commit to staging -> test site updates -> when you like it,
+     merge staging into main -> the live page updates. -->
+<script>
+(function(){
+  var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/staging/signup/";
+  function hide(){
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
+    });
+  }
+  var opt={cache:'no-cache'};
+  Promise.all([
+    fetch(base+"signup.css",opt).then(function(r){return r.text()}),
+    fetch(base+"signup.html",opt).then(function(r){return r.text()}),
+    fetch(base+"signup.js",opt).then(function(r){return r.text()})
+  ]).then(function(a){
+    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+    hide();
+    var d=document.createElement("div");d.id="signup-page";d.innerHTML=a[1];
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+  }).catch(function(){
+    hide();
+    var d=document.createElement("div");
+    d.style.cssText="font:16px/1.6 system-ui,sans-serif;color:#E4BE3F;background:#0a0f0a;padding:48px 24px;text-align:center;min-height:100vh";
+    d.innerHTML="<b>Staging branch not reachable.</b><br>Push to staging and this page fills itself in.";
+    document.body.appendChild(d);
+  });
+})();
+</script>
