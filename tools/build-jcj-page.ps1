@@ -63,6 +63,8 @@ RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'vid
 if ($h -match '__SIGNUP__') { throw "build-jcj: __SIGNUP__ token present but the CTA is the Substack embed now" }
 if (([regex]::Matches($h, 'substack\.com/embed')).Count -ne 1) { throw "build-jcj: expected exactly 1 Substack embed in cta-block" }
 if ($h -match 'calendly\.com') { throw "build-jcj: a calendly link resurfaced in cta-block" }
+# JC 2026-09-01: no Contact surface on ANY site. Catch the parked parts (new-mnav, webinar-banner) if they ever get included.
+if ($h -match '#work-with-us|>\s*Contact\s*<|Get In Contact') { throw "build-jcj: a Contact link resurfaced (JC: no contact surface on any site)" }
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked -> LIVE (2026-08-21). The library upstream now ships 14
