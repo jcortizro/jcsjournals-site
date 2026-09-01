@@ -59,7 +59,9 @@ RepRx 'hero-remove' '(?s)<div class="hero">.*?</div>\s*(?=<section id="library">
 # Calendly "Speak To A Real Person" box. Its __SIGNUP__ token is the ONLY
 # place this file's URL is resolved, straight from urls.ps1's $SignupUrl.
 RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + (Part 'cta-block.html') + "`n" + '<section id="library">') 1
-RepRx 'cta-signup-url' ([regex]::Escape('href="__SIGNUP__"')) ('href="' + $SignupUrl + '"') 1
+# 2026-09-01: cta-block now holds the Substack embed, no __SIGNUP__ link left to resolve.
+if ($h -match '__SIGNUP__') { throw "build-jcj: __SIGNUP__ token present but the CTA is the Substack embed now" }
+if (([regex]::Matches($h, 'substack\.com/embed')).Count -ne 1) { throw "build-jcj: expected exactly 1 Substack embed in cta-block" }
 if ($h -match 'calendly\.com') { throw "build-jcj: a calendly link resurfaced in cta-block" }
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
