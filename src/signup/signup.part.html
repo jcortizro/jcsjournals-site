@@ -62,28 +62,12 @@ __HEADER__
     <div class="signbox">
       <!-- The only promise: notified, and in, the second the course drops.
            build-signup-page.ps1 enforces it. -->
-      <p class="signlede">The course is currently being beta tested. Leave your name and email and you will be notified the second it becomes available to the public.</p>
-      <form id="waitform" novalidate>
-        <div class="fieldrow">
-          <label class="field">
-            <span class="flab">First name</span>
-            <input type="text" name="first" autocomplete="given-name" required maxlength="60" placeholder="First name">
-          </label>
-          <label class="field">
-            <span class="flab">Last name</span>
-            <input type="text" name="last" autocomplete="family-name" required maxlength="60" placeholder="Last name">
-          </label>
-        </div>
-        <label class="field">
-          <span class="flab">Email</span>
-          <input type="email" name="email" autocomplete="email" required maxlength="120" placeholder="you@example.com">
-        </label>
-        <p class="ferr" id="ferr" role="alert" hidden></p>
-        <button class="btn" type="submit" id="fsubmit">Join The Waitlist</button>
-      </form>
-      <div class="signdone" id="signdone" hidden>
-        <p class="dtitle">You are on the list.</p>
-        <p class="dsub">You are notified the second Transition Diet 101 drops, with your way straight in. While you wait, the recipe book and the library are open right now. They are the same method in smaller pieces.</p>
+      <p class="signlede">The course is currently being beta tested. Leave your email and you will be notified the second it becomes available to the public.</p>
+      <div class="substack-wrap">
+        <iframe class="substack-embed" src="https://jcortizroman.substack.com/embed?transparent=1&amp;light=1" title="Join the Transition Diet 101 waitlist" loading="lazy" frameborder="0" scrolling="no"></iframe>
+      </div>
+      <div class="signdone">
+        <p class="dsub">While you wait, the recipe book and the library are open right now. They are the same method in smaller pieces.</p>
         <div class="cta-row">
           <a class="btn" href="__RECIPESURL__">Open The Recipe Book</a>
           <a class="btn ghost" href="__LIBRARYURL__">Open The Library</a>

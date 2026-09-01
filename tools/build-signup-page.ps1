@@ -77,7 +77,7 @@ foreach ($tok in @('__HEADER__', '__RECIPESURL__', '__LIBRARYURL__', '__FORMENDP
 }
 if ([regex]::Matches($h, 'td101landing|td101library').Count -ne 0) { throw "build-signup: dead subdomain reference" }
 if ([regex]::Matches($h, '<nav class="dockbar"').Count -ne 1) { throw "build-signup: expected exactly 1 inherited dock" }
-if ([regex]::Matches($h, 'id="waitform"').Count -ne 1) { throw "build-signup: the form is missing" }
+if ([regex]::Matches($h, 'substack\.com/embed').Count -ne 1) { throw "build-signup: the Substack embed is missing" }
 # The inherited footer's legal links are useless without the modal they open,
 # and the shared script binds it at top level.
 if ([regex]::Matches($h, 'id="legalModal"').Count -ne 1) { throw "build-signup: the legal modal is missing" }

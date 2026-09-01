@@ -99,57 +99,6 @@ document.querySelectorAll('.acc.sub,.acc.qsub').forEach(a=>{const b=a.querySelec
      anything fancier fails in the browser even when the script is fine. */
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwMB9tFEhlSdP5zpY1MEDUTvF0-anUUuwQOO-0CIk39LaaeSz305yXzFldeNwGK-Sw4/exec';
 
-  /* ==== SUBSTACK ====
-     Adds the person to jcortizroman.substack.com at the same moment the sheet
-     row is written, so Substack's own welcome email fires and nobody has to be
-     imported by hand again.
-
-     Why a hidden form and not fetch: a server-side JSON POST to this endpoint
-     answers 403 (measured 2026-08-31), and Substack sends no CORS headers for
-     this origin so a fetch reply could not be read anyway. A real form POST is
-     exactly what Substack's own no-JavaScript embed does, and a form submit is
-     not blocked by CORS on the way out. The reply lands in a hidden iframe we
-     never read, so this is fire and forget and must never block the sheet
-     write or the success message. */
-  var SUBSTACK = 'https://jcortizroman.substack.com/api/v1/free?nojs=true';
-
-  function substackSubscribe(email) {
-    try {
-      var sink = document.getElementById('substack-sink');
-      if (!sink) {
-        sink = document.createElement('iframe');
-        sink.id = 'substack-sink';
-        sink.name = 'substack-sink';
-        sink.setAttribute('aria-hidden', 'true');
-        sink.style.cssText = 'position:absolute;left:-9999px;width:0;height:0;border:0';
-        document.body.appendChild(sink);
-      }
-      var f = document.createElement('form');
-      f.method = 'POST';
-      f.action = SUBSTACK;
-      f.target = 'substack-sink';
-      f.style.display = 'none';
-      var fields = {
-        email: email,
-        first_url: location.href,
-        first_referrer: document.referrer || '',
-        current_url: location.href,
-        current_referrer: document.referrer || '',
-        referral_code: '',
-        source: 'cover_page'
-      };
-      Object.keys(fields).forEach(function (k) {
-        var i = document.createElement('input');
-        i.type = 'hidden';
-        i.name = k;
-        i.value = fields[k];
-        f.appendChild(i);
-      });
-      document.body.appendChild(f);
-      f.submit();
-    } catch (ignored) { }
-  }
-
   var form = document.getElementById('waitform');
   var done = document.getElementById('signdone');
   var err = document.getElementById('ferr');
@@ -184,8 +133,6 @@ document.querySelectorAll('.acc.sub,.acc.qsub').forEach(a=>{const b=a.querySelec
 
     btn.disabled = true;
     btn.textContent = 'Sending...';
-
-    substackSubscribe(email);
 
     var body = new URLSearchParams();
     body.set('first', first);
