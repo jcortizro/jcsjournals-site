@@ -261,12 +261,12 @@ $page = [regex]::Replace($page, $ddRx, '')
 Write-Output "  shared header + dropdown JS removed : ok"
 
 # ---- THE DOCK BAR (shared with jcsjournals.com and the recipe book) ----
-# One source in src\shared; this page just fills in its contact target, which
-# lives on the hub. Guarded: each injection must land exactly once.
-$dockHtml = [System.IO.File]::ReadAllText("$repo\src\shared\dock.html").Replace('__CONTACT__', 'https://jcsjournals.com/#work-with-us')
+# One source in src\shared. ⛔ No Contact/Calendly item (removed 2026-08-25,
+# JC): the dock must never carry a link to a booking/contact surface.
+$dockHtml = [System.IO.File]::ReadAllText("$repo\src\shared\dock.html")
 $dockCss  = [System.IO.File]::ReadAllText("$repo\src\shared\dock.css")
 $dockJs   = [System.IO.File]::ReadAllText("$repo\src\shared\dock.js")
-if ($dockHtml.Contains('__CONTACT__')) { throw "build-library: dock contact token unresolved" }
+if ($dockHtml -match 'dock-contact|__CONTACT__|calendly\.com') { throw "build-library: a contact/calendly dock item resurfaced" }
 
 $headerCss = [System.IO.File]::ReadAllText("$repo\src\shared\header.css")
 $n = ([regex]::Matches($page, '</style>')).Count

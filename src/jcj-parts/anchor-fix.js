@@ -12,11 +12,12 @@ document.addEventListener('click',function(e){
   window.scrollTo({top:y,behavior:'smooth'});
 });
 
-/* ARRIVAL, not just clicks. Another site linking in (the dock's Contact, from
-   the free library or the free recipe book) lands here as jcsjournals.com/#work-with-us,
-   and Carrd swallows the native hash jump AND wipes the hash a moment later, so
-   the reader sits at the top of the page with the contact box below the fold.
-   Measured on a 390 by 780 viewport: scrollY 0, box 454px down.
+/* ARRIVAL, not just clicks. A cross-site deep link (the dock's Resources menu,
+   or any #id link from another page in the family) lands here as
+   jcsjournals.com/#some-id, and Carrd swallows the native hash jump AND wipes
+   the hash a moment later, so the reader sits at the top of the page with the
+   target box below the fold. Measured on a 390 by 780 viewport: scrollY 0,
+   box 454px down (the old #work-with-us box; the mechanism is generic).
    The hash is read immediately, at parse time, before Carrd can clear it, and
    the jump is INSTANT: a smooth animation over this distance gets interrupted. */
 (function(){

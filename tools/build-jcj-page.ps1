@@ -48,14 +48,19 @@ Write-Output "  header inherited : ok"
 # (438db1b..9b7af9d) if the transform route is ever preferred.
 RepRx 'hero-remove' '(?s)<div class="hero">.*?</div>\s*(?=<section id="library">)' '' 1
 
-# ORDER (v13, JC 7/24): video FIRST -> the "Contact The Team" CTA (cta-block,
-# moved up to sit right under the "What Is the MDHS?" video) -> library -> socials
+# ORDER (v13, JC 7/24): video FIRST -> the CTA (cta-block, moved up to sit
+# right under the "What Is the MDHS?" video) -> library -> socials
 # v6 dividers DELETED in v7 (JC 7/20, Carrd's own hr styling threw them off-center)
 # v12 (JC 7/23): webinar banner was the REPLAY promo.
 # v13 (JC 7/24): webinar banner REMOVED entirely (replay run over), and the CTA
 # was pulled up here from the bottom-of-page insert. webinar-banner.html stays on
 # disk (its LIVE copy is in git history) for reuse at the next event.
+# v14 (JC 2026-08-25): cta-block is now the TD101 waitlist CTA, not the
+# Calendly "Speak To A Real Person" box. Its __SIGNUP__ token is the ONLY
+# place this file's URL is resolved, straight from urls.ps1's $SignupUrl.
 RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + (Part 'cta-block.html') + "`n" + '<section id="library">') 1
+RepRx 'cta-signup-url' ([regex]::Escape('href="__SIGNUP__"')) ('href="' + $SignupUrl + '"') 1
+if ($h -match 'calendly\.com') { throw "build-jcj: a calendly link resurfaced in cta-block" }
 RepRx 'library-heading' ([regex]::Escape('<!-- READ-IN-ORDER PATH -->')) ('<div class="sect-head">' + "`n" + '        <p class="kicker k-free">Free &middot; No Email Signup Required</p>' + "`n" + '        <h2>The Free Library</h2>' + "`n" + '      </div>' + "`n" + '      <!-- READ-IN-ORDER PATH -->') 1
 
 # TD101 course parked -> LIVE (2026-08-21). The library upstream now ships 14
@@ -81,12 +86,11 @@ RepRx 'socials-insert' ([regex]::Escape('<dialog id="legalModal">')) ((Part 'soc
 RepRx 'footer' '(?s)<footer>.*?</footer>' (Part 'new-footer.html') 1
 # THE DOCK BAR is INHERITED from the library master (build-library-page.ps1
 # injects it there, and this page is generated from that master, so the layering
-# gives it to us for free). Only one thing differs on the hub: it OWNS the
-# contact box, so Contact is an in-page anchor that anchor-fix.js scrolls,
-# not a trip to another site.
+# gives it to us for free). ⛔ It carries no Contact/Calendly item (removed
+# 2026-08-25, JC): there is no way to book a call from any site in the family.
 $dockCount = [regex]::Matches($h, '<nav class="dockbar"').Count
 if ($dockCount -ne 1) { throw "build-jcj: expected exactly 1 inherited dock, found $dockCount" }
-RepRx 'dock-contact-inpage' ([regex]::Escape('<a class="dock-item dock-contact" href="https://jcsjournals.com/#work-with-us">')) '<a class="dock-item dock-contact" href="#work-with-us">' 1
+if ($h -match 'dock-contact|calendly\.com') { throw "build-jcj: a contact/calendly reference resurfaced" }
 
 # full legal docs into the modal
 RepRx 'legal-object' '(?m)^const LEGAL=\{.*$' (Part 'legal.js') 1
@@ -100,9 +104,11 @@ $h = $h.Replace($paidUrl, '#socials')
 Write-Output "  js-paid-urls : 2 ok"
 
 # Carrd eats hash navigation -> in-page # links scroll via JS instead (v5)
+# ⛔ cta-inline.js DELETED 2026-08-25 (JC): it injected a per-topic Calendly
+# "Free 15-Min Call" strip, a second Calendly access point besides cta-block.
 $rxScript = New-Object System.Text.RegularExpressions.Regex('(?m)^</script>$')
 if (-not $rxScript.IsMatch($h)) { throw "build-jcj: closing script marker not found" }
-$jsIns = (Part 'anchor-fix.js').TrimEnd() + "`n" + (Part 'cta-inline.js').TrimEnd() + "`n</script>"
+$jsIns = (Part 'anchor-fix.js').TrimEnd() + "`n</script>"
 $h = $rxScript.Replace($h, [System.Text.RegularExpressions.MatchEvaluator]{ param($mm) $jsIns }, 1)
 Write-Output "  anchor-fix js merged : ok"
 

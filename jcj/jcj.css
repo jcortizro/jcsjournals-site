@@ -464,9 +464,10 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 /* THE DOCK BAR. One source, three sites (jcsjournals.com, the free library,
    the free recipe book). The little bar at the bottom is the connective tissue
    between them, so it must be pixel identical everywhere.
-   Colors are JC's spec, 2026-08-10: Contact green (the contact box's own
-   --paid green), Resources yellow (--free gold, the free lane). Fallback hexes
-   are the same values, for any surface that lacks the tokens. */
+   ⛔ Contact/Calendly REMOVED 2026-08-25 (JC): no dock item may link to a
+   booking/contact surface. Resources stays yellow (--free gold, the free
+   lane). Fallback hexes are the same values, for any surface that lacks the
+   tokens. */
 .dockbar{position:fixed;left:0;right:0;bottom:14px;z-index:60;display:flex;justify-content:center;pointer-events:none}
 .dock-in{pointer-events:auto;display:flex;gap:2px;align-items:center;background:rgba(8,12,9,.93);
   border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 8px;
@@ -476,8 +477,6 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
   padding:11px 15px;border-radius:999px;line-height:1;transition:color .12s,background .12s}
 .dock-item:hover{background:rgba(255,255,255,.07)}
 .dock-item:focus-visible{outline:2px solid #E4BE3F;outline-offset:2px}
-.dock-contact{color:var(--paid,#7ECB82)}
-.dock-contact:hover{color:#9BDB9F;background:rgba(126,203,130,.12)}
 .dock-res{color:var(--free,#E4BE3F)}
 .dock-res:hover{color:#F0D268;background:rgba(228,190,63,.12)}
 .dock-grp{position:relative}
@@ -508,16 +507,6 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 .startbox{max-width:760px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
   border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:26px 26px 24px;
   display:flex;flex-direction:column;gap:20px}
-/* ⛔ "SPEAK TO A" / "REAL PERSON" must measure the SAME WIDTH (JC 2026-08-11:
-   "they should both be the same width"). The top line is 10 characters against
-   11, so it ran ~14% short at every size. Tracking on line 1 only closes it,
-   and because the shortfall is proportional the same em value works at every
-   breakpoint (measured 390 / 768 / 1400). The negative margin cancels the
-   trailing letter-space so the line still centres optically.
-   Instrument: web-verify\line_probe.py, which reports each line's fill of the
-   column. Re-measure if this wording ever changes. */
-.cta-h2 .l1{letter-spacing:.123em;margin-right:-.123em;display:inline-block}
-
 /* ⛔ SIZE IS RELATIVE TO THE BOX, NOT THE VIEWPORT (JC 2026-08-11: "it should be
    almost the same width as the text under it, it should take up a good portion
    of the box it is in"). The heading was 34.4px and each line filled only 36%
@@ -525,15 +514,14 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
    A vw value cannot hold that ratio, because the box is 53% of the viewport on
    a desktop and 74% on a phone, so the fill would sag in the middle. Container
    units are measured against the BOX, so 11.2cqw holds the same proportion at
-   every width. The vw clamp is the fallback for anything without cqw support.
-   Line 1's tracking is in em, so it scales with this automatically. */
+   every width. The vw clamp is the fallback for anything without cqw support. */
 .ctabig{container-type:inline-size}
 .cta-h2{font-size:clamp(1.9rem,7vw,4.6rem);line-height:1.04}
 @supports (font-size:1cqw){
   .cta-h2{font-size:min(11.2cqw,5.6rem)}
 }
 
-/* Centred, like the Speak To A Real Person box (JC 2026-08-11). */
+/* Centred, like the TD101 waitlist CTA box (JC 2026-08-11). */
 .startrow{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
 .startrow .starttext{max-width:52ch}
 .startrow h3{font-family:var(--display);font-weight:900;font-size:1.16rem;letter-spacing:1.2px;text-transform:uppercase;
@@ -598,25 +586,19 @@ a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,2
 .videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
 
 
-/* ===== WORK-WITH-US CTA (v7, JC 7/20) — green = the guided/service lane ===== */
+/* ===== TD101 WAITLIST CTA (v14, JC 2026-08-25: swapped from the Calendly
+   "Speak To A Real Person" booking box to the TD101 waitlist signup, so gold
+   (the free lane) replaces the old paid-green accent; see DEFECT-LEDGER). */
 /* big block after the library */
-.ctabig{max-width:820px;margin:0 auto;text-align:center;background:linear-gradient(rgba(10,26,14,.82),rgba(10,26,14,.82));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1.5px solid var(--paid-line);border-top:3px solid var(--paid);border-radius:14px;padding:clamp(26px,4vw,40px) clamp(20px,4vw,38px);box-shadow:0 0 0 1px rgba(126,203,130,.18),0 22px 54px -26px rgba(0,0,0,.8)}
+.ctabig{max-width:820px;margin:0 auto;text-align:center;background:linear-gradient(rgba(26,22,10,.82),rgba(26,22,10,.82));backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1.5px solid var(--free-line);border-top:3px solid var(--free);border-radius:14px;padding:clamp(26px,4vw,40px) clamp(20px,4vw,38px);box-shadow:0 0 0 1px rgba(228,190,63,.18),0 22px 54px -26px rgba(0,0,0,.8)}
 .ctabig h2{margin:0 0 14px}
 /* v11: the lede is three short paragraphs (JC 7/20) — tighter gaps between them */
 .ctabig-lede{color:var(--dim);max-width:52em;margin:0 auto 12px;font-size:1rem}
 .ctabig .cta-row{margin:10px 0 14px}
-.ctabig .btn.green{padding:19px 34px;font-size:.88rem}
+.ctabig .btn{padding:19px 34px;font-size:.88rem}
 /* v11: one-line button on phones — label scales with viewport, never wraps */
-@media(max-width:560px){.ctabig .btn.green{width:100%;justify-content:center;white-space:nowrap;font-size:clamp(.6rem,3.3vw,.82rem);letter-spacing:1.1px;padding:16px 10px}}
+@media(max-width:560px){.ctabig .btn{width:100%;justify-content:center;white-space:nowrap;font-size:clamp(.6rem,3.3vw,.82rem);letter-spacing:1.1px;padding:16px 10px}}
 .ctabig-fine{margin:0;font-size:.8rem;color:var(--faint)}
-/* compact strip at the end of each library topic */
-.ctamini{display:none;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;margin:22px 0 0;padding:15px 18px;border:1px solid var(--paid-line);border-left:3px solid var(--paid);border-radius:9px;background:linear-gradient(90deg,rgba(12,38,19,.6),rgba(12,38,19,.2))}
-.ctamini .cm-t{flex:1 1 260px;font-family:var(--display);font-weight:700;font-size:.92rem;letter-spacing:.2px;color:#fff}
-.ctamini .cm-s{display:block;font-family:var(--body);font-weight:300;font-size:.88rem;color:var(--dim2);margin-top:3px}
-.ctamini .cm-b{flex:0 0 auto;padding:13px 22px;font-size:.76rem}
-@media(max-width:560px){.ctamini{justify-content:center;text-align:center}.ctamini .cm-b{width:100%;justify-content:center}}
-
-.acc.cat.open>.ctamini{display:flex}
 
 /* ===== WEBINAR BANNER (v8, JC 7/20) — yellow = the free lane; date tab built into the card ===== */
 /* v12 (JC 7/23): tab is min-width:50% instead of a hard 50% — JC's "half the
@@ -634,7 +616,8 @@ a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,2
 .webi-btn:hover{filter:brightness(1.6);transform:translateY(-1px)}
 /* v12 (JC 7/23): second, quieter button under the main one — outlined in the
    card's own ink so it reads as clearly secondary. It's an in-page # link:
-   anchor-fix.js scrolls it down to the green #work-with-us box. */
+   anchor-fix.js scrolls it down to the #join-td101 box. PARKED (webinar-banner.html
+   is not currently in the build); update its href if this file is revived. */
 .webi-btns{display:flex;flex-direction:column;align-items:center;gap:12px}
 .webi-btn2{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--on-free);border:1.5px solid rgba(23,18,4,.4);font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;padding:12px 26px;border-radius:8px;transition:background .12s,border-color .12s,transform .12s}
 .webi-btn2:hover{background:rgba(23,18,4,.09);border-color:var(--on-free);transform:translateY(-1px)}
