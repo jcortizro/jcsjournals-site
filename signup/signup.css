@@ -577,6 +577,7 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 #waitform[hidden],.signdone[hidden],.ferr[hidden]{display:none}
 .substack-wrap{margin:0 0 22px}
 .substack-embed{display:block;width:100%;max-width:480px;height:150px;margin:0 auto;border:0;background:transparent;color-scheme:light}
+.signhint{max-width:52em;margin:0 auto 4px;font-size:.92rem;line-height:1.5;color:var(--dim);text-align:center}
 .fieldrow{display:flex;gap:14px}
 .fieldrow .field{flex:1 1 0;min-width:0}
 .field{display:flex;flex-direction:column;gap:7px}
