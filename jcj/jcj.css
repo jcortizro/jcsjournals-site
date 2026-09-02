@@ -548,7 +548,7 @@ a.soccard:hover{border-color:var(--free-line);background:rgba(255,255,255,.06);t
 .soccard.scoming{opacity:.8;border-top-color:var(--hair-strong)}
 .soccard.scoming .sic{color:var(--faint)}
 /* brand-colored cards (JC 7/19): deep brand body, bright brand outline, white icon in white circle */
-.soccard.yt,.soccard.fb,.soccard.ig,.soccard.tk{border:1.5px solid transparent;border-top-width:3px}
+.soccard.yt,.soccard.fb,.soccard.ig,.soccard.tk,.soccard.sb{border:1.5px solid transparent;border-top-width:3px}
 .soccard.yt{background:linear-gradient(rgba(44,9,9,.8),rgba(44,9,9,.8)) padding-box,linear-gradient(#FF2A2A,#FF2A2A) border-box}
 .soccard.fb{background:linear-gradient(rgba(9,22,45,.8),rgba(9,22,45,.8)) padding-box,linear-gradient(#2E8DFF,#2E8DFF) border-box}
 .soccard.ig{background:linear-gradient(rgba(37,12,50,.8),rgba(37,12,50,.8)) padding-box,linear-gradient(120deg,#833AB4 0%,#C13584 32%,#E1306C 52%,#F77737 76%,#FCAF45 100%) border-box}
@@ -557,7 +557,9 @@ a.soccard.fb:hover{border-color:transparent;background:linear-gradient(rgba(13,3
 a.soccard.ig:hover{border-color:transparent;background:linear-gradient(rgba(48,16,64,.84),rgba(48,16,64,.84)) padding-box,linear-gradient(120deg,#833AB4 0%,#C13584 32%,#E1306C 52%,#F77737 76%,#FCAF45 100%) border-box;filter:brightness(1.1);transform:translateY(-2px)}
 .soccard.tk{background:linear-gradient(rgba(16,16,18,.86),rgba(16,16,18,.86)) padding-box,linear-gradient(120deg,#25F4EE 0%,#25F4EE 38%,#FE2C55 62%,#FE2C55 100%) border-box}
 a.soccard.tk:hover{border-color:transparent;background:linear-gradient(rgba(24,24,27,.88),rgba(24,24,27,.88)) padding-box,linear-gradient(120deg,#25F4EE 0%,#25F4EE 38%,#FE2C55 62%,#FE2C55 100%) border-box;filter:brightness(1.1);transform:translateY(-2px)}
-.soccard.yt .sic,.soccard.fb .sic,.soccard.ig .sic,.soccard.tk .sic{color:#fff;border-color:rgba(255,255,255,.75)}
+.soccard.sb{background:linear-gradient(rgba(45,20,5,.82),rgba(45,20,5,.82)) padding-box,linear-gradient(#FF6719,#FF6719) border-box}
+a.soccard.sb:hover{border-color:transparent;background:linear-gradient(rgba(58,26,7,.86),rgba(58,26,7,.86)) padding-box,linear-gradient(#FF6719,#FF6719) border-box;filter:brightness(1.1);transform:translateY(-2px)}
+.soccard.yt .sic,.soccard.fb .sic,.soccard.ig .sic,.soccard.tk .sic,.soccard.sb .sic{color:#fff;border-color:rgba(255,255,255,.75)}
 .soonchip{font-family:var(--display);font-weight:700;font-size:.58rem;letter-spacing:1.4px;text-transform:uppercase;background:var(--free);color:var(--on-free);border-radius:4px;padding:3px 7px;white-space:nowrap}
 /* hero intro line */
 .hero .lede.intro-line{color:#fff;font-weight:400;font-size:1.16rem;margin-bottom:14px}
