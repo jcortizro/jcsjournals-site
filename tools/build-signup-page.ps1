@@ -69,7 +69,7 @@ if ($n -ne 1) { throw "build-signup: expected 1 </script>, found $n" }
 $h = $h.Replace('</script>', ("`n/* ==== SIGNUP ==== */`n" + $js + "`n</script>"))
 
 # ---- title ----
-$h = [regex]::Replace($h, '(?s)<title>.*?</title>', '<title>Transition Diet 101 &middot; Join The Waitlist</title>')
+$h = [regex]::Replace($h, '(?s)<title>.*?</title>', '<title>Transition Diet 101 &middot; Get Access</title>')
 
 # ---- guards ----
 foreach ($tok in @('__HEADER__', '__RECIPESURL__', '__LIBRARYURL__', '__FORMENDPOINT__')) {
@@ -101,11 +101,12 @@ foreach ($claim in $bannedClaims) {
            "notified, and in, the second the course drops. Nothing about email handling.")
   }
 }
-# Match the invariant, "notified the second ...", not one exact sentence, so JC
-# can reword the ending (it drops / it becomes available to the public) without
+# 2026-09-02, JC's dictation: the course is OPEN, so the one promise changed
+# from "notified the second it drops" to "the email gives you access". Match the
+# invariant phrase, not one exact sentence, so JC can reword around it without
 # the gate firing on his own copy. The promise itself still cannot go missing.
-if ([regex]::Matches($h, 'notified the second').Count -lt 1) {
-  throw "build-signup: the one promise is missing from the page"
+if ([regex]::Matches($h, 'gives you access').Count -lt 1) {
+  throw "build-signup: the one promise (the access email) is missing from the page"
 }
 Write-Output "  one promise only, no email claims : ok"
 # Every element the component toggles with .hidden needs an explicit
