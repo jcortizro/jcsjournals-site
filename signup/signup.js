@@ -18,7 +18,7 @@ document.querySelectorAll('[data-open]').forEach(a=>a.addEventListener('click',e
 document.querySelectorAll('[data-close-dd]').forEach(a=>a.addEventListener('click',()=>document.querySelectorAll('.dropdown').forEach(x=>x.classList.remove('open'))));
 if(location.hash){const id=location.hash.slice(1);if(document.getElementById(id))openChain(id);}
 const modal=document.getElementById('legalModal'),mc=document.getElementById('modalContent');
-const LEGAL={terms:`<h2>Terms of Use</h2><p class="eff">Effective 3/31/2026 · excerpt, full text loads from the live site</p><h3>Educational Nature</h3><p>All content is for educational and informational purposes only.</p><h3>External Links &amp; Recommendations</h3><p>This platform may direct you to books, programs, and membership platforms (Amazon, Mucus-Free Life). I don’t control them and am not responsible for their content, claims, or results. Some links may be affiliate links, I may earn a commission at no additional cost to you.</p><h3>Purchases</h3><p>Any purchases made through external platforms are governed by their terms, not mine.</p>`,medical:`<h2>Medical Disclaimer</h2><p class="eff">Effective 3/31/2026 · excerpt</p><h3>Educational Purpose Only</h3><p>Nothing here is medical advice, diagnosis, treatment, or a prescription. I am not a licensed medical professional; I share as a student. Always consult a qualified professional. No claims are made that any method cures disease, treats conditions, or produces guaranteed results.</p>`,privacy:`<h2>Privacy Policy</h2><p class="eff">Effective 3/31/2026 · excerpt</p><p>The free written information on this site can be read without an account, signup, or email address.</p>`};
+const LEGAL={terms:`<h2>Terms of Use</h2><p class="eff">Effective 9/2/2026 &middot; excerpt, full text on jcsjournals.com</p><h3>Educational Nature</h3><p>All content is for educational and informational purposes only. It is presented so you can learn about these ideas; it does not advocate that you adopt any practice.</p><h3>Nothing Sold, Nothing Collected</h3><p>This site sells nothing, processes no payments, has no accounts, operates no forms of its own, and contains no paid advertising and no affiliate links.</p><h3>External Platforms</h3><p>This site links to the owner&rsquo;s social media profiles, the owner&rsquo;s newsletter on Substack, and educational platforms operated by Mucus-Free Life. Those platforms operate under their own terms and policies, and any purchases or subscriptions made there are governed by their terms, not this site&rsquo;s.</p>`,medical:`<h2>Medical Disclaimer</h2><p class="eff">Effective 9/2/2026 &middot; excerpt, full text on jcsjournals.com</p><h3>Educational Purpose Only</h3><p>Nothing here is medical advice, diagnosis, treatment, or a prescription. I am not a licensed medical professional; I share as a student. This material exposes you to a paradigm so you can learn about it; it does not recommend that any specific person practice it. Always consult a qualified professional before making health decisions. No claims are made that any method cures disease, treats conditions, or produces guaranteed results. In an emergency, call your local emergency number.</p>`,privacy:`<h2>Privacy Policy</h2><p class="eff">Effective 9/2/2026 &middot; excerpt, full text on jcsjournals.com</p><p>Everything on this site can be read without an account, signup, or email address. This site itself collects and stores nothing. The newsletter sign-up box, where present, is Substack&rsquo;s own embedded form: anything you enter goes directly to Substack, not to this site, and is governed by Substack&rsquo;s privacy policy. Embedded players and linked platforms may set their own cookies under their own policies.</p>`};
 document.querySelectorAll('[data-modal]').forEach(b=>b.addEventListener('click',()=>{mc.innerHTML=LEGAL[b.dataset.modal];modal.showModal();}));
 modal.addEventListener('click',e=>{if(e.target===modal||e.target.closest('[data-close]'))modal.close();});
 
@@ -87,71 +87,18 @@ document.querySelectorAll('.acc.sub,.acc.qsub').forEach(a=>{const b=a.querySelec
 
 /* ==== SIGNUP ==== */
 (function () {
-  /* Waitlist submit. Posts first name, last name and email to a Google Apps
-     Script web app, which appends a row to JC's sheet.
+  /* Retired 2026-09-02. This module used to post the waitlist form (first name,
+     last name, email) to a Google Apps Script web app that appended a row to
+     JC's sheet. On 2026-09-01 the form was replaced by Substack's official
+     embedded sign-up (the only subscribe path Substack accepts), so this site
+     no longer sends visitor data anywhere, and the privacy policy now promises
+     exactly that. The module is retired rather than left dormant so the shipped
+     bundle contains no collection endpoint and matches the policy. The old
+     implementation lives in git history (see src/signup/signup.js before this
+     date) if a first-party form ever returns.
 
      BLOCK COMMENTS ONLY in this file: it ships inside a Carrd embed, and Carrd
      publishes embed code flattened to one line, so a line comment would
-     comment out the rest of the program.
-
-     The POST is sent as form-encoded with no custom headers, which keeps it a
-     CORS "simple request": Apps Script does not answer preflight OPTIONS, so
-     anything fancier fails in the browser even when the script is fine. */
-  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwMB9tFEhlSdP5zpY1MEDUTvF0-anUUuwQOO-0CIk39LaaeSz305yXzFldeNwGK-Sw4/exec';
-
-  var form = document.getElementById('waitform');
-  var done = document.getElementById('signdone');
-  var err = document.getElementById('ferr');
-  var btn = document.getElementById('fsubmit');
-  if (!form) return;
-
-  function fail(msg, field) {
-    err.textContent = msg;
-    err.hidden = false;
-    if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); }
-  }
-
-  function clearErr() {
-    err.hidden = true;
-    [].forEach.call(form.querySelectorAll('input'), function (i) { i.removeAttribute('aria-invalid'); });
-  }
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    clearErr();
-    var first = form.first.value.trim();
-    var last = form.last.value.trim();
-    var email = form.email.value.trim();
-
-    if (!first) return fail('Please add your first name.', form.first);
-    if (!last) return fail('Please add your last name.', form.last);
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return fail('That email does not look right.', form.email);
-
-    if (!ENDPOINT || ENDPOINT.indexOf('__') === 0) {
-      return fail('The waitlist is not connected yet. Please try again a little later.');
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-
-    var body = new URLSearchParams();
-    body.set('first', first);
-    body.set('last', last);
-    body.set('email', email);
-    body.set('source', location.hostname);
-
-    fetch(ENDPOINT, { method: 'POST', body: body })
-      .then(function (r) { if (!r.ok) throw new Error('bad status'); return r.text(); })
-      .then(function () {
-        form.hidden = true;
-        done.hidden = false;
-        done.scrollIntoView({ block: 'nearest' });
-      })
-      .catch(function () {
-        btn.disabled = false;
-        btn.textContent = 'Join The Waitlist';
-        fail('That did not go through. Please check your connection and try once more.');
-      });
-  });
+     comment out the rest of the program. */
 })();
 
