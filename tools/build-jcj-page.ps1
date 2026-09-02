@@ -165,7 +165,7 @@ $libPointer = @"
             <h3>Start Your Practice</h3>
             <p>In this 100% free course you will learn how to apply the Mucusless Diet Healing System to your unique body and your unique lifestyle. This course covers every single thing I wish I knew when I first started my practice over five years ago.</p>
           </div>
-          <a class="btn" href="$SignupUrl">Learn more</a>
+          <a class="btn" href="$SignupUrl">Get access</a>
         </div>
       </div>
     </section>

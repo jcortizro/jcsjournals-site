@@ -166,7 +166,8 @@ $greenBtn = '<a class="btn green" class="tdlink" href="' + $landingUrl + '#free"
 # recipe book this side carries a full sentence of promise, not just a chip.
 $n = ([regex]::Matches($page, [regex]::Escape($greenBtn))).Count
 if ($n -ne 1) { throw "build-library: expected 1 green course button, found $n" }
-$page = $page.Replace($greenBtn, '<a class="btn green" href="' + $SignupUrl + '">Get Notified When It Drops</a>')
+# 2026-09-02, JC: the course is OPEN, everything relabels to "Get Access".
+$page = $page.Replace($greenBtn, '<a class="btn green" href="' + $SignupUrl + '">Get Access</a>')
 
 # JC's own "Make My Free Account" placeholder. There are no accounts to make and
 # the waitlist button beside it already carries the action, so two buttons to
@@ -180,8 +181,8 @@ $page = $page.Replace($acct, '')
 $tail = 'apply this information lives.</p>'
 $n = ([regex]::Matches($page, [regex]::Escape($tail))).Count
 if ($n -ne 1) { throw "build-library: expected 1 course paragraph tail, found $n" }
-$page = $page.Replace($tail, 'apply this information lives. It is not open yet, so leave your name ' +
-  'below and you are in the second it drops, free, no payment and no catch.</p>')
+$page = $page.Replace($tail, 'apply this information lives. It is free and it is open right now: ' +
+  'leave your email below and you will be sent access, no payment and no catch.</p>')
 
 $n = ([regex]::Matches($page, '<a class="tdlink" href="[^"]*">(.*?)</a>')).Count
 if ($n -ne 14) { throw "build-library: expected 14 tdlinks, found $n" }
