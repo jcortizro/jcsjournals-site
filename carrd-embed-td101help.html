@@ -13,12 +13,17 @@
        - the old Carrd-native page under this shell is hidden by a stylesheet
          installed on the FIRST line, before any fetch, so a visitor never sees
          a flash of the old site;
-       - that same stylesheet kills background-image on everything outside this
-         page. MEASURED 2026-09-03 on testjc: the old hidden sections were still
-         pulling four container jpgs totalling 5.3 MB on every visit, which is
-         most of what made the page slow on a phone. display:none alone did not
-         stop them; the rule has to land before those elements are parsed, which
-         is why the style goes in on line one rather than after the fetch. -->
+       - that same stylesheet kills background-image outside this page. Keep it,
+         but do NOT believe it saves bandwidth. MEASURED on testjc 2026-09-03,
+         before and after: the old hidden sections still pull four container
+         jpgs totalling 5.3 MB on every visit, identical either way (5381 KB vs
+         5378 KB). Cause, measured: Carrd defers embed code as an
+         unloaded-script and runs it at roughly the same moment it activates its
+         own sections, so nothing an embed installs can land before those
+         background fetches start. An embed cannot win that race.
+         ⇒ The only real fix is at the source: delete the old sections, or their
+         background images, in the Carrd editor. That is JC's call, not an
+         agent's, and it is already on his open list for jcsjournals.com. -->
 <script>
 (function(){
   var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/td101help/";
