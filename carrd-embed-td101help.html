@@ -1,35 +1,39 @@
-<!-- TD 101 HOW-TO-GET-IN PAGE - Carrd Embed loader (test site for now).
+<!-- TD 101 HOW-TO-GET-IN PAGE - Carrd Embed loader.
      Paste this whole block into a Carrd "Embed" element, Type: Code, then
      Publish. After that you never touch Carrd again: rebuild, push, and the
      live page updates itself.
-     Same two Carrd traps as the other loaders: code is flattened to one line
-     (block comments only) and Carrd splits at a literal closing script tag
-     (fragments carry no script tags; help.js is injected as text). -->
+     Carrd traps respected here:
+       - published embed code is FLATTENED to one line, so block comments only,
+         never a double-slash line comment;
+       - Carrd SPLITS embed code at a literal closing script or style tag, so
+         none appear in this file (help.js is injected as text, CSS via
+         textContent);
+       - Carrd WIPES location.hash before an embed can read it, so the page
+         deep-links on the query string (?flow=circleapp), not the hash;
+       - the old Carrd-native page under this shell is hidden by a stylesheet
+         installed on the FIRST line, before any fetch, so a visitor never sees
+         a flash of the old site. -->
 <script>
 (function(){
   var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/td101help/";
-  function hide(){
-    Array.prototype.forEach.call(document.body.children,function(c){
-      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
-    });
-  }
+  var pre=document.createElement("style");
+  pre.textContent="body>*:not(#td101help-page){display:none!important}html,body{background:#F7F3E8;margin:0}";
+  document.head.appendChild(pre);
   var opt={cache:'no-cache'};
+  function mount(css,html,js){
+    if(css){var st=document.createElement("style");st.textContent=css;document.head.appendChild(st);}
+    var d=document.createElement("div");d.id="td101help-page";d.innerHTML=html;
+    document.body.appendChild(d);
+    if(js){var s=document.createElement("script");s.textContent=js;document.body.appendChild(s);}
+  }
   Promise.all([
     fetch(base+"help.css",opt).then(function(r){return r.text()}),
     fetch(base+"help.html",opt).then(function(r){return r.text()}),
     fetch(base+"help.js",opt).then(function(r){return r.text()})
   ]).then(function(a){
-    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
-    hide();
-    var d=document.createElement("div");d.id="td101help-page";d.innerHTML=a[1];
-    document.body.appendChild(d);
-    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+    mount(a[0],a[1],a[2]);
   }).catch(function(){
-    hide();
-    var d=document.createElement("div");
-    d.style.cssText="font:16px/1.6 system-ui,sans-serif;color:#E4BE3F;background:#0a0f0a;padding:48px 24px;text-align:center;min-height:100vh";
-    d.innerHTML="<b>The walkthrough page is not published yet.</b><br>Push the repo and this page fills itself in, no re-paste needed.";
-    document.body.appendChild(d);
+    mount("",'<div style="font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#14331F;padding:64px 24px;text-align:center"><b>This page could not load.</b><br>Please refresh in a moment.</div>',null);
   });
 })();
 </script>
