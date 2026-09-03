@@ -133,7 +133,15 @@ LOADER = """<!-- TD 101 HOW-TO-GET-IN PAGE - Carrd Embed loader (test site for n
 })();
 </script>
 """ % RAW
-open(os.path.join(REPO, "carrd-embed-td101help.html"), "w", encoding="utf-8").write(LOADER)
+# GATE: the shipped loader is hand-hardened past this template (Carrd flatten
+# trap, hash-wipe trap, and the background-image kill that saved 5.3 MB per
+# visit, all measured 2026-09-03). Never let a rebuild silently revert it.
+loader_path = os.path.join(REPO, "carrd-embed-td101help.html")
+if os.path.exists(loader_path):
+    print("SKIPPED carrd-embed-td101help.html (already present and hardened; "
+          "delete it first if you really want the template back)")
+else:
+    open(loader_path, "w", encoding="utf-8").write(LOADER)
 
 for f in ("help.css", "help.html", "help.js"):
     print(f, os.path.getsize(os.path.join(OUT, f)) // 1024, "KB")

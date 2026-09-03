@@ -12,12 +12,18 @@
          deep-links on the query string (?flow=circleapp), not the hash;
        - the old Carrd-native page under this shell is hidden by a stylesheet
          installed on the FIRST line, before any fetch, so a visitor never sees
-         a flash of the old site. -->
+         a flash of the old site;
+       - that same stylesheet kills background-image on everything outside this
+         page. MEASURED 2026-09-03 on testjc: the old hidden sections were still
+         pulling four container jpgs totalling 5.3 MB on every visit, which is
+         most of what made the page slow on a phone. display:none alone did not
+         stop them; the rule has to land before those elements are parsed, which
+         is why the style goes in on line one rather than after the fetch. -->
 <script>
 (function(){
   var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/td101help/";
   var pre=document.createElement("style");
-  pre.textContent="body>*:not(#td101help-page){display:none!important}html,body{background:#F7F3E8;margin:0}";
+  pre.textContent="body>*:not(#td101help-page){display:none!important}body>*:not(#td101help-page),body>*:not(#td101help-page) *{background-image:none!important}html,body{background:#F7F3E8;margin:0}";
   document.head.appendChild(pre);
   var opt={cache:'no-cache'};
   function mount(css,html,js){
