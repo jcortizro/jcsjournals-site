@@ -1,0 +1,35 @@
+<!-- TD 101 HOW-TO-GET-IN PAGE - Carrd Embed loader (test site for now).
+     Paste this whole block into a Carrd "Embed" element, Type: Code, then
+     Publish. After that you never touch Carrd again: rebuild, push, and the
+     live page updates itself.
+     Same two Carrd traps as the other loaders: code is flattened to one line
+     (block comments only) and Carrd splits at a literal closing script tag
+     (fragments carry no script tags; help.js is injected as text). -->
+<script>
+(function(){
+  var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/td101help/";
+  function hide(){
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
+    });
+  }
+  var opt={cache:'no-cache'};
+  Promise.all([
+    fetch(base+"help.css",opt).then(function(r){return r.text()}),
+    fetch(base+"help.html",opt).then(function(r){return r.text()}),
+    fetch(base+"help.js",opt).then(function(r){return r.text()})
+  ]).then(function(a){
+    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+    hide();
+    var d=document.createElement("div");d.id="td101help-page";d.innerHTML=a[1];
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+  }).catch(function(){
+    hide();
+    var d=document.createElement("div");
+    d.style.cssText="font:16px/1.6 system-ui,sans-serif;color:#E4BE3F;background:#0a0f0a;padding:48px 24px;text-align:center;min-height:100vh";
+    d.innerHTML="<b>The walkthrough page is not published yet.</b><br>Push the repo and this page fills itself in, no re-paste needed.";
+    document.body.appendChild(d);
+  });
+})();
+</script>
