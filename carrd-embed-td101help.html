@@ -10,20 +10,25 @@
          textContent);
        - Carrd WIPES location.hash before an embed can read it, so the page
          deep-links on the query string (?flow=circleapp), not the hash;
-       - the old Carrd-native page under this shell is hidden by a stylesheet
-         installed on the FIRST line, before any fetch, so a visitor never sees
-         a flash of the old site;
-       - that same stylesheet kills background-image outside this page. Keep it,
-         but do NOT believe it saves bandwidth. MEASURED on testjc 2026-09-03,
-         before and after: the old hidden sections still pull four container
-         jpgs totalling 5.3 MB on every visit, identical either way (5381 KB vs
-         5378 KB). Cause, measured: Carrd defers embed code as an
-         unloaded-script and runs it at roughly the same moment it activates its
-         own sections, so nothing an embed installs can land before those
-         background fetches start. An embed cannot win that race.
-         ⇒ The only real fix is at the source: delete the old sections, or their
-         background images, in the Carrd editor. That is JC's call, not an
-         agent's, and it is already on his open list for jcsjournals.com. -->
+       - the stylesheet installed on the FIRST line hides everything that is not
+         this page, before any fetch, so nothing of the host site can flash.
+     LIVE AT: circlehelp.carrd.co (named testjc.carrd.co until 2026-09-03).
+     The site is now a single section holding only this embed. Its old content
+     was deleted 2026-09-03 and the page went from 155,343 to 18,441 bytes of
+     HTML and from 5378 KB to 10 KB of transfer, 7 requests, load 548 ms.
+     ⛔ TWO THINGS THAT COST REAL TIME, KEEP THEM WRITTEN DOWN.
+       1. While that old content still existed, ?flow= DEEP LINKS SILENTLY DID
+          NOT WORK: the page rendered its chooser instead of the requested flow.
+          Deleting the old sections fixed it. So the standing note that "the
+          query string survives on Carrd" is true PER SITE, not in general.
+       2. The hide stylesheet does NOT save bandwidth and never did. Measured
+          before and after on the old multi-section page: 5381 KB vs 5378 KB,
+          all four container jpgs still fetched, because Carrd defers embed code
+          as an unloaded-script and runs it at roughly the moment it activates
+          its own sections. An embed cannot win that race. The only fix is
+          deleting the content in the editor, which is what was done here.
+     ⚠ jcsjournals.com still carries JC's whole old personal site inside its
+       shell, exactly as this page did. Same weight, same cause, still his call. -->
 <script>
 (function(){
   var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/td101help/";
