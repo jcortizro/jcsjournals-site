@@ -131,22 +131,35 @@ foreach ($claim in $bannedClaims) {
 # invariant phrase, not one exact sentence, so JC can reword around it without
 # the gate firing on his own copy. The promise itself still cannot go missing.
 # 2026-09-03, RE-BASELINED DELIBERATELY. He dictated the promise copy word for
-# word and 'gives you access' is not in it any more. The promise is now FOUR
-# facts and each one is checked, because he named all four: the email is
+# word and 'gives you access' is not in it any more. The promise was FOUR
+# facts and each one was checked, because he named all four: the email is
 # automatic, its subject line is "Transition Diet 101 Access Guide", it explains
 # how to make the account, and it says where to look if it does not show up.
+# 2026-09-03, RE-BASELINED AGAIN, LATER THE SAME DAY, on JC's direct
+# instruction. The hint paragraph under the embed was deleted and replaced by a
+# shorter line ABOVE the embed, which carries TWO of those four facts. He was
+# told in advance that this gate would break and that the other two facts would
+# leave the site, and he answered "no you are supposed to change the site".
+# So the gate now enforces only what his copy actually claims. A gate that
+# outlives its copy fires on his own writing and teaches him to ignore it.
 # The sentences around them stay his to reword without tripping this gate.
-# EACH PATTERN BELOW WAS PROVEN TO FAIL by deleting its fact and rebuilding.
-# WARNING: a bare '\bautomatic' was tried first and CANNOT fail: the inherited library
-# body already contains the word, so the check passed with the promise deleted.
-# That is why fact (a) is a PROXIMITY match to the subject line, not a lone word.
+# EACH SURVIVING PATTERN BELOW WAS PROVEN TO FAIL by deleting its fact and
+# rebuilding, re-proven after this re-baseline.
 $promiseInvariants = @(
   @{ rx = 'Transition Diet 101 Access Guide';
      what = 'the subject line of the automatic access email' },
-  @{ rx = '(?i)automatic[\s\S]{0,160}?Transition Diet 101 Access Guide';
-     what = 'that THAT email is the one sent automatically' },
-  @{ rx = '(?i)create your account';
-     what = 'that the email explains how to create the account' },
+  # Removed 2026-09-03 on JC's direct instruction: the hint paragraph was
+  # replaced with a shorter line above the embed that does not carry this fact.
+  # It was:  rx   = '(?i)automatic[\s\S]{0,160}?Transition Diet 101 Access Guide'
+  #          what = 'that THAT email is the one sent automatically'
+  # WARNING, kept for whoever restores it: a bare '\bautomatic' CANNOT fail,
+  # because the inherited library body already contains the word, so the check
+  # passes with the promise deleted. That is why it was a PROXIMITY match to
+  # the subject line and not a lone word.
+  # Removed 2026-09-03 on JC's direct instruction: the hint paragraph was
+  # replaced with a shorter line above the embed that does not carry this fact.
+  # It was:  rx   = '(?i)create your account'
+  #          what = 'that the email explains how to create the account'
   @{ rx = '(?i)\b(spam|junk|promotions)\b[^<]{0,40}folder';
      what = 'where to look if the email does not show up' }
 )
