@@ -93,20 +93,67 @@ if ([regex]::Matches($h, 'data-modal').Count -lt 3) { throw "build-signup: the f
 # unsubscribe behaviour or absence of spam. Anything that creeps back in is a
 # claim he would have to keep, so the build refuses it. This checks the SHIPPED
 # page, comments included, because a comment ships too.
-$bannedClaims = @('no spam', 'No Spam', 'unsubscribe', 'Unsubscribe',
-                  'one email', 'One email', 'One Email', 'nothing else')
+#
+# 2026-09-03, D174-CLASS FIX. This list used to be BARE SUBSTRINGS compared with
+# ToLower().Contains(): 'no spam', 'unsubscribe', 'one email', 'nothing else'.
+# That tests the WORDS; the law is about the CLAIM. JC dictated copy the same day
+# telling the reader to "check your spam, junk, or promotions folder", which is
+# an INSTRUCTION about where to look, not a promise that he will not send spam.
+# A word-level pattern eventually eats legitimate copy exactly the way the 9/02
+# Contact guard false-fired on the library's own "get in contact" body text.
+# Every pattern below must now match the PROMISE, and carries the reason it is
+# banned so a later session cannot mistake it for a style preference.
+$bannedClaims = @(
+  @{ rx = '(?i)\b(no|zero|never\s+any)\s+spam\b';
+     why = 'promises there will be no spam' },
+  @{ rx = '(?i)\b(never|not|won.?t|will\s+not|do\s+not|don.?t)\s+spam\b';
+     why = 'promises not to spam' },
+  @{ rx = '(?i)\bspam[\s-]?free\b';
+     why = 'promises spam-free mail' },
+  @{ rx = '(?i)\bunsubscribe\b';
+     why = 'describes unsubscribe behaviour, which Substack controls and he does not' },
+  @{ rx = '(?i)\b(only\s+|just\s+)?(one|1|two|a\s+single)\s+emails?\b';
+     why = 'promises how many emails arrive' },
+  @{ rx = '(?i)(\bnothing\s+else\b[^.<]{0,40}\b(email|inbox|list|send|sent)\b|\b(email|inbox|list|send|sent)\b[^.<]{0,40}\bnothing\s+else\b)';
+     why = 'promises nothing else will be sent' }
+)
 foreach ($claim in $bannedClaims) {
-  if ($h.ToLower().Contains($claim.ToLower())) {
-    throw ("build-signup: the page claims '" + $claim + "'. This page promises ONE thing: " +
-           "notified, and in, the second the course drops. Nothing about email handling.")
+  $hit = [regex]::Matches($h, $claim.rx)
+  if ($hit.Count -gt 0) {
+    throw ("build-signup: the page " + $claim.why + " (matched '" + $hit[0].Value + "'). " +
+           "JC does not run the mailing, so email volume, frequency, unsubscribe behaviour " +
+           "and absence of spam are not his to promise. Telling a reader WHERE TO LOOK is " +
+           "fine; promising how the mail behaves is not.")
   }
 }
 # 2026-09-02, JC's dictation: the course is OPEN, so the one promise changed
 # from "notified the second it drops" to "the email gives you access". Match the
 # invariant phrase, not one exact sentence, so JC can reword around it without
 # the gate firing on his own copy. The promise itself still cannot go missing.
-if ([regex]::Matches($h, 'gives you access').Count -lt 1) {
-  throw "build-signup: the one promise (the access email) is missing from the page"
+# 2026-09-03, RE-BASELINED DELIBERATELY. He dictated the promise copy word for
+# word and 'gives you access' is not in it any more. The promise is now FOUR
+# facts and each one is checked, because he named all four: the email is
+# automatic, its subject line is "Transition Diet 101 Access Guide", it explains
+# how to make the account, and it says where to look if it does not show up.
+# The sentences around them stay his to reword without tripping this gate.
+# EACH PATTERN BELOW WAS PROVEN TO FAIL by deleting its fact and rebuilding.
+# WARNING: a bare '\bautomatic' was tried first and CANNOT fail: the inherited library
+# body already contains the word, so the check passed with the promise deleted.
+# That is why fact (a) is a PROXIMITY match to the subject line, not a lone word.
+$promiseInvariants = @(
+  @{ rx = 'Transition Diet 101 Access Guide';
+     what = 'the subject line of the automatic access email' },
+  @{ rx = '(?i)automatic[\s\S]{0,160}?Transition Diet 101 Access Guide';
+     what = 'that THAT email is the one sent automatically' },
+  @{ rx = '(?i)create your account';
+     what = 'that the email explains how to create the account' },
+  @{ rx = '(?i)\b(spam|junk|promotions)\b[^<]{0,40}folder';
+     what = 'where to look if the email does not show up' }
+)
+foreach ($inv in $promiseInvariants) {
+  if ([regex]::Matches($h, $inv.rx).Count -lt 1) {
+    throw ("build-signup: the one promise is broken, the page no longer states " + $inv.what)
+  }
 }
 Write-Output "  one promise only, no email claims : ok"
 # Every element the component toggles with .hidden needs an explicit
