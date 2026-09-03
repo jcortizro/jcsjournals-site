@@ -10,6 +10,15 @@
      flow renders at once. Do not remove. */
   [hidden] { display: none !important; }
 
+  /* Carrd paints its site-level background texture on body::before, which no
+     rule scoped to body's CHILDREN can reach. MEASURED live on testjc
+     2026-09-03: with every old element deleted and the computed background on
+     html and body both reading clean cream, the page still rendered as grey
+     noise, and the culprit was this pseudo-element. It costs no bandwidth, it
+     just makes the page look broken. Killing it here rather than in the Carrd
+     embed keeps the rule in the repo, so a fix is a push and never a re-paste. */
+  body::before, body::after { display: none !important; background-image: none !important; }
+
   /* Per-flow accent. Set on <html> by help.js, and on each chooser card so the
      three cards show their own colour side by side. */
   .f-noapp, .pick-noapp { --accent:#14331F; --accent-num:#E3B84E; }
