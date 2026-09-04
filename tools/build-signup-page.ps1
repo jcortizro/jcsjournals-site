@@ -145,9 +145,19 @@ foreach ($claim in $bannedClaims) {
 # The sentences around them stay his to reword without tripping this gate.
 # EACH SURVIVING PATTERN BELOW WAS PROVEN TO FAIL by deleting its fact and
 # rebuilding, re-proven after this re-baseline.
+# 2026-09-03, THIRD RE-BASELINE, same day, on JC's instruction "i went with
+# system b". He changed the Substack welcome email's SUBJECT from
+# "Transition Diet 101 Access Guide" to
+# "One step left: create your Transition Diet 101 account", so the page had to
+# follow it or the instruction to search a spam folder would point at a string
+# that no longer exists. THE SUBJECT HERE MUST EQUAL THE LIVE SUBSTACK SUBJECT.
+# If you change one, change the other in the same commit. The live subject is
+# at Substack > Settings > Emails > Welcome email to new subscribers.
+# Case-insensitive on purpose: capitalization is presentation and is his to
+# change, the words are the fact and are not.
 $promiseInvariants = @(
-  @{ rx = 'Transition Diet 101 Access Guide';
-     what = 'the subject line of the automatic access email' },
+  @{ rx = '(?i)One step left: create your Transition Diet 101 account';
+     what = 'the subject line of the access email, which must match Substack' },
   # Removed 2026-09-03 on JC's direct instruction: the hint paragraph was
   # replaced with a shorter line above the embed that does not carry this fact.
   # It was:  rx   = '(?i)automatic[\s\S]{0,160}?Transition Diet 101 Access Guide'
