@@ -41,18 +41,35 @@ $dialogM = [regex]::Match($content, '<dialog id="legalModal">.*')
 if (-not $dialogM.Success) { throw "dialog not found" }
 $dialog = ($dialogM.Value -split "`n")[0]
 
+# ---- THE MDHS VIDEO PLAYS HERE (JC 2026-09-19, dictated) ----
+# Until 2026-09-19 the hero ended in a .vidrow pill that CLICKED OUT to YouTube.
+# JC: "when people click on the resource library, that what-is-the-Mucusless-
+# Diet-Healing-System video is formatted and shown where people can just click
+# on it and it plays on the website, like how we have the Jerome interview."
+# So the pill is replaced by the hub's own approved video block (kicker + h2 +
+# .videobox iframe, the exact markup the hub carried from v4 to 2026-09-19),
+# sitting between the disclaimer and "Pick a topic below" so the pick line stays
+# next to the topics it points at. The hub itself carries NO video any more
+# (build-jcj-page.ps1 removes this whole hero, video included, by design).
+# The id is the MDHS orientation video, proved publicly embeddable via YouTube
+# oEmbed on 2026-09-19 (title on YouTube: "UNLIKELY ORIGINS | Mucusless Diet").
 $libHero = @"
   <div class="hero">
     <p class="eyebrow">The Library &middot; Free &middot; No Email Signup Required</p>
     <h1>Mucus-Free<br>Made Simple</h1>
     $heroLede
-    <p class="lede">Pick a topic below; each one opens right where it is.</p>
-    <a class="vidrow" href="https://youtu.be/Djygxncc58I" target="_blank" rel="noopener">
-      <span class="vp" aria-hidden="true"></span>
-      <span><span class="vt">What is the Mucusless Diet Healing System?</span><span class="vn">Watch the video first</span></span>
-    </a>
+    <div class="sect-head hero-vidhead">
+      <p class="kicker k-free">Watch First</p>
+      <h2>What Is the Mucusless Diet Healing System?</h2>
+    </div>
+    <div class="videobox">
+      <iframe src="https://www.youtube.com/embed/Djygxncc58I" title="What Is the Mucusless Diet Healing System?" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <p class="lede hero-pick">Pick a topic below; each one opens right where it is.</p>
   </div>
 "@
+if (([regex]::Matches($libHero, 'youtube\.com/embed/Djygxncc58I')).Count -ne 1) { throw "build-library: the hero must embed the MDHS video exactly once" }
+if ($libHero -match 'class="vidrow"') { throw "build-library: the click-out video pill resurfaced (JC 2026-09-19: the video PLAYS on this page)" }
 
 # ---- swap the landing's main content for the library content ----
 $mainMarker = '<main class="wrap" id="top">'
@@ -76,6 +93,12 @@ $killPatterns = @(
 foreach ($p in $killPatterns) { $libCss = [regex]::Replace($libCss, $p, '') }
 $compat = ':root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}'
 $compat = $compat + 'a.tdwatch::after{content:"WATCH IT FREE";font-family:var(--body);font-weight:600;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.06);border:1px solid var(--hair-strong);border-radius:99px;padding:4px 9px;margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:baseline;text-decoration:none}a.tdwatch:hover::after{border-color:var(--gold);filter:brightness(1.35)}'
+# The embedded video panel (2026-09-19). Verbatim the hub's v4 .videobox rules,
+# which moved UPSTREAM to here so the library, and everything generated from it,
+# carries one definition. Plus the two hero spacings the block needs: the head
+# sits 34px under the disclaimer, and the "Pick a topic below" line keeps its
+# old distance to the topics (0 bottom margin; the section padding does the rest).
+$compat = $compat + '.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}.hero .hero-vidhead{margin:34px 0 18px}.hero .lede.hero-pick{margin:30px auto 0}'
 $page = $page.Replace('</style>', ("/* ==== LIBRARY components ==== */`n" + $compat + "`n" + $libCss + "`n</style>"))
 
 # ---- library engine JS (minus the shell dropdown code the landing already has) ----

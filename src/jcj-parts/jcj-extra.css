@@ -3,7 +3,10 @@
 .wordmark{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:2.4px;text-transform:uppercase;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 0}
 /* START HERE box (JC 2026-08-11): the two free doors in ONE box, recipe book
    first, a hairline divider between them. Same panel treatment as the rest of
-   the page so it reads as part of the system, not a new component. */
+   the page so it reads as part of the system, not a new component.
+   PARKED 2026-09-19 (JC: "just a button that says free resource library and
+   another button that says free recipe book"): the box's markup is out of the
+   build (git a31c6fa has it); these rules stay for the day it returns. */
 .startbox{max-width:760px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
   border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:26px 26px 24px;
   display:flex;flex-direction:column;gap:20px}
@@ -83,9 +86,16 @@ a.soccard.sb:hover{border-color:transparent;background:linear-gradient(rgba(58,2
 /* hero jump buttons (v4, JC 7/19): stacked, equal width */
 .hero-ctas{display:flex;flex-direction:column;align-items:center;gap:12px;margin:26px 0 10px}
 .hero-ctas .btn{width:min(100%,400px);justify-content:center;text-align:center}
-/* embedded intro video (v4) */
-.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}
-.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
+/* embedded intro video (v4): .videobox moved UPSTREAM to build-library-page.ps1
+   on 2026-09-19. The MDHS video plays on the library page now and the hub
+   carries no video (JC's order), so the hub only inherits the rule. */
+
+/* THE TWO FREE DOORS (JC 2026-09-19): kicker, then two stacked equal-width
+   buttons, nothing else. Same geometry as the v4 hero jump buttons. The head
+   loses its 26px bottom margin so the buttons sit 18px under the kicker. */
+.sect-head.freehead{margin-bottom:0}
+.freebtns{display:flex;flex-direction:column;align-items:center;gap:12px;margin:8px 0 0}
+.freebtns .btn{width:min(100%,400px);justify-content:center;text-align:center}
 
 
 /* ===== TD101 WAITLIST CTA (v14, JC 2026-08-25: swapped from the Calendly

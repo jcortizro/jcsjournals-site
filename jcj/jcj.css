@@ -185,7 +185,7 @@ footer .wrap{display:flex;flex-direction:column;gap:12px}
   .grid4{grid-template-columns:1fr}
 }
 /* ==== LIBRARY components ==== */
-:root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}a.tdwatch::after{content:"WATCH IT FREE";font-family:var(--body);font-weight:600;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.06);border:1px solid var(--hair-strong);border-radius:99px;padding:4px 9px;margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:baseline;text-decoration:none}a.tdwatch:hover::after{border-color:var(--gold);filter:brightness(1.35)}
+:root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB82;--tier-gold:#EBC64B;--tier-red:#E97676;--grad-green:linear-gradient(45deg,rgb(8,41,15) 0%,rgba(138,186,115,.12) 100%)}a.tdwatch::after{content:"WATCH IT FREE";font-family:var(--body);font-weight:600;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.06);border:1px solid var(--hair-strong);border-radius:99px;padding:4px 9px;margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:baseline;text-decoration:none}a.tdwatch:hover::after{border-color:var(--gold);filter:brightness(1.35)}.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}.hero .hero-vidhead{margin:34px 0 18px}.hero .lede.hero-pick{margin:30px auto 0}
   --display:'Montserrat',sans-serif;--body:'Source Sans 3','Source Sans Pro',system-ui,sans-serif;
   --text:#fff;--dim:rgba(255,255,255,.90);--dim2:rgba(255,255,255,.85);--faint:rgba(255,255,255,.78);
   --panel:rgba(15,19,12,.72);--panel-solid:rgba(15,19,12,.96);--hair:rgba(255,255,255,.17);--hair-strong:rgba(255,255,255,.36);
@@ -503,7 +503,10 @@ span.soc.dim{color:var(--faint);opacity:.5;cursor:default}
 .wordmark{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:2.4px;text-transform:uppercase;color:#fff;text-decoration:none;white-space:nowrap;padding:8px 0}
 /* START HERE box (JC 2026-08-11): the two free doors in ONE box, recipe book
    first, a hairline divider between them. Same panel treatment as the rest of
-   the page so it reads as part of the system, not a new component. */
+   the page so it reads as part of the system, not a new component.
+   PARKED 2026-09-19 (JC: "just a button that says free resource library and
+   another button that says free recipe book"): the box's markup is out of the
+   build (git a31c6fa has it); these rules stay for the day it returns. */
 .startbox{max-width:760px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);
   border:1px solid var(--hair);border-top:3px solid var(--free);border-radius:14px;padding:26px 26px 24px;
   display:flex;flex-direction:column;gap:20px}
@@ -583,9 +586,16 @@ a.soccard.sb:hover{border-color:transparent;background:linear-gradient(rgba(58,2
 /* hero jump buttons (v4, JC 7/19): stacked, equal width */
 .hero-ctas{display:flex;flex-direction:column;align-items:center;gap:12px;margin:26px 0 10px}
 .hero-ctas .btn{width:min(100%,400px);justify-content:center;text-align:center}
-/* embedded intro video (v4) */
-.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}
-.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}
+/* embedded intro video (v4): .videobox moved UPSTREAM to build-library-page.ps1
+   on 2026-09-19. The MDHS video plays on the library page now and the hub
+   carries no video (JC's order), so the hub only inherits the rule. */
+
+/* THE TWO FREE DOORS (JC 2026-09-19): kicker, then two stacked equal-width
+   buttons, nothing else. Same geometry as the v4 hero jump buttons. The head
+   loses its 26px bottom margin so the buttons sit 18px under the kicker. */
+.sect-head.freehead{margin-bottom:0}
+.freebtns{display:flex;flex-direction:column;align-items:center;gap:12px;margin:8px 0 0}
+.freebtns .btn{width:min(100%,400px);justify-content:center;text-align:center}
 
 
 /* ===== TD101 WAITLIST CTA (v14, JC 2026-08-25: swapped from the Calendly

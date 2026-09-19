@@ -46,19 +46,26 @@ Write-Output "  header inherited : ok"
 # trimmed lede) is saved verbatim in src\jcj-parts\parked-hero.html with its
 # restore recipe; the v4-v6 hero transform steps live in git history
 # (438db1b..9b7af9d) if the transform route is ever preferred.
+# 2026-09-19: the library hero now CONTAINS the MDHS video block (nested divs),
+# so this removal is also what keeps the hub video-free. The lazy .*? still ends
+# at the </div> that precedes <section id="library">, because of the lookahead.
 RepRx 'hero-remove' '(?s)<div class="hero">.*?</div>\s*(?=<section id="library">)' '' 1
+if ($h -match 'youtube\.com/embed/') { throw "build-jcj: a YouTube embed survived the hero removal" }
 
-# ORDER (v13, JC 7/24): video FIRST -> the CTA (cta-block, moved up to sit
-# right under the "What Is the MDHS?" video) -> library -> socials
-# v6 dividers DELETED in v7 (JC 7/20, Carrd's own hr styling threw them off-center)
-# v12 (JC 7/23): webinar banner was the REPLAY promo.
-# v13 (JC 7/24): webinar banner REMOVED entirely (replay run over), and the CTA
-# was pulled up here from the bottom-of-page insert. webinar-banner.html stays on
-# disk (its LIVE copy is in git history) for reuse at the next event.
-# v14 (JC 2026-08-25): cta-block is now the TD101 waitlist CTA, not the
-# Calendly "Speak To A Real Person" box. Its __SIGNUP__ token is the ONLY
-# place this file's URL is resolved, straight from urls.ps1's $SignupUrl.
-RepRx 'video+cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'video.html') + "`n" + (Part 'cta-block.html') + "`n" + '<section id="library">') 1
+# ORDER (JC 2026-09-19, dictated): the TD101 sign-up box is THE FIRST and the
+# ONLY thing above the fold -> the two free doors (library, recipe book) -> socials.
+# ⛔ NO VIDEO ON THE HUB. His words: "the only thing they see when they first
+# click on it is ... to sign up for the Transition Diet 101 course ... at the very
+# bottom it just says free resource library or free recipe book ... and then my
+# socials ... the main thing they see is just that main thing of get access now."
+# The interview video that sat first (Ep.2 with Jerome Shaw, kGm-xJvWYlw) is OFF
+# the hub. The "What Is the MDHS?" video (Djygxncc58I) now PLAYS on the library
+# page (build-library-page.ps1, hero). video.html stays on disk as a parked part.
+# ⛔ _cu\site_swap.py (the event-day hub video swap) is RETIRED by this order and
+# aborts by design: there is no <section id="video"> on the hub to swap.
+# History: v13 (7/24) video first -> CTA -> library -> socials. v14 (8/25) the CTA
+# became the TD101 waitlist box. 9/01 the box became the Substack embed.
+RepRx 'cta-insert' ([regex]::Escape('<section id="library">')) ((Part 'cta-block.html') + "`n" + '<section id="library">') 1
 # 2026-09-01: cta-block now holds the Substack embed, no __SIGNUP__ link left to resolve.
 if ($h -match '__SIGNUP__') { throw "build-jcj: __SIGNUP__ token present but the CTA is the Substack embed now" }
 if (([regex]::Matches($h, 'substack\.com/embed')).Count -ne 1) { throw "build-jcj: expected exactly 1 Substack embed in cta-block" }
@@ -134,39 +141,22 @@ Write-Output "  extra-css merged : ok"
 $libSectionRx = '(?s)<section id="library">.*?</section>\s*(?=<!-- funnel -->)'
 $m = [regex]::Matches($h, $libSectionRx)
 if ($m.Count -ne 1) { throw "build-jcj: library section matched $($m.Count), expected 1" }
-# ONE box, two free doors, recipe book FIRST with a hairline divider between
-# them (JC 2026-08-11). The library is labelled "Learn The Basics" here, not
-# "The Free Library", because that is what it does for someone landing cold.
+# 2026-08-11 to 2026-09-19 this was a three-card "Start Here, Free" box (recipes,
+# library, course; markup in git history, commit a31c6fa). JC 2026-09-19, dictated:
+# "There is just a button that says free resource library and another button that
+# says free recipe book. It's just my socials." So: the course card is GONE (the
+# Get Access box above IS the course path now, and a second one under it would
+# compete with it), the descriptions are gone, and the two buttons carry the exact
+# labels he said, in the order he said them. The kicker is his existing copy and
+# the one fact that separates these from the sign-up above: they need no email.
 $libPointer = @"
 <section id="library">
-      <div class="sect-head">
+      <div class="sect-head freehead">
         <p class="kicker k-free">Free &middot; No Email Signup Required</p>
-        <h2>Start Here, Free</h2>
       </div>
-      <div class="startbox">
-        <div class="startrow">
-          <div class="starttext">
-            <h3>24 Free Recipes</h3>
-            <p>The <a class="tdlink" href="$SignupUrl">TD 101</a> Recipe Book. Every recipe with the context behind it: which menu plan it belongs to, when to eat it, and how it fits into a full day.</p>
-          </div>
-          <a class="btn" href="$RecipesUrl">Open The Recipe Book</a>
-        </div>
-        <div class="startdiv" aria-hidden="true"></div>
-        <div class="startrow">
-          <div class="starttext">
-            <h3>Learn The Basics</h3>
-            <p>The free educational library. Six topics that take you from what the Mucusless Diet Healing System is, to how to actually eat a meal.</p>
-          </div>
-          <a class="btn" href="$LibraryUrl">Open The Library</a>
-        </div>
-        <div class="startdiv" aria-hidden="true"></div>
-        <div class="startrow">
-          <div class="starttext">
-            <h3>Start Your Practice</h3>
-            <p>In this 100% free course you will learn how to apply the Mucusless Diet Healing System to your unique body and your unique lifestyle. This course covers every single thing I wish I knew when I first started my practice over five years ago.</p>
-          </div>
-          <a class="btn" href="$SignupUrl">Get access</a>
-        </div>
+      <div class="freebtns">
+        <a class="btn" href="$LibraryUrl">Free Resource Library</a>
+        <a class="btn" href="$RecipesUrl">Free Recipe Book</a>
       </div>
     </section>
 
@@ -177,10 +167,19 @@ Write-Output ("  library -> pointer : ok (" + [math]::Round($m[0].Value.Length/1
 # guards
 if ([regex]::Matches($h, 'td101landing|td101library').Count -ne 0) { throw "build-jcj: residual dead td101 subdomain refs" }
 if ([regex]::Matches($h, 'class="acc cat"').Count -ne 0) { throw "build-jcj: library accordions survived the pointer swap" }
-if ([regex]::Matches($h, [regex]::Escape($LibraryUrl)).Count -lt 1) { throw "build-jcj: no link to the library" }
-if ([regex]::Matches($h, [regex]::Escape($SignupUrl)).Count -lt 2) { throw "build-jcj: the hub must carry at least 2 paths to the course (the third card + the inline mention)" }
-if ([regex]::Matches($h, '<div class="startrow">').Count -ne 3) { throw "build-jcj: expected 3 Start Here cards" }
-Write-Output "  hub course paths : ok"
+# JC 2026-09-19: sign-up box FIRST, exactly two free buttons with his labels, no
+# video anywhere on the hub, and the Substack embed is the hub's one path to the
+# course (the 8/21 "at least 2 paths" rule was for the old three-card box; the
+# box that replaced it IS the sign-up, at the top, so a second path below would
+# compete with it). Each of these was watched failing before it shipped.
+if ([regex]::Matches($h, '<a class="btn" href="' + [regex]::Escape($LibraryUrl) + '">Free Resource Library</a>').Count -ne 1) { throw "build-jcj: the Free Resource Library button is missing" }
+if ([regex]::Matches($h, '<a class="btn" href="' + [regex]::Escape($RecipesUrl) + '">Free Recipe Book</a>').Count -ne 1) { throw "build-jcj: the Free Recipe Book button is missing" }
+if ([regex]::Matches($h, '<div class="startrow">').Count -ne 0) { throw "build-jcj: the old three-card Start Here box resurfaced (JC 2026-09-19: two buttons only)" }
+$firstSection = [regex]::Match($h, '(?s)<main class="wrap" id="top">\s*<section id="([^"]+)"')
+if (-not $firstSection.Success -or $firstSection.Groups[1].Value -ne 'join-td101') { throw ("build-jcj: the first thing on the hub must be the Get Access box (JC 2026-09-19), found '" + $firstSection.Groups[1].Value + "'") }
+if ([regex]::Matches($h, '<section id="video">|youtube\.com/embed/').Count -ne 0) { throw "build-jcj: a video reached the hub (JC 2026-09-19: no video on the homepage; the MDHS video plays on the library page)" }
+if (([regex]::Matches($h, 'substack\.com/embed')).Count -ne 1) { throw "build-jcj: the Substack embed is the hub's one path to the course and must appear exactly once" }
+Write-Output "  hub: sign-up first, two free doors, no video : ok"
 $dockCount = [regex]::Matches($h, '<nav class="dockbar"').Count
 if ($dockCount -ne 1) { throw "build-jcj: expected exactly 1 dock in the output, found $dockCount" }
 if ([regex]::Matches($h, '(?s)<nav class="mnav"').Count -ne 0) { throw "build-jcj: the old mobile pill resurfaced" }
