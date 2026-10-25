@@ -1,0 +1,555 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Start Where You Actually Are</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: JC's own dark-and-gold page, single column story with a two-column hero; review tags overlay on demand */
+:root{
+  color-scheme: dark;
+  --ground:#0b100b; --panel:#131a12; --panel-2:#18201a; --line:rgba(244,242,234,.14);
+  --ink:#F4F2EA; --dim:#DAD7CD; --mute:#A9A79C;
+  --gold:#E4BE3F; --gold-2:#EDD06A; --on-gold:#171204; --green:#7ECB82;
+  --review:#62C6E3; --review-soft:rgba(98,198,227,.10);
+  --display:'Montserrat','Segoe UI',Arial,sans-serif;
+  --body:'Source Sans 3','Source Sans Pro','Segoe UI',system-ui,sans-serif;
+  --col:780px; --wide:1100px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-weight:400;font-size:18.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:70;background:#0e140e}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--display);font-weight:900;text-transform:uppercase;margin:0;line-height:1.08;letter-spacing:.4px;text-wrap:balance}
+p{margin:0}
+a{color:var(--gold)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col);margin:0 auto}
+.kicker{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold)}
+.sec{padding-block:clamp(56px,8vw,96px);border-top:1px solid rgba(244,242,234,.07)}
+.sec-head{display:grid;gap:14px;text-align:center;max-width:760px;margin:0 auto clamp(28px,4vw,44px)}
+.sec-head h2{font-size:clamp(1.75rem,5.2vw,2.6rem)}
+.sec-head h2.statement{font-size:clamp(2.05rem,6.4vw,3.1rem);line-height:1.04}
+.sec-head .lede{color:var(--dim);font-size:1.05rem}
+
+/* mockup bar */
+.mockbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:#0e140e;border-bottom:1px solid var(--line)}
+.mockbar .in{max-width:var(--wide);margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between;min-height:54px;flex-wrap:wrap;padding-block:8px}
+.brand{font-family:var(--display);font-weight:900;letter-spacing:1.6px;font-size:.95rem;text-transform:uppercase}
+.mocktag{font-size:.82rem;color:var(--mute)}
+.mocktag b{color:var(--review);font-weight:700}
+.notes-btn{font-family:var(--display);font-weight:700;font-size:.74rem;letter-spacing:1.4px;text-transform:uppercase;background:transparent;color:var(--review);border:1.5px solid var(--review);border-radius:999px;padding:9px 14px;cursor:pointer}
+.notes-btn[aria-pressed="true"]{background:var(--review);color:#06222b}
+.notes-btn:focus-visible,.btn:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--review);outline-offset:3px}
+
+/* review tags */
+.rv{display:none;border:1.5px dashed var(--review);background:var(--review-soft);color:#CBEFF9;border-radius:8px;padding:10px 14px;font-size:.92rem;line-height:1.45;margin:0 auto 22px;max-width:var(--col);text-align:left}
+.rv b{color:var(--review);font-family:var(--display);font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;margin-right:6px}
+.notes-on .rv{display:block}
+
+/* hero */
+.hero{padding-block:clamp(36px,6vw,72px) clamp(40px,6vw,72px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,4vw,56px);align-items:start}
+.hero-copy{display:grid;gap:20px;min-width:0;text-align:center;justify-items:center}
+.hero h1{font-size:clamp(2.35rem,5.4vw,3.6rem)}
+.hero .by{display:flex;align-items:center;gap:14px;text-align:left}
+.hero .by img{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 40%;border:2px solid var(--gold);flex:none}
+.hero .by p{font-size:1rem;color:var(--dim);line-height:1.4}
+.hero .by p b{color:var(--ink)}
+.hero-copy .shot{width:100%}
+.course{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.caption{font-size:.86rem;color:var(--mute);margin-top:10px}
+
+/* form */
+.formcard{background:var(--panel);border:1px solid rgba(228,190,63,.45);border-top:3px solid var(--gold);border-radius:14px;padding:clamp(20px,3vw,30px);display:grid;gap:14px;min-width:0;text-align:left}
+.formcard h2{font-size:1.45rem;text-align:center}
+.formcard .s{font-size:.98rem;color:var(--dim);text-align:center}
+.f{display:grid;gap:10px}
+.f input,.f select{width:100%;font:inherit;font-size:1.02rem;color:var(--ink);background:#0d130d;border:1px solid rgba(244,242,234,.25);border-radius:9px;padding:13px 14px}
+.f input::placeholder{color:#8f8d84}
+.f .row{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:10px}
+.agree{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;color:var(--dim)}
+.agree input{width:20px;height:20px;margin-top:3px;accent-color:var(--gold);flex:none}
+.two-emails{font-size:.95rem;color:var(--ink);background:rgba(228,190,63,.08);border:1px solid rgba(228,190,63,.3);border-radius:9px;padding:10px 12px;line-height:1.45}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;cursor:pointer;border:0;border-radius:10px;font-family:var(--display);font-weight:800;font-size:1.02rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--on-gold);background:linear-gradient(45deg,#C7A126,var(--gold-2));padding:17px 18px}
+.btn:hover{filter:brightness(1.07)}
+.btn.inline{display:inline-block;width:auto;padding:16px 30px}
+.fine{font-size:.84rem;color:var(--mute);line-height:1.5;text-align:center}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:1.3px;text-transform:uppercase;color:var(--green);border:1px solid rgba(126,203,130,.45);border-radius:99px;padding:6px 12px}
+.formmsg{font-size:.95rem;color:var(--review);text-align:center}
+.legal{font-size:.84rem;color:var(--mute);line-height:1.5;text-align:center}
+
+/* credentials strip, now Prof. Spira's */
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-block:1px solid var(--line)}
+.strip div{padding:18px 10px;text-align:center;border-left:1px solid var(--line)}
+.strip div:first-child{border-left:0}
+.strip b{display:block;font-family:var(--display);font-weight:900;font-size:1.35rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.strip span{font-size:.78rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute)}
+
+/* learn */
+.learn{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(24px,4vw,48px)}
+.blk-h{font-family:var(--display);font-weight:800;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding-bottom:10px;border-bottom:1px solid rgba(228,190,63,.4);margin-bottom:16px}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.list li{position:relative;padding-left:28px;color:var(--dim)}
+.list li::before{content:"";position:absolute;left:2px;top:.55em;width:11px;height:11px;border-radius:50%;border:2px solid var(--gold)}
+.list li b{color:var(--ink)}
+.list.not li::before{border-color:#E97676}
+
+/* JC's story: centered portrait, then before and after guidance */
+.portrait{display:grid;justify-items:center;gap:12px;margin-bottom:clamp(28px,4vw,40px)}
+.portrait img{width:clamp(180px,42vw,232px);height:clamp(180px,42vw,232px);border-radius:50%;object-fit:cover;object-position:50% 40%;border:3px solid var(--gold);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.portrait .who{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);text-align:center}
+.arc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.5vw,26px);max-width:980px;margin:0 auto}
+.arc .beat{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:clamp(20px,2.6vw,28px);display:grid;gap:12px;align-content:start}
+.arc .beat .when{font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold)}
+.arc .beat p{font-size:1.08rem;line-height:1.55;color:var(--ink)}
+
+/* Prof. Spira */
+.spira-pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:clamp(24px,3vw,34px)}
+.spira-pics figure{margin:0;background:var(--panel)}
+.spira-pics figcaption{font-size:.82rem;color:var(--mute);padding:10px 14px}
+.spira-txt{display:grid;gap:16px;max-width:var(--col);margin:clamp(26px,3.5vw,38px) auto 0}
+.spira-txt p{color:var(--dim)}
+.spira-txt p b{color:var(--ink)}
+.saying{background:rgba(228,190,63,.08);border:1px solid rgba(228,190,63,.35);border-radius:12px;padding:18px 20px;display:grid;gap:8px}
+.saying p{font-size:1.1rem;font-style:italic;color:var(--ink)}
+.saying span{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
+.center{text-align:center}
+
+/* for you */
+.foryou{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.foryou li{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;color:var(--dim);font-size:1.02rem}
+.foryou li b{color:var(--ink)}
+.notfor{max-width:62ch;margin:24px auto 0;text-align:center;color:var(--dim);font-size:1rem}
+
+/* why */
+.why{display:grid;grid-template-columns:220px minmax(0,1fr);gap:clamp(22px,4vw,44px);align-items:center}
+.why img{border-radius:10px;filter:sepia(.15)}
+.why blockquote{margin:0;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.4;font-weight:600;color:var(--ink)}
+.why cite{display:block;margin-top:10px;font-style:normal;font-family:var(--display);font-weight:700;font-size:.74rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
+.why .after{margin-top:20px;display:grid;gap:12px;color:var(--dim)}
+.why .after b{color:var(--ink)}
+
+/* modules + stack */
+.mods{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--line);display:grid;gap:1px}
+.mod{background:#0f150f;display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:16px;padding:18px 20px;align-items:baseline}
+.mod .n{font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold)}
+.mod h3{font-size:1.02rem;letter-spacing:.6px;margin-bottom:4px}
+.mod p{font-size:.98rem;color:var(--dim)}
+.mod .v{font-family:var(--display);font-weight:800;font-size:1rem;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mod.bonus{background:#141b10}
+.total{background:var(--panel-2);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:20px;align-items:center}
+.total .l{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:1px}
+.total .v{font-family:var(--display);font-weight:900;font-size:1.3rem;font-variant-numeric:tabular-nums;text-align:right}
+.total .free{color:var(--green);font-size:1.6rem}
+
+/* community */
+.community{display:grid;gap:22px}
+.community .photo{border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.doors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.door{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+.door h3{font-size:.86rem;letter-spacing:1px;margin-bottom:6px}
+.door p{font-size:.95rem;color:var(--dim);line-height:1.45}
+
+/* voices */
+.voices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.voice{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px;align-content:space-between}
+.voice .stars{color:var(--gold);letter-spacing:3px;font-size:.9rem}
+.voice p{color:var(--dim);font-size:1rem}
+.voice .who{display:flex;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:14px}
+.voice .who img{width:52px;height:52px;border-radius:50%;object-fit:cover}
+.voice .who b{display:block;font-size:.98rem}
+.voice .who span{font-size:.84rem;color:var(--mute);line-height:1.3;display:block}
+.video{margin-top:16px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.video .thumb{position:relative;background:#000}
+.video .thumb img{width:100%;height:100%;object-fit:cover;opacity:.85}
+.video .play{position:absolute;inset:0;display:grid;place-items:center}
+.video .play span{width:66px;height:66px;border-radius:50%;background:rgba(228,190,63,.95);display:grid;place-items:center;color:var(--on-gold);font-size:1.5rem;padding-left:4px}
+.video .vt{padding:22px;display:grid;gap:10px;align-content:center}
+.video .vt .tag{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
+.video .vt p{font-size:1.1rem;color:var(--ink)}
+.video .vt span{font-size:.86rem;color:var(--mute)}
+
+/* road */
+.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:8px;align-content:start}
+.step .badge{font-family:var(--display);font-weight:800;font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--green)}
+.step .badge.opt{color:var(--gold)}
+.step h3{font-size:1.05rem;letter-spacing:.5px}
+.step p{font-size:.98rem;color:var(--dim)}
+
+/* faq */
+.faq{display:grid;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:18px 34px 18px 0;font-weight:700;font-size:1.05rem;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:14px;color:var(--gold);font-size:1.4rem;font-weight:700}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{padding:0 0 18px;color:var(--dim)}
+
+.closer{text-align:center}
+.closer .last{margin-top:26px;color:var(--dim);font-size:1.08rem}
+.closer .last b{display:block;color:var(--ink);margin-top:4px}
+.endform{max-width:560px;margin:28px auto 0;text-align:left}
+footer{border-top:1px solid var(--line);padding-block:28px 40px;text-align:center;color:var(--mute);font-size:.86rem;display:grid;gap:10px}
+footer nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+footer a{color:var(--dim)}
+
+@media (max-width:860px){
+  .hero-grid,.learn,.video{grid-template-columns:minmax(0,1fr)}
+  .doors{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .voices,.road,.arc{grid-template-columns:minmax(0,1fr)}
+  .strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .strip div:nth-child(3){border-left:0}
+  .strip div:nth-child(n+3){border-top:1px solid var(--line)}
+  .spira-pics{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+  body{font-size:18px}
+  .foryou{grid-template-columns:minmax(0,1fr)}
+  .why{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}
+  .why img{max-width:180px}
+  .why blockquote{text-align:left}
+  .why .after{text-align:left}
+  .mod{grid-template-columns:minmax(0,1fr) auto;gap:4px 14px}
+  .mod .n{grid-column:1/-1}
+  .f .row{grid-template-columns:minmax(0,1fr)}
+  .brand{font-size:.85rem}
+  .mocktag{display:none}
+}
+</style>
+
+<div class="mockbar gut">
+  <div class="in">
+    <span class="brand">JC's Journals</span>
+    <span class="mocktag"><b>JC's cut</b>, 22 Oct &middot; not live &middot; form disabled</span>
+    <button class="notes-btn" id="notesBtn" type="button" aria-pressed="false">Show review notes</button>
+  </div>
+</div>
+
+<main>
+<!-- HERO -->
+<section class="hero gut">
+  <div class="wrap">
+    <div class="rv"><b>JC &middot; 22 Oct</b>Headline centered. The "my videos tell you why" line is gone. The face badge that sat on the course image is gone. The credentials strip that used to sit here has moved down to Prof. Spira's section, so What You Will Learn is now the first thing under the sign-up form.</div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">A free course from Prof. Spira &amp; JC &middot; Mucus-free Life</p>
+        <h1>Start Where You<br>Actually Are</h1>
+        <div class="by">
+          <img src="img/jc.jpg" alt="JC Ortiz-Roman" width="72" height="72">
+          <p><b>Taught by my teacher, Prof. Spira, and me.</b><br>Seven modules, three starting menus, free.</p>
+        </div>
+        <div class="shot">
+          <div class="course">
+            <img src="img/hero.jpg" alt="Transition Diet 101 course: grocery list, three menu plans, fresh produce" width="1100" height="619">
+          </div>
+          <p class="caption">Seven modules &middot; three starting menus &middot; a full day of meals cooked on camera</p>
+        </div>
+      </div>
+      <form class="formcard" id="enroll" novalidate>
+        <h2>Enroll free, instant access</h2>
+        <p class="s">All seven modules the moment you confirm. Takes about thirty seconds.</p>
+        <div class="f">
+          <input id="f1-first" type="text" placeholder="Your first name" aria-label="First name">
+          <input id="f1-last" type="text" placeholder="Your last name" aria-label="Last name">
+          <input id="f1-email" type="email" placeholder="you@example.com" aria-label="Email">
+          <div class="row">
+            <select id="f1-cc" aria-label="Country code"><option>Country code</option><option>United States +1</option><option>Canada +1</option><option>United Kingdom +44</option></select>
+            <input id="f1-phone" type="tel" placeholder="Your phone number" aria-label="Phone number">
+          </div>
+        </div>
+        <label class="agree"><input id="f1-terms" type="checkbox"><span>I agree with the <a href="https://live.mucusfreelife.com/td101-terms" target="_blank" rel="noopener">Terms and Conditions</a>.</span></label>
+        <p class="two-emails">You will get course emails from Prof. Spira and Mucus-free Life, and my Substack letters from me. Unsubscribe from either anytime.</p>
+        <button class="btn" type="submit">Enroll me free &rarr;</button>
+        <p class="formmsg" hidden>Mockup: the real Kartra form goes here.</p>
+        <p class="fine">By submitting, I agree to receive helpful emails and texts from Mucus-free Life at the contact info provided, and to subscribe to JC's email list. Unsubscribe or stop texts anytime.</p>
+        <div class="chips"><span class="chip">100% free</span><span class="chip">No card required</span><span class="chip">Instant access</span></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- LEARN -->
+<section class="sec gut">
+  <div class="wrap">
+    <div class="rv"><b>Moved up</b>This is now what a visitor reads straight after the sign-up form, on phone and on desktop. Both lists are JC's own words, unchanged.</div>
+    <div class="learn">
+      <div>
+        <p class="blk-h">What you will learn</p>
+        <ul class="list">
+          <li>Why this practice is not about adding nutrition to your body, but about slowly and safely <b>removing the foods that harm it</b></li>
+          <li>Why every diet you have tried crashed by week two. <b>It was never your discipline</b></li>
+          <li>A starting menu matched to the way you eat <b>today</b>, not the way you wish you ate</li>
+          <li>Why the same foods, eaten in a different order, <b>behave completely differently in your body</b></li>
+          <li>How to use comfort foods as <b>brakes</b>, on purpose, so "falling off" is treated as part of the journey and not the end of it</li>
+          <li>A grocery list and the equipment list, on <b>the budget you already have</b></li>
+          <li><b>Recipe videos and a full day of meals cooked on camera.</b> Learning starts tonight; the transition itself is a process you walk at your pace</li>
+        </ul>
+      </div>
+      <div>
+        <p class="blk-h">What it is not</p>
+        <ul class="list not">
+          <li>It is <b>NOT</b> a <i>7 day detox challenge</i></li>
+          <li>It is <b>NOT</b> an <i>all fruit diet</i></li>
+          <li>It is <b>NOT</b> an <i>extreme protocol</i></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JC'S STORY -->
+<section class="sec gut">
+  <div class="wrap">
+    <div class="rv"><b>JC &middot; 22 Oct</b>Heading cut to two lines. Photo centered in the middle of the section. The two quotes are now framed as the early years before guidance against what changed after it, which is the point JC is actually making. The gold line under the photo is trimmed back to the paradigm alone.</div>
+    <div class="sec-head">
+      <p class="kicker">Who is walking it with you</p>
+      <h2 class="statement">That First Summer<br>Relapse City</h2>
+    </div>
+    <div class="portrait">
+      <img src="img/jc.jpg" alt="JC Ortiz-Roman" width="480" height="480">
+      <p class="who">JC Ortiz-Roman &middot; The paradigm</p>
+    </div>
+    <div class="arc">
+      <div class="beat">
+        <span class="when">The early years, before guidance</span>
+        <p>"When I first started the practice, I came into it thinking I was better than the basics because I had spent all these years practicing, dabbling. It creates such a bad sense of confidence. With diet you have to really let go of the ego and what you think you know. And I remember that first summer was just relapse city, and I didn't know how to control those relapses."</p>
+      </div>
+      <div class="beat">
+        <span class="when">After I was taught the mechanics</span>
+        <p>"I was told how my body works, why it works this way. I realized that I wasn't lied to, and then I was able to walk on my own two feet. It's like being told how to use your body and then you never need to listen to anyone else again. It is just like pure freedom."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEET PROF. SPIRA -->
+<section class="sec gut" id="teacher">
+  <div class="rv"><b>JC &middot; 22 Oct</b>The introduction now comes before his photographs, so you know who you are looking at. Order is heading, before and after, teaching photo, credentials strip moved down from the hero, then the story. The small PhD / TEDx / 8 books / editor boxes are gone, they said the same thing as the strip.</div>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">Who taught me this</p>
+      <h2 class="statement">Meet My Teacher, Professor Spira<br>The Man Behind What I Share With You</h2>
+    </div>
+    <div class="spira-pics">
+      <figure><img src="img/heading1.jpg" alt="Prof. Spira in August 2002 and August 2003" width="800" height="550"><figcaption>Prof. Spira, August 2002 and August 2003</figcaption></figure>
+      <figure><img src="img/park.jpg" alt="Prof. Spira teaching a student outdoors" width="800" height="450"><figcaption>Teaching the work, one conversation at a time</figcaption></figure>
+    </div>
+    <div class="strip" aria-label="About Prof. Spira">
+      <div><b>PhD</b><span>The Ohio State University</span></div>
+      <div><b>24</b><span>Years teaching this system</span></div>
+      <div><b>8</b><span>Books published</span></div>
+      <div><b>260K+</b><span>YouTube subscribers</span></div>
+    </div>
+    <div class="spira-txt">
+      <p>I had plenty of information and no idea how to put it together. <b>The person who showed me how is my teacher, Prof. Spira.</b></p>
+      <p>In August 2002 he weighed over 300 pounds, with sleep apnea, migraines and constant sinus infections, and doctors told him it was genetic. That year, at a jazz gig in Cincinnati, a drummer handed him Arnold Ehret's <i>Mucusless Diet Healing System</i> and asked for nothing. Within six months he had released more than 100 pounds, discarded the C-PAP and stopped his medications.</p>
+      <p>He has spent the 24 years since practicing and teaching this system.</p>
+      <p>He opens every module of Transition Diet 101. I produce most of the lessons and answer your questions inside the community. When you enroll, <b>your first email comes from him</b>, with your access link. Open it. A welcome from me follows.</p>
+      <div class="saying">
+        <p>"He has a gift for making the deep parts of this system simple and clear."</p>
+        <span>Prof. Spira, PhD, on JC</span>
+      </div>
+      <p class="center" style="margin-top:12px"><a class="btn inline" href="#enroll">Enroll me free &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOR YOU -->
+<section class="sec gut">
+  <div class="wrap">
+    <div class="rv"><b>Kept as is</b>JC's list, unchanged.</div>
+    <div class="sec-head">
+      <p class="kicker">Read these slowly</p>
+      <h2>This was built for you if</h2>
+    </div>
+    <ul class="foryou">
+      <li>You are doing everything right by natural health standards and you are <b>still exhausted</b>. The tiredness sleep does not fix.</li>
+      <li>You have been <b>bloated for years</b> and you are sick of looking at it.</li>
+      <li>The congestion never fully leaves. The runny nose that has been temporary for about five years now.</li>
+      <li>You are a <b>veteran of things that did not hold</b>: vegan, keto, carnivore, raw vegan, fasting, Master Cleanse, Medical Medium, Dr. Sebi, Dr. Morse.</li>
+      <li>Cravings run your evenings, and every slip feels like a verdict on your character instead of what it is: <b>missing mechanics</b>.</li>
+      <li>You have known about the Mucusless Diet for years and <b>have not been able to commit</b>.</li>
+      <li>You are <b>the only one at your table</b> doing this, and going at it alone keeps not working.</li>
+      <li>You have read everything and it has all become too much. Too many rules, no starting point.</li>
+    </ul>
+    <p class="notfor"><b>Who this is not for:</b> anyone in a medical emergency, that is what doctors are for, and anyone shopping for a magic pill. This is a method. You walk it.</p>
+    <p class="center" style="margin-top:28px"><a class="btn inline" href="#enroll">Enroll me free &rarr;</a></p>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="sec gut">
+  <div class="col">
+    <div class="rv"><b>JC &middot; 22 Oct</b>Ehret and his quotation stay. The text under him is rewritten in JC's words: everyone races at the destination and nobody is taught how to get there, and TD101 is both the map and the vehicle. The closing line about the three menus is gone.</div>
+    <div class="sec-head">
+      <p class="kicker">Why this works when everything else didn't</p>
+      <h2>It was never another diet you needed</h2>
+    </div>
+    <div class="why">
+      <img src="img/ehret.jpg" alt="Arnold Ehret" width="420" height="645">
+      <div>
+        <blockquote>"It is necessary to base the change in diet on the patient's present diet. Only a slight change is advisable."<cite>Arnold Ehret &middot; Mucusless Diet Healing System, Lesson 4 &middot; 1922</cite></blockquote>
+        <div class="after">
+          <p>Everyone hears about the destination. Everyone races toward it. Almost nobody is ever taught how to actually get there. <b>Transition Diet 101 is the map and the vehicle.</b></p>
+          <p><b>You are taught to view food as tools, not sins.</b> Certain foods act as gas pedals and speed up elimination. Certain foods act as brakes and slow it down, on purpose. And you use them for as long as you need them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES + STACK -->
+<section class="sec gut">
+  <div class="col">
+    <div class="rv"><b>Open question for Prof. Spira</b>These eight values add to $11,476, while the official page shows $11,973. The total below is the official figure, held as a placeholder until he confirms which is right.</div>
+    <div class="sec-head">
+      <p class="kicker">Everything inside, valued honestly</p>
+      <h2>Seven modules, yours tonight</h2>
+      <p class="lede">You can watch the whole course this evening and run your first day tomorrow morning.</p>
+    </div>
+    <div class="mods">
+      <div class="mod"><span class="n">Module 1</span><div><h3>The Foundation</h3><p>Why transitions hold when every diet you tried crashed.</p></div><span class="v">$997</span></div>
+      <div class="mod"><span class="n">Module 2</span><div><h3>The Three Starting Menus</h3><p>Find the one that fits the way you actually eat today. No cliff, no perfection test.</p></div><span class="v">$1,997</span></div>
+      <div class="mod"><span class="n">Module 3</span><div><h3>The Shopping System</h3><p>Never stand lost in a grocery aisle again. Lists, swaps, and the budget you already have.</p></div><span class="v">$497</span></div>
+      <div class="mod"><span class="n">Module 4</span><div><h3>The Mechanics Masterclass</h3><p>Gas pedals, brakes, combining and spacing. The end of the week two crash.</p></div><span class="v">$1,997</span></div>
+      <div class="mod"><span class="n">Module 5</span><div><h3>The Full Day Kitchen Intensive</h3><p>Watch your entire first day cooked before you have to live it.</p></div><span class="v">$1,497</span></div>
+      <div class="mod"><span class="n">Module 6</span><div><h3>The Ancillary Therapies</h3><p>The tools beyond the plate, introduced personally by Prof. Spira.</p></div><span class="v">$1,997</span></div>
+      <div class="mod"><span class="n">Module 7</span><div><h3>The Next Steps Roadmap</h3><p>Every path forward laid out honestly, including the ones you are not ready for yet.</p></div><span class="v">$497</span></div>
+      <div class="mod bonus"><span class="n">Bonus</span><div><h3>The private community</h3><p>Foundations access to our own platform. No Facebook, no ads, no algorithm.</p></div><span class="v">$1,997</span></div>
+      <div class="total"><span class="l">Total value</span><span class="v">$11,973</span><span class="l">Your tuition</span><span class="v free">Free</span></div>
+    </div>
+    <p class="center" style="margin-top:28px"><a class="btn inline" href="#enroll">Enroll me free &rarr;</a></p>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="sec gut">
+  <div class="wrap">
+    <div class="rv"><b>Kept as is</b>JC's four doors, with the real community photo.</div>
+    <div class="sec-head">
+      <p class="kicker">The part that is not a video</p>
+      <h2>You will not do this alone</h2>
+      <p class="lede">Enrolling also opens our private platform. No Facebook, no ads, no algorithm. Four doors open on day one.</p>
+    </div>
+    <div class="community">
+      <div class="photo"><img src="img/reelposter.jpg" alt="Members of the Mucus-free Life community together outdoors" width="720" height="405" style="width:100%"></div>
+      <div class="doors">
+        <div class="door"><h3>Start Here</h3><p>Where you are, what to do first, and who is walking with you.</p></div>
+        <div class="door"><h3>Transition Diet 101</h3><p>The course home. All seven modules, watchable tonight.</p></div>
+        <div class="door"><h3>Recipe Library</h3><p>The transition recipes that make your menu real.</p></div>
+        <div class="door"><h3>Beginner FAQ</h3><p>The questions every beginner asks, already answered.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICES -->
+<section class="sec gut">
+  <div class="wrap">
+    <div class="rv"><b>Kept as is</b>The three testimonials and the Rashad Evans video, quoted and titled exactly as on the official page.</div>
+    <div class="sec-head">
+      <p class="kicker">People who stood where you are standing</p>
+      <h2>It was never another diet</h2>
+    </div>
+    <div class="voices">
+      <div class="voice"><p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p>"I knew something was wrong, I was depressed, constipated, and had low energy. When I started to work with Prof. Spira, he showed me what the 'transition diet' looks like. As soon as I started to implement it and prepare those meals, I began having regular bowel movements&hellip; without taking any laxatives."</p><div class="who"><img src="img/kyrene-av.jpg" alt="Kyrene Robles" width="52" height="52"><div><b>Kyrene Robles</b><span>Registered Nurse &middot; San Juan, PR</span></div></div></div>
+      <div class="voice"><p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p>"By the end I had a much better transition diet menu plan and felt it was realistic for me to stick with it. I was on a much more positive track than at the beginning."</p><div class="who"><img src="img/natalie.jpg" alt="Natalie Fitzpatrick" width="52" height="52"><div><b>Natalie Fitzpatrick</b><span>Gardener &amp; Compost Program Educator &middot; Winchester, MA</span></div></div></div>
+      <div class="voice"><p class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p>"The perfect starting point no matter where you are in your journey. A fresh new perspective&hellip; help with understanding the diet and putting the system altogether."</p><div class="who"><img src="img/tiffany.jpg" alt="Tiffany Ahad" width="52" height="52"><div><b>Tiffany Ahad</b><span>Realtor &middot; Haverhill, MA</span></div></div></div>
+    </div>
+    <div class="video">
+      <div class="thumb"><img src="img/rashad.jpg" alt="Rashad Evans" width="382" height="323"><div class="play"><span aria-hidden="true">&#9654;</span></div></div>
+      <div class="vt">
+        <p class="tag">0:47 &middot; Video</p>
+        <p>"I didn't expect to feel this good. I didn't think that a DIET could make me feel this good. Now I train less, but I can train harder."</p>
+        <span>Rashad Evans &middot; UFC Hall of Famer &amp; former light heavyweight champion &middot; Boca Raton, FL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROAD -->
+<section class="sec gut">
+  <div class="wrap">
+    <div class="rv"><b>Kept as is</b>The road past the free course. No prices, dates or deadlines.</div>
+    <div class="sec-head">
+      <p class="kicker">Where this leads</p>
+      <h2>A clear place to begin, and a road after it</h2>
+    </div>
+    <div class="road">
+      <div class="step"><span class="badge">Step 1 &middot; Free</span><h3>Start with TD101</h3><p>Learn the foundation, pick your starting menu, run your first day.</p></div>
+      <div class="step"><span class="badge">Step 2 &middot; Included</span><h3>Grow inside the community</h3><p>Recipes, the beginner FAQ, and people walking the same road.</p></div>
+      <div class="step"><span class="badge opt">Step 3 &middot; Optional</span><h3>Go deeper when you are ready</h3><p>For hands-on structure and personal guidance, the team runs the 30-Day Transition Diet Bootcamp and offers a free Clarity Call to help you choose. You will hear about these in your emails. The free course stands on its own.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec gut">
+  <div class="col">
+    <div class="rv"><b>Kept as is</b>JC's six questions.</div>
+    <div class="sec-head">
+      <p class="kicker">Fair questions, straight answers</p>
+      <h2>Is it really free?</h2>
+    </div>
+    <div class="faq">
+      <details open><summary>Is it really free? What is the catch?</summary><p>It is free, and there is no card needed to get access. Someone handed Professor Spira this knowledge across a table in 2002 and asked for nothing, so we will not put a toll on the doorway. Deeper, personally guided programs exist and carry real tuition. They are optional, and you will hear about them in your emails.</p></details>
+      <details><summary>Do I have to give up cooked food and go raw?</summary><p>No. That is the mistake this course exists to prevent. Cooked food stays on your plate for as long as you need it, on purpose, and you will learn exactly how to use it.</p></details>
+      <details><summary>I have failed at vegan, keto, raw and fasting. Why would this be different?</summary><p>Because those were destinations and this is the bridge. The week two crash is not a character problem, it is what happens when you speed up elimination with nothing to slow it down. Module 4 is the whole mechanics of it.</p></details>
+      <details><summary>Do I need to know the Mucusless Diet already?</summary><p>No. If you have never heard of it, you start at the beginning. If you have owned the book for years and never applied it, you are the person this was built for.</p></details>
+      <details><summary>How much time does this take?</summary><p>You can watch the course in one evening. The practice itself is a grocery trip and the way you put a plate together.</p></details>
+      <details><summary>What happens right after I enroll?</summary><p>You'll get an email from Professor Spira first, with your access to the course and the private community. A welcome email from me follows after that.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSER -->
+<section class="sec gut closer">
+  <div class="col">
+    <div class="rv"><b>Kept as is</b>Final form with the two-email line and the TD101 agreement line under it.</div>
+    <h2 style="font-size:clamp(1.9rem,6vw,3rem)">Enroll free. Start tonight.</h2>
+    <p class="lede" style="color:var(--dim);margin-top:14px">Seven modules, three starting menus, one full day on the plate. Instant access.</p>
+    <form class="formcard endform" novalidate>
+      <div class="f">
+        <input id="f2-first" type="text" placeholder="Your first name" aria-label="First name">
+        <input id="f2-last" type="text" placeholder="Your last name" aria-label="Last name">
+        <input id="f2-email" type="email" placeholder="you@example.com" aria-label="Email">
+        <div class="row">
+          <select id="f2-cc" aria-label="Country code"><option>Country code</option><option>United States +1</option><option>Canada +1</option><option>United Kingdom +44</option></select>
+          <input id="f2-phone" type="tel" placeholder="Your phone number" aria-label="Phone number">
+        </div>
+      </div>
+      <label class="agree"><input id="f2-terms" type="checkbox"><span>I agree with the <a href="https://live.mucusfreelife.com/td101-terms" target="_blank" rel="noopener">Terms and Conditions</a>.</span></label>
+      <p class="two-emails">You will get course emails from Prof. Spira and Mucus-free Life, and my Substack letters from me. Unsubscribe from either anytime.</p>
+      <button class="btn" type="submit">Enroll me free &rarr;</button>
+      <p class="formmsg" hidden>Mockup: the real Kartra form goes here.</p>
+      <p class="fine">By submitting, I agree to receive helpful emails and texts from Mucus-free Life at the contact info provided, and to subscribe to JC's email list. Unsubscribe or stop texts anytime.</p>
+      <p class="legal">By enrolling, you agree to the Transition Diet 101 Membership &amp; Course Agreement, which includes fee-waived lifetime membership in Mucus-free Life Health Club Intl., PMA, with Eden Ministries Trust, dba Mucus-free Life.</p>
+    </form>
+    <p class="last">You have momentum right now that you will not have in three weeks.<b>Later is where this goes to die.</b></p>
+  </div>
+</section>
+</main>
+
+<footer class="gut">
+  <nav><a href="https://live.mucusfreelife.com/td101-terms" target="_blank" rel="noopener">Terms of Use</a><span>Medical Disclaimer</span><span>Privacy Policy</span></nav>
+  <p>&copy; 2026 JC's Journals &middot; jcsjournals.com &middot; Independently operated &middot; For education only, not medical advice.</p>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('notesBtn');
+  function set(on){document.body.classList.toggle('notes-on',on);btn.setAttribute('aria-pressed',on?'true':'false');btn.textContent=on?'Hide review notes':'Show review notes';try{localStorage.setItem('jc-notes',on?'1':'0')}catch(e){}}
+  var start=false;try{start=localStorage.getItem('jc-notes')==='1'}catch(e){}
+  set(start);
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('notes-on'))});
+  document.querySelectorAll('form').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var m=f.querySelector('.formmsg');if(m)m.hidden=false;});});
+})();
+</script>
+
+</body></html>

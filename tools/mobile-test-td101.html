@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>td101 mobile test</title>
+<style>
+  body{margin:0;background:#222;display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px;font-family:sans-serif}
+  iframe{width:390px;height:844px;border:2px solid #555;background:#000}
+</style>
+</head>
+<body>
+<!-- Phone-width harness: the real Carrd shell replica at a true 390px. -->
+<iframe id="f" src="carrd-test-td101.html"></iframe>
+<script>/* ?h=9000 makes the phone frame tall enough for a full-page screenshot */
+var h=new URLSearchParams(location.search).get('h');if(h)document.getElementById('f').style.height=h+'px';</script>
+</body>
+</html>
