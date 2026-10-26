@@ -1,0 +1,21 @@
+<!-- TD101 TEST SITE (td101.carrd.co) · Carrd Embed loader for the staged page in td101page/ on GitHub.
+     Same loader as carrd-embed-jcj.html with only the folder changed. Paste this whole block into the
+     site's one Embed element (Type: Code). Block comments only: Carrd flattens embed code to one line. -->
+<script>
+(function(){
+  var base="https://raw.githubusercontent.com/jcortizro/jcsjournals-site/main/td101page/";
+  Promise.all([
+    fetch(base+"jcj.css",{cache:"no-cache"}).then(function(r){return r.text()}),
+    fetch(base+"jcj.html",{cache:"no-cache"}).then(function(r){return r.text()}),
+    fetch(base+"jcj.js",{cache:"no-cache"}).then(function(r){return r.text()})
+  ]).then(function(a){
+    var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+    var d=document.createElement("div");d.id="jcj-page";d.innerHTML=a[1];
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
+    });
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+  });
+})();
+</script>
