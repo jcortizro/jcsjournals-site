@@ -62,6 +62,12 @@ KARTRA_CSS = r"""
 .kslot .kartra_optin_submit_btn_text::after{content:"Enroll me free \2192";font-size:1.02rem;font-family:var(--display);font-weight:800;letter-spacing:1.5px}
 """
 
+# MEASURED FAILURE (ledger D574, 2026-10-26 01:20 UTC): section 0 below, the Substack handoff, has never subscribed
+# anyone. Six probes plus one real enrollment through JC's Kartra link produced no "New free subscriber"
+# notification and no welcome email. Substack answers this blind no-cors POST with its normal success redirect
+# whether or not it records the subscriber, so a redirect or a 200 is NOT proof. The only proof is the
+# "New free subscriber to JC Ortiz-Roman!" email in JC's Gmail naming the test address. Until a change passes that
+# test, new enrollments reach Substack only through the Kartra export and Substack import ("pull my sign-ups").
 PAGE_JS = r"""/* TD101 page script for jcsjournals.com. Runs once, after the Carrd loader has put jcj.html into #jcj-page. */
 
 /* 0. Substack handoff (JC, 25 Oct 2026: "let's go the automated route"). The moment Kartra accepts an enrollment,
