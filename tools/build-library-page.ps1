@@ -48,8 +48,10 @@ $dialog = ($dialogM.Value -split "`n")[0]
 # on it and it plays on the website, like how we have the Jerome interview."
 # So the pill is replaced by the hub's own approved video block (kicker + h2 +
 # .videobox iframe, the exact markup the hub carried from v4 to 2026-09-19),
-# sitting between the disclaimer and "Pick a topic below" so the pick line stays
-# next to the topics it points at. The hub itself carries NO video any more
+# sitting under the disclaimer, right above the topics. (A "Pick a topic below"
+# line used to sit under the video. JC, 2026-10-26: "delete the pick a topic
+# below. Each one opens right where it is. Delete that on the free resource
+# library.") The hub itself carries NO video any more
 # (build-jcj-page.ps1 removes this whole hero, video included, by design).
 # The id is the MDHS orientation video, proved publicly embeddable via YouTube
 # oEmbed on 2026-09-19 (title on YouTube: "UNLIKELY ORIGINS | Mucusless Diet").
@@ -65,7 +67,6 @@ $libHero = @"
     <div class="videobox">
       <iframe src="https://www.youtube.com/embed/Djygxncc58I" title="What Is the Mucusless Diet Healing System?" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
-    <p class="lede hero-pick">Pick a topic below; each one opens right where it is.</p>
   </div>
 "@
 if (([regex]::Matches($libHero, 'youtube\.com/embed/Djygxncc58I')).Count -ne 1) { throw "build-library: the hero must embed the MDHS video exactly once" }
@@ -95,10 +96,11 @@ $compat = ':root{--gold:#E4BE3F;--dim2:rgba(255,255,255,.85);--tier-green:#7ECB8
 $compat = $compat + 'a.tdwatch::after{content:"WATCH IT FREE";font-family:var(--body);font-weight:600;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.06);border:1px solid var(--hair-strong);border-radius:99px;padding:4px 9px;margin-left:8px;white-space:nowrap;display:inline-block;vertical-align:baseline;text-decoration:none}a.tdwatch:hover::after{border-color:var(--gold);filter:brightness(1.35)}'
 # The embedded video panel (2026-09-19). Verbatim the hub's v4 .videobox rules,
 # which moved UPSTREAM to here so the library, and everything generated from it,
-# carries one definition. Plus the two hero spacings the block needs: the head
-# sits 34px under the disclaimer, and the "Pick a topic below" line keeps its
-# old distance to the topics (0 bottom margin; the section padding does the rest).
-$compat = $compat + '.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}.hero .hero-vidhead{margin:34px 0 18px}.hero .lede.hero-pick{margin:30px auto 0}'
+# carries one definition. Plus the hero spacing the block needs: the head sits
+# 34px under the disclaimer. Under the video, the library section's own top
+# padding sets the gap to "New here? Read in order" (the "Pick a topic below"
+# line that sat there was deleted on 2026-10-26, see the hero above).
+$compat = $compat + '.videobox{max-width:880px;margin:0 auto;background:var(--panel);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border:1px solid var(--hair);border-radius:12px;padding:10px}.videobox iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#000}.hero .hero-vidhead{margin:34px 0 18px}'
 $page = $page.Replace('</style>', ("/* ==== LIBRARY components ==== */`n" + $compat + "`n" + $libCss + "`n</style>"))
 
 # ---- library engine JS (minus the shell dropdown code the landing already has) ----
@@ -266,23 +268,27 @@ $page = $page.Replace($mn[0].Value, '')
 if (([string]$page) -match 'Redesign proposal|placeholder drafts he owns') { throw "build-library: mockup scaffolding survived" }
 Write-Output "  shared footer + scaffolding removed : ok"
 
-# ---- ONE HEADER ACROSS THE FAMILY (JC 2026-08-10) ----
-# All three sites must look like one website, so the library wears the same
-# wordmark + social icons header as jcsjournals.com. The old Home/Free/Paid
-# dropdown it replaces was navigation; the dock bar below now carries that job.
-# Done HERE, at the top of the chain, so the jcj page inherits it (that page is
-# generated FROM this master) instead of each build repeating the swap.
-$hdr = [System.IO.File]::ReadAllText("$repo\src\jcj-parts\new-header.html")
+# ---- ONE MENU ACROSS THE FAMILY (JC 2026-08-10, replaced 2026-10-26) ----
+# All the sites must look like one website. Until 2026-10-26 the library wore a
+# wordmark + social icons header (src\jcj-parts\new-header.html). JC, 2026-10-26:
+# they "all need to have that little ... header, the JC's journals" bar with
+# Free Resource Library, Free Recipe Book and Free Course. That bar is written
+# once, in tools\site_nav.py. This build leaves a slot where the old header was;
+# split-library.ps1 then runs tools\add-site-nav.py, which fills the slot in
+# library\library.html and adds the menu's CSS and JS to library.css/.js.
+# (The old header's TikTok icon went with it: the shared menu's socials are
+# Facebook, YouTube, Instagram and Substack.)
 $n = ([regex]::Matches($page, '(?s)<header class="site-header">.*?</header>')).Count
 if ($n -ne 1) { throw "build-library: expected 1 header, found $n" }
-$page = [regex]::Replace($page, '(?s)<header class="site-header">.*?</header>', { param($m) $hdr })
+$page = [regex]::Replace($page, '(?s)<header class="site-header">.*?</header>', '<!-- jcj-sitenav-slot -->')
+if ($page -match 'Pick a topic') { throw "build-library: the 'Pick a topic below' line came back (JC deleted it 2026-10-26)" }
 
 # the dropdown's JS is now orphaned; drop it so it cannot throw on a missing node
 $ddRx = "(?s)var freeBtn=document\.getElementById\('freeBtn'\).*?(?=document\.querySelectorAll\('\.more-btn'\))"
 $n = ([regex]::Matches($page, $ddRx)).Count
 if ($n -ne 1) { throw "build-library: expected 1 dropdown JS block, found $n" }
 $page = [regex]::Replace($page, $ddRx, '')
-Write-Output "  shared header + dropdown JS removed : ok"
+Write-Output "  menu slot + dropdown JS removed : ok"
 
 # ---- THE DOCK BAR (shared with jcsjournals.com and the recipe book) ----
 # One source in src\shared. ⛔ No Contact/Calendly item (removed 2026-08-25,
@@ -292,10 +298,11 @@ $dockCss  = [System.IO.File]::ReadAllText("$repo\src\shared\dock.css")
 $dockJs   = [System.IO.File]::ReadAllText("$repo\src\shared\dock.js")
 if ($dockHtml -match 'dock-contact|__CONTACT__|calendly\.com') { throw "build-library: a contact/calendly dock item resurfaced" }
 
-$headerCss = [System.IO.File]::ReadAllText("$repo\src\shared\header.css")
+# (src\shared\header.css styled only the old wordmark header, so it is no longer
+# added here; the menu brings its own CSS through tools\add-site-nav.py.)
 $n = ([regex]::Matches($page, '</style>')).Count
 if ($n -ne 1) { throw "build-library: expected 1 </style>, found $n" }
-$page = $page.Replace('</style>', ("/* ==== SHARED HEADER ==== */`n" + $headerCss + "`n/* ==== DOCK BAR ==== */`n" + $dockCss + "`n</style>"))
+$page = $page.Replace('</style>', ("/* ==== DOCK BAR ==== */`n" + $dockCss + "`n</style>"))
 
 $n = ([regex]::Matches($page, '</script>')).Count
 if ($n -ne 1) { throw "build-library: expected 1 </script>, found $n" }

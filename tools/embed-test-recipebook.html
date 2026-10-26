@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>embed test (recipe book)</title></head>
+<body>
+<p>carrd placeholder content</p>
+<!-- Local twin of the freerecipes.carrd.co Embed loader (measured 2026-10-26). The live loader asks for
+     raw jcortizro/td101-recipe-book/main/index.html first (404 today) and falls back to this repo's
+     recipebook/index.html; here it reads /recipebook/index.html straight from the local server. Like the live
+     one it parses the book with DOMParser, puts every <style> in the head, mounts the body in div#recipebook,
+     strips the hrefs of the book's internal a[data-t] jump links, then runs every <script> once, in order.
+     Add ?pieces=1 to load the three recipebook.css/.html/.js pieces instead (the carrd-embed-recipebook.html
+     surface). Serve the repo root and open /tools/embed-test-recipebook.html -->
+<script>
+(function(){
+  try { window.__deepHash = (location.hash || "").slice(1); } catch (e) {}
+  function hide(){
+    Array.prototype.forEach.call(document.body.children,function(c){
+      if(c.tagName!=="SCRIPT"&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.style.display="none";
+    });
+  }
+  if(new URLSearchParams(location.search).get("pieces")){
+    var base="/recipebook/";
+    Promise.all([
+      fetch(base+"recipebook.css").then(function(r){return r.text()}),
+      fetch(base+"recipebook.html").then(function(r){return r.text()}),
+      fetch(base+"recipebook.js").then(function(r){return r.text()})
+    ]).then(function(a){
+      var st=document.createElement("style");st.textContent=a[0];document.head.appendChild(st);
+      var d=document.createElement("div");d.id="jcj-page";d.innerHTML=a[1];
+      hide();
+      document.body.appendChild(d);
+      var s=document.createElement("script");s.textContent=a[2];document.body.appendChild(s);
+    });
+    return;
+  }
+  fetch("/recipebook/index.html").then(function(r){return r.text()}).then(function(html){
+    var doc=new DOMParser().parseFromString(html,"text/html");
+    var css="",js="";
+    Array.prototype.forEach.call(doc.querySelectorAll("style"),function(n){css+=n.textContent+"\n";});
+    Array.prototype.forEach.call(doc.querySelectorAll("script"),function(n){js+=n.textContent+"\n";n.remove();});
+    var st=document.createElement("style");st.textContent=css;document.head.appendChild(st);
+    hide();
+    var d=document.createElement("div");d.id="recipebook";d.innerHTML=doc.body.innerHTML;
+    Array.prototype.forEach.call(d.querySelectorAll("a[data-t]"),function(a){
+      a.removeAttribute("href");a.style.cursor="pointer";
+    });
+    document.body.appendChild(d);
+    var s=document.createElement("script");s.textContent=js;document.body.appendChild(s);
+  });
+})();
+</script>
+</body>
+</html>

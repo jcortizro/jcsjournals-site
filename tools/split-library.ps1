@@ -46,4 +46,9 @@ for ($i = $scriptStart + 1; $i -lt $scriptEnd; $i++) {
 Write-Output ("css lines: "  + $css.Count)
 Write-Output ("html lines: " + $body.Count)
 Write-Output ("js lines: "   + $js.Count)
+
+# The shared site menu (tools\site_nav.py) goes into the slot build-library-page.ps1 left where the old header was.
+# Done here, inside the split, so library\* is never written without the menu.
+& py -3.12 "$repo\tools\add-site-nav.py" library
+if ($LASTEXITCODE -ne 0) { throw "split-library: add-site-nav.py library failed (exit $LASTEXITCODE)" }
 Write-Output "split OK"

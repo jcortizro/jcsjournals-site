@@ -1,3 +1,9 @@
+# RETIRED 2026-10-26. Since 25 Oct 2026 jcj\ (jcsjournals.com) is the TD101 course page: tools\build-td101-page.py
+# writes td101page\ and tools\build-all.ps1 copies it over jcj\. This script rebuilt jcj\ from the OLD hub master,
+# so running it would silently replace the live course page with the old hub. It refuses to run. Remove the throw
+# only if JC asks for the old hub back on jcsjournals.com.
+throw "split-jcj.ps1 is retired: it would overwrite the live jcsjournals.com course page (jcj\) with the old hub"
+
 # Splits the JC's Journals master (jcj-page.html) into the CDN-hosted
 # jcj/{jcj.css, jcj.html, jcj.js} files of this repo. Same marker logic as
 # split-library.ps1; drops the mockup-only bits (.mock-note CSS, the mock-note
