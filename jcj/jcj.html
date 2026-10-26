@@ -6,8 +6,30 @@
 <div class="topbar gut">
   <div class="in">
     <span class="brand">JC's Journals</span>
+    <button class="navbtn" type="button" aria-expanded="false" aria-controls="jcj-menu">
+      <span class="navsep" aria-hidden="true"></span>
+      <span class="navlabel">Free resources</span>
+      <svg class="navarrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+      <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
   </div>
 </div>
+<div class="navscrim" data-navclose></div>
+<nav class="navpanel" id="jcj-menu" aria-label="Free resources">
+  <div class="navhead">
+    <span class="navtitle">Free resources</span>
+    <button class="navclose" type="button" aria-label="Close menu" data-navclose><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <a class="navlink" href="https://freelibrary.carrd.co/">Free Resource Library</a>
+  <a class="navlink" href="https://freerecipes.carrd.co/">Free Recipe Book</a>
+  <button class="navlink navsoc" type="button" aria-expanded="false" aria-controls="jcj-socials">Socials<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="navsub" id="jcj-socials" hidden>
+    <a href="https://www.facebook.com/jc.ortiz.roman/" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://www.youtube.com/@jc_ortiz_roman" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.instagram.com/jc.ortiz.roman/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://jcortizroman.substack.com/" target="_blank" rel="noopener">Substack</a>
+  </div>
+</nav>
 
 <main>
 <!-- HERO -->

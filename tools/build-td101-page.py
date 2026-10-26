@@ -13,6 +13,9 @@
 #      against the Carrd domain and break. (Same pattern the live hub uses for its background.)
 #   4. Kartra's light default form is restyled to the dark page through its container (Spira's step 6).
 #      Kartra's markup is never edited or copied.
+#   5. The top-right menu (JC, 25 Oct 2026, evening): the bar reads "JC's Journals | Free resources ->" and the
+#      three lines; tapping opens a side panel with Free Resource Library, Free Recipe Book and a Socials button
+#      that opens Facebook, YouTube, Instagram and Substack. Its words are the only text this build adds (NAV_TEXT).
 #
 # Output: td101page/jcj.css, td101page/jcj.html, td101page/jcj.js  (same three names the Carrd loader
 # fetches, so going live = copying these three over jcj/ and pushing; nothing to re-paste in Carrd).
@@ -60,6 +63,81 @@ KARTRA_CSS = r"""
 /* Kartra's button reads "Submit". The page's own button read "Enroll me free", so the label is drawn by CSS. */
 .kslot .kartra_optin_submit_btn_text{font-size:0!important;color:var(--on-gold)!important}
 .kslot .kartra_optin_submit_btn_text::after{content:"Enroll me free \2192";font-size:1.02rem;font-family:var(--display);font-weight:800;letter-spacing:1.5px}
+"""
+
+# ---------------------------------------------------------------- top-right menu (JC, 25 Oct 2026, evening)
+# "JC's journals. Then there should be a vertical line, and then the next text says free resources, and it has an
+# arrow pointing to the right to the little three lines." The panel holds the library, the recipe book and a
+# Socials button with his four channels (handles as on the old hub, memory jc-social-handles-changed).
+NAV_LINKS = [
+    ("https://freelibrary.carrd.co/", "Free Resource Library"),
+    ("https://freerecipes.carrd.co/", "Free Recipe Book"),
+]
+NAV_SOCIALS = [
+    ("https://www.facebook.com/jc.ortiz.roman/", "Facebook"),
+    ("https://www.youtube.com/@jc_ortiz_roman", "YouTube"),
+    ("https://www.instagram.com/jc.ortiz.roman/", "Instagram"),
+    ("https://jcortizroman.substack.com/", "Substack"),
+]
+NAV_TEXT = ["Free resources", "Free resources"] + [t for _, t in NAV_LINKS] + ["Socials"] + [t for _, t in NAV_SOCIALS]
+
+NAV_BAR = "\n".join([
+    '<div class="topbar gut">',
+    '  <div class="in">',
+    '    <span class="brand">JC\'s Journals</span>',
+    '    <button class="navbtn" type="button" aria-expanded="false" aria-controls="jcj-menu">',
+    '      <span class="navsep" aria-hidden="true"></span>',
+    '      <span class="navlabel">Free resources</span>',
+    '      <svg class="navarrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>',
+    '      <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>',
+    '    </button>',
+    '  </div>',
+    '</div>',
+    '<div class="navscrim" data-navclose></div>',
+    '<nav class="navpanel" id="jcj-menu" aria-label="Free resources">',
+    '  <div class="navhead">',
+    '    <span class="navtitle">Free resources</span>',
+    '    <button class="navclose" type="button" aria-label="Close menu" data-navclose>'
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>',
+    '  </div>',
+] + ['  <a class="navlink" href="%s">%s</a>' % (u, t) for u, t in NAV_LINKS] + [
+    '  <button class="navlink navsoc" type="button" aria-expanded="false" aria-controls="jcj-socials">Socials'
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>',
+    '  <div class="navsub" id="jcj-socials" hidden>',
+] + ['    <a href="%s" target="_blank" rel="noopener">%s</a>' % (u, t) for u, t in NAV_SOCIALS] + [
+    '  </div>',
+    '</nav>',
+])
+
+NAV_CSS = r"""
+/* top-right menu (JC, 25 Oct 2026): "JC's Journals | Free resources ->" + three lines, side panel on tap */
+.topbar .in{flex-wrap:nowrap}
+.navbtn{display:flex;align-items:center;gap:10px;background:none;border:0;margin:0;padding:6px 0;color:var(--ink);cursor:pointer;font:inherit;-webkit-tap-highlight-color:transparent;min-width:0}
+.navsep{width:1px;align-self:stretch;min-height:24px;background:rgba(244,242,234,.35);flex:none}
+.navlabel{font-family:var(--display);font-weight:800;font-size:.74rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);white-space:nowrap;line-height:1.15;text-align:left}
+.navarrow{width:18px;height:18px;fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.burger{display:grid;gap:4px;width:34px;height:34px;place-content:center;border:1px solid rgba(228,190,63,.55);border-radius:8px;flex:none}
+.burger i{display:block;width:16px;height:2px;border-radius:2px;background:var(--ink)}
+.navbtn:hover .burger{border-color:var(--gold)}
+.navbtn:focus-visible,.navclose:focus-visible,.navlink:focus-visible,.navsub a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+.navscrim{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility 0s linear .2s}
+.navpanel{position:fixed;top:0;right:0;bottom:0;z-index:90;width:min(340px,86vw);overflow-y:auto;background:var(--panel);border-left:3px solid var(--gold);box-shadow:-18px 0 50px rgba(0,0,0,.5);padding:max(14px,env(safe-area-inset-top,0px)) 20px 28px;display:flex;flex-direction:column;gap:10px;transform:translateX(100%);visibility:hidden;transition:transform .25s ease,visibility 0s linear .25s}
+.jcj-nav-open .navscrim{opacity:1;visibility:visible;transition:opacity .2s ease}
+.jcj-nav-open .navpanel{transform:none;visibility:visible;transition:transform .25s ease}
+.navhead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.navtitle{font-family:var(--display);font-weight:800;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.navclose{width:42px;height:42px;display:grid;place-items:center;background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;padding:0}
+.navclose svg,.navsoc svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:transform .2s ease}
+.navlink{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;text-decoration:none;font-family:var(--display);font-weight:800;font-size:.92rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink);background:#0d130d;border:1px solid rgba(228,190,63,.35);border-radius:10px;padding:15px 16px;cursor:pointer;margin:0}
+.navlink:hover{border-color:var(--gold);color:var(--gold-2)}
+.navsoc[aria-expanded="true"] svg{transform:rotate(180deg)}
+.navsub{display:grid;gap:4px;margin:0 0 0 10px;padding:2px 0 2px 12px;border-left:2px solid rgba(228,190,63,.35)}
+.navsub[hidden]{display:none}
+.navsub a{display:block;text-decoration:none;color:var(--dim);font-size:1.05rem;padding:10px;border-radius:8px}
+.navsub a:hover{color:var(--gold-2);background:rgba(228,190,63,.08)}
+@media (max-width:420px){.topbar .in{gap:8px}.brand{font-size:.8rem;letter-spacing:1.1px}.navbtn{gap:7px}.navlabel{font-size:.64rem;letter-spacing:1px}.navarrow{width:15px;height:15px}.burger{width:32px;height:32px}}
+@media (max-width:350px){.brand{font-size:.72rem;letter-spacing:.9px}.navlabel{font-size:.58rem;letter-spacing:.8px}.navbtn{gap:6px}}
+@media (prefers-reduced-motion:reduce){.navpanel,.navscrim,.navsoc svg{transition:none!important}}
 """
 
 # MEASURED FAILURE (ledger D574, 2026-10-26 01:20 UTC): section 0 below, the Substack handoff, has never subscribed
@@ -147,6 +225,33 @@ document.addEventListener('click',function(e){
   if(document.readyState==='complete')run();
   else window.addEventListener('load',run);
   window.addEventListener('hashchange',function(){ land((location.hash||'').slice(1)); });
+})();
+
+/* 4. Top-right menu (JC, 25 Oct 2026). "Free resources" + the three lines open the side panel; the X, the dark
+   backdrop and Escape close it. "Socials" opens and closes its own list of four channels. */
+(function(){
+  var root=document.documentElement;
+  var btn=document.querySelector('#jcj-page .navbtn');
+  var panel=document.getElementById('jcj-menu');
+  if(!btn||!panel)return;
+  function isOpen(){return root.classList.contains('jcj-nav-open');}
+  function setOpen(on){
+    root.classList.toggle('jcj-nav-open',on);
+    btn.setAttribute('aria-expanded',on?'true':'false');
+    var target=on?panel.querySelector('.navclose'):btn;
+    if(target)try{target.focus({preventScroll:true});}catch(e){}
+  }
+  btn.addEventListener('click',function(){setOpen(!isOpen());});
+  Array.prototype.forEach.call(document.querySelectorAll('#jcj-page [data-navclose]'),function(el){
+    el.addEventListener('click',function(){setOpen(false);});
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen())setOpen(false);});
+  var soc=panel.querySelector('.navsoc'),sub=document.getElementById('jcj-socials');
+  if(soc&&sub)soc.addEventListener('click',function(){
+    var on=soc.getAttribute('aria-expanded')!=='true';
+    soc.setAttribute('aria-expanded',on?'true':'false');
+    sub.hidden=!on;
+  });
 })();
 """
 
@@ -252,14 +357,23 @@ REQUIRED = [
     ('<span class="brand">JC\'s Journals</span>', 1),
     ('href="#enroll"', 3),
     ("data:image/jpeg;base64,", 11),
-]
+    ('aria-controls="jcj-menu"', 1),
+    ('id="jcj-menu"', 1),
+    ('aria-controls="jcj-socials"', 1),
+    ('id="jcj-socials" hidden', 1),
+    ('class="burger"', 1),
+    ('class="navsep"', 1),
+    ('target="_blank" rel="noopener"', 5),   # the footer's Terms of Use link + the four socials
+    ('target="_blank"', 5),
+] + [('href="%s"' % u, 1) for u, _ in NAV_LINKS + NAV_SOCIALS]
 BANNED = ["<form", 'class="rv"', "mocktag", "notes-btn", "Mockup", "form disabled", "not live",
           "Show review notes", "f1-first", "f2-first", 'src="img/', "formmsg", "<select", "<input",
           "—"]
 JS_BANNED = ["replaceState", "location.search", "location.href=", "location.replace"]
 JS_REQUIRED = [("https://jcortizroman.substack.com/api/v1/free?nojs=true", 1), ("add_lead/cxUIOaN2t7dT", 1),
                ("keepalive:true", 1), ("data-jcj-handoff", 2), ("HTMLFormElement.prototype.submit", 2),
-               ("app.kartra.com/optin/", 1)]
+               ("app.kartra.com/optin/", 1), ("jcj-nav-open", 2), ("getElementById('jcj-menu')", 1),
+               ("getElementById('jcj-socials')", 1), ("e.key==='Escape'", 1)]
 
 
 def control_bytes(s):
@@ -297,7 +411,7 @@ def gate(html, css, js, source_fragment):
             problems.append("an embedded image does not match any source image")
     # words: output must carry exactly the predicted surviving text, nothing added, nothing else lost
     pred = visible(source_fragment, predict=True)
-    want, got = Counter(pred.kept), Counter(visible(html).all)
+    want, got = Counter(pred.kept) + Counter(NAV_TEXT), Counter(visible(html).all)
     lost, added = want - got, got - want
     if lost:
         problems.append(f"{sum(lost.values())} text node(s) LOST that should survive: {list(lost)[:4]}")
@@ -329,8 +443,7 @@ def build(frag):
 
     # 2. mockup bar -> plain brand bar
     bar = one(r'<div class="mockbar gut">.*?</div>\s*</div>', html, "mockup bar")
-    html = html[:bar.start()] + ('<div class="topbar gut">\n  <div class="in">\n'
-                                 '    <span class="brand">JC\'s Journals</span>\n  </div>\n</div>') + html[bar.end():]
+    html = html[:bar.start()] + NAV_BAR + html[bar.end():]
     #    review notes
     n_rv = len(re.findall(r'<div class="rv">.*?</div>', html, re.S))
     if n_rv != 12:
@@ -387,7 +500,7 @@ def build(frag):
         if k != 1:
             fail(f"css rule {rule!r}: expected 1, removed {k}")
     css = sub_exact(css, ".notes-btn:focus-visible,", "", "css focus list")
-    css = css.rstrip() + "\n" + KARTRA_CSS.lstrip("\n")
+    css = css.rstrip() + "\n" + KARTRA_CSS.lstrip("\n") + NAV_CSS.lstrip("\n")
     return html.strip() + "\n", css, PAGE_JS
 
 

@@ -78,3 +78,30 @@ document.addEventListener('click',function(e){
   else window.addEventListener('load',run);
   window.addEventListener('hashchange',function(){ land((location.hash||'').slice(1)); });
 })();
+
+/* 4. Top-right menu (JC, 25 Oct 2026). "Free resources" + the three lines open the side panel; the X, the dark
+   backdrop and Escape close it. "Socials" opens and closes its own list of four channels. */
+(function(){
+  var root=document.documentElement;
+  var btn=document.querySelector('#jcj-page .navbtn');
+  var panel=document.getElementById('jcj-menu');
+  if(!btn||!panel)return;
+  function isOpen(){return root.classList.contains('jcj-nav-open');}
+  function setOpen(on){
+    root.classList.toggle('jcj-nav-open',on);
+    btn.setAttribute('aria-expanded',on?'true':'false');
+    var target=on?panel.querySelector('.navclose'):btn;
+    if(target)try{target.focus({preventScroll:true});}catch(e){}
+  }
+  btn.addEventListener('click',function(){setOpen(!isOpen());});
+  Array.prototype.forEach.call(document.querySelectorAll('#jcj-page [data-navclose]'),function(el){
+    el.addEventListener('click',function(){setOpen(false);});
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen())setOpen(false);});
+  var soc=panel.querySelector('.navsoc'),sub=document.getElementById('jcj-socials');
+  if(soc&&sub)soc.addEventListener('click',function(){
+    var on=soc.getAttribute('aria-expanded')!=='true';
+    soc.setAttribute('aria-expanded',on?'true':'false');
+    sub.hidden=!on;
+  });
+})();

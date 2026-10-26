@@ -227,3 +227,31 @@ footer a{color:var(--dim)}
 /* Kartra's button reads "Submit". The page's own button read "Enroll me free", so the label is drawn by CSS. */
 .kslot .kartra_optin_submit_btn_text{font-size:0!important;color:var(--on-gold)!important}
 .kslot .kartra_optin_submit_btn_text::after{content:"Enroll me free \2192";font-size:1.02rem;font-family:var(--display);font-weight:800;letter-spacing:1.5px}
+/* top-right menu (JC, 25 Oct 2026): "JC's Journals | Free resources ->" + three lines, side panel on tap */
+.topbar .in{flex-wrap:nowrap}
+.navbtn{display:flex;align-items:center;gap:10px;background:none;border:0;margin:0;padding:6px 0;color:var(--ink);cursor:pointer;font:inherit;-webkit-tap-highlight-color:transparent;min-width:0}
+.navsep{width:1px;align-self:stretch;min-height:24px;background:rgba(244,242,234,.35);flex:none}
+.navlabel{font-family:var(--display);font-weight:800;font-size:.74rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);white-space:nowrap;line-height:1.15;text-align:left}
+.navarrow{width:18px;height:18px;fill:none;stroke:var(--gold);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.burger{display:grid;gap:4px;width:34px;height:34px;place-content:center;border:1px solid rgba(228,190,63,.55);border-radius:8px;flex:none}
+.burger i{display:block;width:16px;height:2px;border-radius:2px;background:var(--ink)}
+.navbtn:hover .burger{border-color:var(--gold)}
+.navbtn:focus-visible,.navclose:focus-visible,.navlink:focus-visible,.navsub a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+.navscrim{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility 0s linear .2s}
+.navpanel{position:fixed;top:0;right:0;bottom:0;z-index:90;width:min(340px,86vw);overflow-y:auto;background:var(--panel);border-left:3px solid var(--gold);box-shadow:-18px 0 50px rgba(0,0,0,.5);padding:max(14px,env(safe-area-inset-top,0px)) 20px 28px;display:flex;flex-direction:column;gap:10px;transform:translateX(100%);visibility:hidden;transition:transform .25s ease,visibility 0s linear .25s}
+.jcj-nav-open .navscrim{opacity:1;visibility:visible;transition:opacity .2s ease}
+.jcj-nav-open .navpanel{transform:none;visibility:visible;transition:transform .25s ease}
+.navhead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.navtitle{font-family:var(--display);font-weight:800;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.navclose{width:42px;height:42px;display:grid;place-items:center;background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink);cursor:pointer;padding:0}
+.navclose svg,.navsoc svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:transform .2s ease}
+.navlink{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;text-decoration:none;font-family:var(--display);font-weight:800;font-size:.92rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink);background:#0d130d;border:1px solid rgba(228,190,63,.35);border-radius:10px;padding:15px 16px;cursor:pointer;margin:0}
+.navlink:hover{border-color:var(--gold);color:var(--gold-2)}
+.navsoc[aria-expanded="true"] svg{transform:rotate(180deg)}
+.navsub{display:grid;gap:4px;margin:0 0 0 10px;padding:2px 0 2px 12px;border-left:2px solid rgba(228,190,63,.35)}
+.navsub[hidden]{display:none}
+.navsub a{display:block;text-decoration:none;color:var(--dim);font-size:1.05rem;padding:10px;border-radius:8px}
+.navsub a:hover{color:var(--gold-2);background:rgba(228,190,63,.08)}
+@media (max-width:420px){.topbar .in{gap:8px}.brand{font-size:.8rem;letter-spacing:1.1px}.navbtn{gap:7px}.navlabel{font-size:.64rem;letter-spacing:1px}.navarrow{width:15px;height:15px}.burger{width:32px;height:32px}}
+@media (max-width:350px){.brand{font-size:.72rem;letter-spacing:.9px}.navlabel{font-size:.58rem;letter-spacing:.8px}.navbtn{gap:6px}}
+@media (prefers-reduced-motion:reduce){.navpanel,.navscrim,.navsoc svg{transition:none!important}}
