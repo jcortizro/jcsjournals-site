@@ -70,6 +70,18 @@ KARTRA_CSS = r"""
 .kslot .kartra_optin_dropdown-menu li a:hover,.kslot .kartra_optin_dropdown-menu li a:focus{background:#0d130d!important}
 .kslot .kartra-optin-checkbox,.kslot .kartra_optin_tnc-form label,.kslot .kartra_optin_gdpr_wrppr small{color:var(--dim)!important;font-size:.95rem!important}
 .kslot .kartra-optin-checkbox a,.kslot .kartra_optin_tnc-form a{color:var(--gold)!important}
+/* The Terms checkbox (JC, 30 Oct 2026, on his phone: "I can't click the I agree to the terms and conditions button").
+   Kartra draws a custom box (<small class="kartra_optin_chk_parent">) styled for a white page: 18 px, black border,
+   black tick, with the real <input> invisible on top of it. On this dark page the unticked box vanished (black on
+   black), so a tap gave no visible feedback, and the only tap target was that 18 px square beside a LINK (the "I agree"
+   text opens the Terms page, Kartra's design, kept). Measured live 30 Oct 2026. Kartra's own tick is kept; it shows
+   dark on the gold fill. */
+.kslot .kartra-optin-checkbox{padding-left:32px!important;min-height:22px!important}
+.kslot .kartra-optin-checkbox small.kartra_optin_chk_parent{width:22px!important;height:22px!important;border:2px solid rgba(244,242,234,.65)!important;border-radius:5px!important;background:#0d130d!important;box-sizing:border-box!important;transition:none!important}
+.kslot .kartra-optin-checkbox small.kartra_optin_chk_parent::after{transition:none!important}
+.kslot .kartra-optin-checkbox input[type="checkbox"]:checked+small.kartra_optin_chk_parent{background:var(--gold)!important;border-color:var(--gold)!important}
+/* the invisible real input is the tap target: 44 px, centred on the drawn box */
+.kslot .kartra-optin-checkbox input[type="checkbox"]{width:44px!important;height:44px!important;top:-11px!important;left:-11px!important;margin:0!important;cursor:pointer!important;z-index:2!important}
 .kslot .kartra_optin_asterisk{color:var(--gold)!important}
 .kslot .kartra_optin_popover{background:var(--panel)!important;color:var(--dim)!important;border:1px solid var(--line)!important}
 .kslot .kartra_optin_submit_btn{background:linear-gradient(45deg,#C7A126,var(--gold-2))!important;color:var(--on-gold)!important;border:0!important;border-radius:10px!important;font-family:var(--display)!important;font-weight:800!important;letter-spacing:1.5px!important;text-transform:uppercase!important;padding:17px 18px!important;height:auto!important;box-shadow:none!important}
@@ -341,6 +353,11 @@ def gate(html, css, js, source_fragment):
             problems.append(f"banned {tok!r} present in css")
     if css.count(site_nav.css_block()) != 1:
         problems.append(f"css: the shared menu block must appear once, found {css.count(site_nav.css_block())}")
+    # the Terms checkbox restyle (30 Oct 2026): without it the unticked box is invisible on the dark page
+    for tok in ('.kslot .kartra-optin-checkbox small.kartra_optin_chk_parent{',
+                '.kslot .kartra-optin-checkbox input[type="checkbox"]{width:44px'):
+        if css.count(tok) != 1:
+            problems.append(f"css: Terms checkbox rule {tok[:60]!r} must appear once, found {css.count(tok)}")
     for tok in JS_BANNED:
         if tok in js:
             why = "the old shared form 465" if tok == "cxUIOaN2t7dT" else "the address must reach Kartra untouched"
