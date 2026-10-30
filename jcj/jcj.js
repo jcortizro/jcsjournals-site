@@ -10,7 +10,7 @@
    under the form ("and to subscribe to JC's email list"). Kartra's markup is never touched. */
 (function(){
   var SUBSTACK='https://jcortizroman.substack.com/api/v1/free?nojs=true';
-  var MARK='add_lead/cxUIOaN2t7dT';
+  var MARK='add_lead/PkTEgCpWXlrK';
   function handoff(form){
     try{
       if(!form||!form.action||form.action.indexOf(MARK)<0)return;
@@ -31,10 +31,11 @@
   document.addEventListener('submit',function(e){handoff(e.target);},true);
 })();
 
-/* 1. Spira's Kartra form. Script tags that arrive through innerHTML never run, so each Kartra tag is
-   re-created as a real script element at the same spot. Kartra then draws its form right after it,
-   inside the same .kslot. The page's address (kuid, kref, lid, utm_) is left alone: Kartra reads those
-   on load and removes them itself, and that is what credits a sign-up to JC's link. */
+/* 1. JC's Kartra form (466). The page carries ONE Kartra tag, after the last form card; it draws the form
+   into BOTH placeholders (the empty kartra_optin_container div inside each .kslot). Script tags that
+   arrive through innerHTML never run, so the tag is re-created as a real script element at the same spot.
+   The page's address (kuid, kref, lid, utm_) is left alone: Kartra reads those on load and removes them
+   itself, and that is what credits a sign-up to JC's link. */
 (function(){
   var page=document.getElementById('jcj-page');
   if(!page)return;
