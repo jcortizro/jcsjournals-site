@@ -3,10 +3,17 @@
 # What it does, and ONLY this (JC, 25 Oct 2026: "the signup form is what is going to be replaced by
 # this, that's it, everything else looks the same"):
 #   1. The two mockup forms (hero #enroll, closer .endform) lose their fake inputs, select, checkbox,
-#      button and "Mockup" message. In their place goes Spira's real Kartra form tag, exactly:
-#      <script src="https://app.kartra.com/optin/cxUIOaN2t7dT"></script>
-#      Everything around it stays: heading, subline, two-emails line, fine print, chips, agreement line.
-#      <form> becomes <div> so Kartra's own <form> is never nested inside one.
+#      button and "Mockup" message. In their place goes JC's own Kartra form 466 ("TD101.03 Enroll Form
+#      JC Page"), wired the way Prof. Spira's Doc of 28 Oct 2026 specifies: each of the two form spots
+#      gets the empty placeholder
+#      <div class="kartra_optin_containere836d813fd184325132fca8edcdfb40e"></div>
+#      and the page loads the form script ONCE, right after the closing tag of the last form card:
+#      <script src="https://app.kartra.com/optin/PkTEgCpWXlrK"></script>
+#      That one script fills every placeholder with that class, so it draws both forms. A second copy
+#      would draw each form twice. (Until 30 Oct 2026 the page carried Spira's shared form 465, one
+#      script tag per spot, optin/cxUIOaN2t7dT; the gates now ban that code.)
+#      Everything around the forms stays: heading, subline, two-emails line, fine print, chips,
+#      agreement line. <form> becomes <div> so Kartra's own <form> is never nested inside one.
 #   2. Mockup scaffolding goes: the "JC's cut / not live / form disabled" tag, the review-notes button,
 #      every review note (.rv) and the notes script. The "JC's Journals" bar itself stays.
 #   3. Images are embedded as data URIs, because on jcsjournals.com a relative img/ path would resolve
@@ -42,8 +49,10 @@ SRC = ROOT / "src" / "td101-page" / "jcs-cut-2026-10-22.html"
 IMG = ROOT / "src" / "td101-page" / "img"
 OUT = ROOT / "td101page"
 
-KARTRA_SRC = "https://app.kartra.com/optin/cxUIOaN2t7dT"
-KSLOT = '<div class="kslot"><script src="' + KARTRA_SRC + '"></script></div>'
+KARTRA_SRC = "https://app.kartra.com/optin/PkTEgCpWXlrK"      # JC's own form 466 (Spira's Doc, 28 Oct 2026)
+KARTRA_CONTAINER = "kartra_optin_containere836d813fd184325132fca8edcdfb40e"
+KARTRA_TAG = '<script src="' + KARTRA_SRC + '"></script>'       # loaded ONCE, after the last placeholder
+KSLOT = '<div class="kslot"><div class="' + KARTRA_CONTAINER + '"></div></div>'  # placeholder only, no script
 
 KARTRA_CSS = r"""
 /* Kartra form (Spira's real TD101 form), restyled to this page through the container Kartra builds.
@@ -98,7 +107,7 @@ PAGE_JS = r"""/* TD101 page script for jcsjournals.com. Runs once, after the Car
    under the form ("and to subscribe to JC's email list"). Kartra's markup is never touched. */
 (function(){
   var SUBSTACK='https://jcortizroman.substack.com/api/v1/free?nojs=true';
-  var MARK='add_lead/cxUIOaN2t7dT';
+  var MARK='add_lead/PkTEgCpWXlrK';
   function handoff(form){
     try{
       if(!form||!form.action||form.action.indexOf(MARK)<0)return;
@@ -119,10 +128,11 @@ PAGE_JS = r"""/* TD101 page script for jcsjournals.com. Runs once, after the Car
   document.addEventListener('submit',function(e){handoff(e.target);},true);
 })();
 
-/* 1. Spira's Kartra form. Script tags that arrive through innerHTML never run, so each Kartra tag is
-   re-created as a real script element at the same spot. Kartra then draws its form right after it,
-   inside the same .kslot. The page's address (kuid, kref, lid, utm_) is left alone: Kartra reads those
-   on load and removes them itself, and that is what credits a sign-up to JC's link. */
+/* 1. JC's Kartra form (466). The page carries ONE Kartra tag, after the last form card; it draws the form
+   into BOTH placeholders (the empty kartra_optin_container div inside each .kslot). Script tags that
+   arrive through innerHTML never run, so the tag is re-created as a real script element at the same spot.
+   The page's address (kuid, kref, lid, utm_) is left alone: Kartra reads those on load and removes them
+   itself, and that is what credits a sign-up to JC's link. */
 (function(){
   var page=document.getElementById('jcj-page');
   if(!page)return;
@@ -258,8 +268,10 @@ def visible(html, predict=False):
 
 # ---------------------------------------------------------------- gates
 REQUIRED = [
-    (KARTRA_SRC, 2),
+    (KARTRA_SRC, 1),                          # Spira's Doc, 28 Oct 2026: the form script loads ONCE
+    (KARTRA_TAG, 1),
     ('<div class="kslot">', 2),
+    ('<div class="' + KARTRA_CONTAINER + '"></div>', 2),   # one empty placeholder per form spot
     ('id="enroll"', 1),
     ('class="formcard endform"', 1),
     ('class="two-emails"', 2),
@@ -270,6 +282,9 @@ REQUIRED = [
     ("Meet My Teacher, Professor Spira", 1),
     ("That First Summer<br>Relapse City", 1),
     ("Later is where this goes to die.", 1),
+    # Total value = the real sum of the eight line values (JC, 30 Oct 2026: $997+$1,997+$497+$1,997+$1,497+
+    # $1,997+$497+$1,997). The old figure $11,973 is banned below so a rebuild can never ship it again.
+    ("$11,476", 1),
     ('<span class="jsn-brand">JC\'s Journals</span>', 1),
     ('href="#enroll"', 3),
     ("data:image/jpeg;base64,", 11),
@@ -289,10 +304,13 @@ REQUIRED = [
 ] + [('href="%s"' % u, 1) for u, _ in NAV_LINKS + NAV_SOCIALS]
 BANNED = ["<form", 'class="rv"', "mocktag", "notes-btn", "Mockup", "form disabled", "not live",
           "Show review notes", "f1-first", "f2-first", 'src="img/', "formmsg", "<select", "<input",
-          "—", 'class="topbar', 'class="navbtn', 'class="brand"']
+          "—", 'class="topbar', 'class="navbtn', 'class="brand"',
+          # the old shared form 465 (until 30 Oct 2026): its script id and its container code
+          "cxUIOaN2t7dT", "68ce199ec2c5517597ce0a4d89620f55", "optin/cxUIOaN2t7dT",
+          "$11,973"]  # the wrong Total value figure (corrected 30 Oct 2026)
 CSS_BANNED = ["—", ".mocktag", ".notes-btn", ".rv{", ".mockbar", ".topbar", ".navlabel", ".brand{"]
-JS_BANNED = ["replaceState", "location.search", "location.href=", "location.replace"]
-JS_REQUIRED = [("https://jcortizroman.substack.com/api/v1/free?nojs=true", 1), ("add_lead/cxUIOaN2t7dT", 1),
+JS_BANNED = ["replaceState", "location.search", "location.href=", "location.replace", "cxUIOaN2t7dT"]
+JS_REQUIRED = [("https://jcortizroman.substack.com/api/v1/free?nojs=true", 1), ("add_lead/PkTEgCpWXlrK", 1),
                ("keepalive:true", 1), ("data-jcj-handoff", 2), ("HTMLFormElement.prototype.submit", 2),
                ("app.kartra.com/optin/", 1), ("jcj-nav-open", 2), ("getElementById('jcj-menu')", 1),
                ("getElementById('jcj-socials')", 1), ("e.key==='Escape'", 1), (site_nav.js_block(), 1)]
@@ -312,6 +330,12 @@ def gate(html, css, js, source_fragment):
     for tok in BANNED:
         if tok in html:
             problems.append(f"banned {tok[:40]!r} present in html ({html.count(tok)}x)")
+    # order (Spira's Doc, 28 Oct 2026): the one Kartra script comes AFTER both placeholders. On a normally
+    # parsed page a placeholder below the script does not exist yet when it runs, so that form never draws.
+    # Here the loader injects everything by innerHTML first, but the gate holds the Doc's rule regardless.
+    if KARTRA_TAG in html and KARTRA_CONTAINER in html and html.find(KARTRA_TAG) < html.rfind(KARTRA_CONTAINER):
+        problems.append("order: the Kartra script sits before the last form placeholder; it must load after "
+                        "both placeholders (after the final form card)")
     for tok in CSS_BANNED:
         if tok in css:
             problems.append(f"banned {tok!r} present in css")
@@ -319,7 +343,8 @@ def gate(html, css, js, source_fragment):
         problems.append(f"css: the shared menu block must appear once, found {css.count(site_nav.css_block())}")
     for tok in JS_BANNED:
         if tok in js:
-            problems.append(f"banned {tok!r} present in js (the address must reach Kartra untouched)")
+            why = "the old shared form 465" if tok == "cxUIOaN2t7dT" else "the address must reach Kartra untouched"
+            problems.append(f"banned {tok!r} present in js ({why})")
     for tok, n in JS_REQUIRED:
         if js.count(tok) != n:
             problems.append(f"js required {tok!r}: want {n}, found {js.count(tok)}")
@@ -401,6 +426,11 @@ def build(frag):
         piece(eb, r'<p class="legal">.*?</p>', "closer legal"),
     ]) + "\n    </div>"
     html = html[:end.start()] + end_new + html[end.end():]
+    #    JC's form script, ONCE, right after the closing tag of the final form card (Spira's Doc, 28 Oct 2026).
+    #    The anchor is the card's closing </div> followed by the closer's <p class="last">, which follows the
+    #    form in the source; sub_exact refuses unless that anchor occurs exactly once.
+    html = sub_exact(html, '\n    </div>\n    <p class="last">',
+                     '\n    </div>\n    ' + KARTRA_TAG + '\n    <p class="last">', "kartra tag after the final form card")
 
     # 3. images
     def embed(m):
