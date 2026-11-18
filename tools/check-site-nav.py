@@ -155,10 +155,26 @@ def main():
         if p.is_file() and "pick a topic" in p.read_text(encoding="utf-8").lower():
             fails.append(f"{fn}: contains 'Pick a topic' (JC deleted that line)")
     # the course page is one page served twice: jcj/ (jcsjournals.com) must be a byte copy of td101page/
+    # Since 18 Nov 2026 jcj/jcj.html may also carry ONE webinar banner block (tools/jcj-banner.py, BANNER_ON);
+    # with that block cut out it must still be byte-identical, and td101page/ must never carry it.
+    b_start, b_end = "<!-- jcj-webinar-banner:start", "<!-- jcj-webinar-banner:end -->\n"
     for fn in ("jcj.html", "jcj.css", "jcj.js"):
         x, y = root / "jcj" / fn, root / "td101page" / fn
-        if not (x.is_file() and y.is_file() and x.read_bytes() == y.read_bytes()):
-            fails.append(f"jcj/{fn} is not byte-identical to td101page/{fn}")
+        if not (x.is_file() and y.is_file()):
+            fails.append(f"jcj/{fn} or td101page/{fn} is missing")
+            continue
+        xb, yb = x.read_bytes(), y.read_bytes()
+        if b_start.encode() in yb:
+            fails.append(f"td101page/{fn} carries the webinar banner; only jcj/ may")
+        if fn == "jcj.html" and b_start.encode() in xb:
+            xs = xb.decode("utf-8")
+            if xs.count(b_start) != 1 or xs.count(b_end) != 1 or xs.index(b_start) > xs.index("<!-- jcj-sitenav:start"):
+                fails.append("jcj/jcj.html: webinar banner must appear once, above the menu")
+            else:
+                i, j = xs.index(b_start), xs.index(b_end) + len(b_end)
+                xb = (xs[:i] + xs[j:]).encode("utf-8")
+        if xb != yb:
+            fails.append(f"jcj/{fn} (minus the webinar banner) is not byte-identical to td101page/{fn}")
     if fails:
         print(f"check-site-nav: FAIL, {len(fails)} problem(s):")
         for f in fails:

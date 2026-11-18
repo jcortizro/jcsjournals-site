@@ -28,9 +28,9 @@ $repo = "C:\Users\taino\jcsjournals-site"
 
 & py -3.12 -X utf8 "$repo\tools\build-td101-page.py"
 if ($LASTEXITCODE -ne 0) { throw "build-all: build-td101-page.py refused (exit $LASTEXITCODE); nothing copied to jcj\" }
-foreach ($f in @("jcj.html", "jcj.css", "jcj.js")) {
-  Copy-Item -LiteralPath "$repo\td101page\$f" -Destination "$repo\jcj\$f" -Force
-}
+# jcj\ = td101page\ plus the webinar banner when BANNER_ON is True in tools\jcj-banner.py (18 Nov 2026)
+& py -3.12 -X utf8 "$repo\tools\jcj-banner.py"
+if ($LASTEXITCODE -ne 0) { throw "build-all: jcj-banner.py refused (exit $LASTEXITCODE)" }
 
 & py -3.12 "$repo\tools\add-site-nav.py" recipebook
 if ($LASTEXITCODE -ne 0) { throw "build-all: add-site-nav.py recipebook failed (exit $LASTEXITCODE)" }
